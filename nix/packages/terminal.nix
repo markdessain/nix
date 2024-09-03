@@ -26,5 +26,6 @@ pkgs.stdenv.mkDerivation rec {
       ln -s ${pkgs.git}/bin/git $out/bin/git
       ln -s ${pkgs.zsh}/bin/zsh $out/bin/zsh
       ln -s ${pkgs.atuin}/bin/atuin $out/bin/atuin
+      ln -s /usr/bin/locale $out/bin/locale
     '';
 }

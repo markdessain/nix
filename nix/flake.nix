@@ -37,7 +37,6 @@
             shellHook = ''
               export PATH=${pkgs.nix}/bin:${pkgs.bash}/bin:$(for input in $buildInputs; do echo -n "$input/bin:"; done | sed 's/:$//')
               startup
-              echo 123456
 
               cd $(cat $HOME/.shell_path)
             '';
