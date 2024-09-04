@@ -3,21 +3,7 @@
 pkgs.stdenv.mkDerivation rec {
     pname = "tools";
     version = "0.1.0";
-    phases = [ "buildPhase" "installPhase" ];
-
-    buildInputs = [
-      pkgs.zoxide
-      pkgs.jnv
-      pkgs.monolith
-      pkgs.rbw
-      pkgs.zenith
-    ];
-
-    configurePhase = ''
-    '';
-
-    buildPhase = ''
-    '';
+    phases = [ "installPhase" ];
 
     installPhase = ''
       mkdir -p $out/bin

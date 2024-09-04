@@ -3,15 +3,7 @@
 pkgs.stdenv.mkDerivation rec {
     pname = "programming";
     version = "0.1.0";
-    phases = [ "buildPhase" "installPhase" ];
-
-    buildInputs = [
-      pkgs.go
-      pkgs.python3
-    ];
-
-    buildPhase = ''
-    '';
+    phases = [ "installPhase" ];
 
     installPhase = ''
       mkdir -p $out/bin
