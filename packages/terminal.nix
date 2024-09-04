@@ -6,6 +6,7 @@ pkgs.stdenv.mkDerivation rec {
     phases = [ "buildPhase" "installPhase" ];
 
     buildInputs = [
+      pkgs.iconv
       pkgs.cowsay
       pkgs.git
       pkgs.zsh
@@ -27,5 +28,6 @@ pkgs.stdenv.mkDerivation rec {
       ln -s ${pkgs.zsh}/bin/zsh $out/bin/zsh
       ln -s ${pkgs.atuin}/bin/atuin $out/bin/atuin
       ln -s /usr/bin/locale $out/bin/locale
+      ln -s ${pkgs.iconv}/bin/iconv $out/bin/iconv
     '';
 }
