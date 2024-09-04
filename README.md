@@ -14,10 +14,7 @@ cat <<EOT >> $HOME/.bashrc
 
 if type nix-shell >/dev/null 2>&1
 then
-  SHELL_NAME=$SHELL_NAME
-  rm -f $PWD/$SHELL_NAME/packages
-  cp -r $PWD/packages $PWD/$SHELL_NAME/data
-  alias shell="echo \$PWD > \$HOME/.shell_path && cd $PWD/$SHELL_NAME && nix-shell --pure --command zsh"
+  alias shell="echo \$PWD > \$HOME/.shell_path && rm -f $PWD/$SHELL_NAME/packages && cp -r $PWD/packages $PWD/$SHELL_NAME/data && cd $PWD/$SHELL_NAME && nix-shell --pure --command zsh"
 fi
 
 EOT
@@ -31,7 +28,7 @@ cat <<EOT >> $HOME/.zshrc
 
 if type nix-shell >/dev/null 2>&1
 then
-  alias shell="echo \$PWD > \$HOME/.shell_path && cd $PWD && nix-shell --pure --command zsh"
+  alias shell="echo \$PWD > \$HOME/.shell_path && rm -f $PWD/$SHELL_NAME/packages && cp -r $PWD/packages $PWD/$SHELL_NAME/data && cd $PWD/$SHELL_NAME && nix-shell --pure --command zsh"
 fi
 
 EOT
