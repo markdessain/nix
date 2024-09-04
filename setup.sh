@@ -30,7 +30,24 @@ if type nix-shell >/dev/null 2>&1
 then
   if [[ -z "\${IN_NIX_SHELL}" ]]
   then
-    alias shell="echo \$PWD > $NIX_REPO_ROOT/.shell_path && rm -f $NIX_REPO_ROOT/$SHELL_NAME/packages && cp -r $NIX_REPO_ROOT/packages $NIX_REPO_ROOT/$SHELL_NAME/data && cd $NIX_REPO_ROOT/$SHELL_NAME && nix-shell --pure --command zsh"
+
+    function shell() {
+        echo \$PWD > $NIX_REPO_ROOT/.shell_path 
+        rm -f $NIX_REPO_ROOT/$SHELL_NAME/packages 
+        cp -r $NIX_REPO_ROOT/packages $NIX_REPO_ROOT/$SHELL_NAME/data 
+        cd $NIX_REPO_ROOT/$SHELL_NAME 
+        nix-shell --pure --command zsh
+    }
+
+    function shell_secrets() {
+        echo \$PWD > $NIX_REPO_ROOT/.shell_path 
+        rm -f $NIX_REPO_ROOT/$SHELL_NAME/packages 
+        cp -r $NIX_REPO_ROOT/packages $NIX_REPO_ROOT/$SHELL_NAME/data 
+        cd $NIX_REPO_ROOT/$SHELL_NAME 
+        PATH=\$(echo \$(dirname \$(realpath \$(nix-shell --pure --command "zsh -c 'which rbw'" | tail -1)))):\$PATH 
+        rbw config set pinentry \$(nix-shell --pure --command "zsh -c 'which pinentry'" | tail -1)
+        rbw sync
+    }
   fi
 fi
 

@@ -23,3 +23,7 @@ fi
 
 ```
 
+## Secrets
+
+Due to a cert issue with rbw it is sometimes not possible to connect to bitwardern from inside the shell. The `shell_secrets` will run the commands on the host os to get all the secrets synced locally.
+

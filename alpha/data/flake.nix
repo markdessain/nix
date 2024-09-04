@@ -16,6 +16,7 @@
           devShell = pkgs.mkShell {
             packages = [
               pkgs.glibcLocales
+              pkgs.cacert
             ];
 
             buildInputs = [
