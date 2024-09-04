@@ -2,43 +2,9 @@
 
 ## Shell
 
-Setup the `shell` command
+Run `./setup.sh [alpha|beta]`
 
-bash
-```bash
-
-SHELL_NAME=alpha
-#SHELL_NAME=beta
-
-cat <<EOT >> $HOME/.bashrc
-
-if type nix-shell >/dev/null 2>&1
-then
-  alias shell="echo \$PWD > \$HOME/.shell_path && rm -f $PWD/$SHELL_NAME/packages && cp -r $PWD/packages $PWD/$SHELL_NAME/data && cd $PWD/$SHELL_NAME && nix-shell --pure --command zsh"
-fi
-
-EOT
-
-```
-
-zsh
-```bash
-
-SHELL_NAME=alpha
-# SHELL_NAME=beta
-
-cat <<EOT >> $HOME/.zshrc
-
-if type nix-shell >/dev/null 2>&1
-then
-  alias shell="echo \$PWD > \$HOME/.shell_path && rm -f $PWD/$SHELL_NAME/packages && cp -r $PWD/packages $PWD/$SHELL_NAME/data && cd $PWD/$SHELL_NAME && nix-shell --pure --command zsh"
-fi
-
-EOT
-
-```
-
-## Other Commands
+## Other Commands which should not be included
 
 ```bash
 

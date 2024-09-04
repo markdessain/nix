@@ -23,6 +23,8 @@
               (import ./packages/terminal.nix { inherit pkgs; })
               (import ./packages/tools.nix { inherit pkgs; })
               (import ./packages/programming.nix { inherit pkgs; })
+              (import ./packages/kubernetes.nix { inherit pkgs; })
+              (import ./packages/database.nix { inherit pkgs; })
             ];
 
             shellHook = ''
