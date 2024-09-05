@@ -23,6 +23,9 @@ unFreePkgs.stdenv.mkDerivation rec {
 
     installPhase = ''
       mkdir -p $out/bin
-      ln -s ${vcsodeWithExtension}/bin/code $out/bin/code
+      ln -s ${unFreePkgs.vscode}/bin/code $out/bin/code
+      
+      cat ${vcsodeWithExtension}/bin/code | sed 's,${unFreePkgs.vscode},${unFreePkgs.vscodium},g' | sed 's,/bin/code,/bin/codium,g' > $out/bin/codium
+      chmod +x $out/bin/codium
     '';
 }

@@ -32,7 +32,7 @@ then
   then
 
     function shell() {
-        echo \$PWD > $NIX_REPO_ROOT/.shell_path 
+        echo \$PWD > $HOME/.shell_path 
         rm -f $NIX_REPO_ROOT/$SHELL_NAME/packages 
         cp -r $NIX_REPO_ROOT/packages $NIX_REPO_ROOT/$SHELL_NAME/data 
         cd $NIX_REPO_ROOT/$SHELL_NAME 
@@ -40,7 +40,7 @@ then
     }
 
     function shell_secrets() {
-        echo \$PWD > $NIX_REPO_ROOT/.shell_path 
+        echo \$PWD > $HOME/.shell_path 
         rm -f $NIX_REPO_ROOT/$SHELL_NAME/packages 
         cp -r $NIX_REPO_ROOT/packages $NIX_REPO_ROOT/$SHELL_NAME/data 
         cd $NIX_REPO_ROOT/$SHELL_NAME 
@@ -49,12 +49,12 @@ then
         rbw sync
     }
 
-    function shell_vscode() {
-        echo \$PWD > $NIX_REPO_ROOT/.shell_path 
+    function shell_code() {
+        echo \$PWD > $HOME/.shell_path 
         rm -f $NIX_REPO_ROOT/$SHELL_NAME/packages 
         cp -r $NIX_REPO_ROOT/packages $NIX_REPO_ROOT/$SHELL_NAME/data 
         cd $NIX_REPO_ROOT/$SHELL_NAME 
-        exec \$(nix-shell --pure --command "zsh -c 'which code'" | tail -1)
+        exec \$(nix-shell --pure --command "zsh -c 'which codium'" | tail -1)
     }
   fi
 fi
