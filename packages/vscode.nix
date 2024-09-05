@@ -1,7 +1,7 @@
 { unFreePkgs }:	
 
 unFreePkgs.stdenv.mkDerivation rec {
-    pname = "tools";
+    pname = "vscode";
     version = "0.1.0";
     phases = [ "installPhase" ];
 
@@ -23,9 +23,7 @@ unFreePkgs.stdenv.mkDerivation rec {
 
     installPhase = ''
       mkdir -p $out/bin
-      ln -s ${unFreePkgs.vscode}/bin/code $out/bin/code
-      
-      cat ${vcsodeWithExtension}/bin/code | sed 's,${unFreePkgs.vscode},${unFreePkgs.vscodium},g' | sed 's,/bin/code,/bin/codium,g' > $out/bin/codium
-      chmod +x $out/bin/codium
+      cat ${vcsodeWithExtension}/bin/code | sed 's,${unFreePkgs.vscode},${unFreePkgs.vscodium},g' | sed 's,/bin/code,/bin/codium,g' > $out/bin/code
+      chmod +x $out/bin/code
     '';
 }

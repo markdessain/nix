@@ -54,7 +54,7 @@ then
         rm -f $NIX_REPO_ROOT/$SHELL_NAME/packages 
         cp -r $NIX_REPO_ROOT/packages $NIX_REPO_ROOT/$SHELL_NAME/data 
         cd $NIX_REPO_ROOT/$SHELL_NAME 
-        exec \$(nix-shell --pure --command "zsh -c 'which codium'" | tail -1)
+        exec \$(nix-shell --pure --command "zsh -c 'which code'" | tail -1)
     }
   fi
 fi
