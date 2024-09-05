@@ -11,6 +11,7 @@
       (system:
         let 
           pkgs = import nixpkgs {inherit system;}; 
+          unFreePkgs = import nixpkgs {inherit system; config.allowUnfree = true;}; 
       in
         { 
           devShell = pkgs.mkShell {
@@ -25,7 +26,9 @@
               (import ./packages/tools.nix { inherit pkgs; })
               (import ./packages/programming.nix { inherit pkgs; })
               (import ./packages/kubernetes.nix { inherit pkgs; })
-              (import ./packages/database.nix { inherit pkgs; })
+              (import ./packages/data.nix { inherit pkgs system; })
+              (import ./packages/secrets.nix { inherit pkgs; })
+              (import ./packages/vscode.nix { inherit unFreePkgs; })
             ];
 
             shellHook = ''

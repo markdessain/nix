@@ -48,6 +48,14 @@ then
         rbw config set pinentry \$(nix-shell --pure --command "zsh -c 'which pinentry'" | tail -1)
         rbw sync
     }
+
+    function shell_vscode() {
+        echo \$PWD > $NIX_REPO_ROOT/.shell_path 
+        rm -f $NIX_REPO_ROOT/$SHELL_NAME/packages 
+        cp -r $NIX_REPO_ROOT/packages $NIX_REPO_ROOT/$SHELL_NAME/data 
+        cd $NIX_REPO_ROOT/$SHELL_NAME 
+        exec \$(nix-shell --pure --command "zsh -c 'which code'" | tail -1)
+    }
   fi
 fi
 

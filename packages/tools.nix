@@ -18,5 +18,8 @@ pkgs.stdenv.mkDerivation rec {
       ln -s ${pkgs.docker}/bin/docker $out/bin/docker
       ln -s ${pkgs.speedtest-cli}/bin/speedtest $out/bin/speedtest
       ln -s ${pkgs.pinentry-tty}/bin/pinentry $out/bin/pinentry
+      ln -s ${pkgs.jq}/bin/jq $out/bin/jq
+      ln -s ${pkgs.gnused}/bin/sed $out/bin/sed
+      ln -s ${pkgs.gnugrep}/bin/grep $out/bin/grep
     '';
 }

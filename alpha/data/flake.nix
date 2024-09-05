@@ -24,6 +24,8 @@
               (import ./packages/terminal.nix { inherit pkgs; })
               (import ./packages/tools.nix { inherit pkgs; })
               (import ./packages/programming.nix { inherit pkgs; })
+              (import ./packages/data.nix { inherit pkgs system; })
+              (import ./packages/secrets.nix { inherit pkgs; })
             ];
 
             shellHook = ''
