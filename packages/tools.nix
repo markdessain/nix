@@ -23,5 +23,13 @@ pkgs.stdenv.mkDerivation rec {
       ln -s ${pkgs.gnugrep}/bin/grep $out/bin/grep
       ln -s ${pkgs.nano}/bin/nano $out/bin/nano
       ln -s ${pkgs.vim}/bin/vim $out/bin/vim
+      ln -s ${pkgs.openssh}/bin/scp $out/bin/scp
+      ln -s ${pkgs.openssh}/bin/sftp $out/bin/sftp
+      ln -s ${pkgs.openssh}/bin/ssh $out/bin/ssh
+      ln -s ${pkgs.openssh}/bin/ssh-add $out/bin/ssh-add
+      ln -s ${pkgs.openssh}/bin/ssh-copy-id $out/bin/ssh-copy-id
+      ln -s ${pkgs.openssh}/bin/ssh-keygen $out/bin/ssh-keygen
+      ln -s ${pkgs.openssh}/bin/ssh-keyscan $out/bin/ssh-keyscan
+      ln -s ${pkgs.openssh}/bin/sshd $out/bin/sshd
     '';
 }
