@@ -29,6 +29,7 @@
               (import ./packages/data.nix { inherit pkgs system; })
               (import ./packages/secrets.nix { inherit pkgs; })
               (import ./packages/vscode.nix { inherit unFreePkgs; })
+              (import ./packages/backup.nix { inherit pkgs; })
             ];
 
             shellHook = ''
