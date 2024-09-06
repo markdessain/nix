@@ -23,6 +23,7 @@ pkgs.stdenv.mkDerivation rec {
       ln -s ${pkgs.gnugrep}/bin/grep $out/bin/grep
       ln -s ${pkgs.nano}/bin/nano $out/bin/nano
       ln -s ${pkgs.vim}/bin/vim $out/bin/vim
+      ln -s ${pkgs.git}/bin/git $out/bin/git
       ln -s ${pkgs.openssh}/bin/scp $out/bin/scp
       ln -s ${pkgs.openssh}/bin/sftp $out/bin/sftp
       ln -s ${pkgs.openssh}/bin/ssh $out/bin/ssh
