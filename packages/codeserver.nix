@@ -17,22 +17,12 @@ unFreePkgs.stdenv.mkDerivation rec {
     installPhase = ''
       mkdir -p $out/bin
 
-      cat ${vcsodeWithExtension}/bin/code | sed 's,${unFreePkgs.vscode},${unFreePkgs.code-server},g' | sed 's,/bin/code,/bin/code-server,g' > $out/bin/code
-      chmod +x $out/bin/code
+      cat ${vcsodeWithExtension}/bin/code | sed 's,${unFreePkgs.vscode},${unFreePkgs.code-server},g' | sed 's,/bin/code,/bin/code-server,g' > $out/bin/code2
+      chmod +x $out/bin/code2
 
-      mkdir -p $out/lib/systemd/system/
-      echo "[Unit]" > $out/lib/systemd/system/code-server@.service
-      echo "Description=code-server" >> $out/lib/systemd/system/code-server@.service
-      echo "After=network.target" >> $out/lib/systemd/system/code-server@.service
-      echo "" >> $out/lib/systemd/system/code-server@.service
-      echo "[Service]" >> $out/lib/systemd/system/code-server@.service
-      echo "Type=exec" >> $out/lib/systemd/system/code-server@.service
-      echo "ExecStart=$out/bin/code --config $out/config/config.yaml" >> $out/lib/systemd/system/code-server@.service
-      echo "Restart=always" >> $out/lib/systemd/system/code-server@.service
-      echo "User=%i" >> $out/lib/systemd/system/code-server@.service
-      echo "" >> $out/lib/systemd/system/code-server@.service
-      echo "[Install]" >> $out/lib/systemd/system/code-server@.service
-      echo "WantedBy=default.target" >> $out/lib/systemd/system/code-server@.service
+      echo "#!${unFreePkgs.bash}/bin/bash -e" > $out/bin/code
+      echo "SHELL_RUN="PATH=\$PATH" $out/bin/code2" >> $out/bin/code
+      chmod +x $out/bin/code
 
       mkdir -p $out/config
       echo "bind-addr: 0.0.0.0:8080" > $out/config/config.yaml

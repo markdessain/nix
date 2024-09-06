@@ -63,4 +63,8 @@ then
   fi
 fi
 
+if [[ -n \$SHELL_RUN ]] then
+   eval "\$SHELL_RUN"
+fi
+
 EOT
