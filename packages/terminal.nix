@@ -9,7 +9,7 @@ pkgs.stdenv.mkDerivation rec {
       mkdir -p $out/bin
       echo "echo 'Hello $USER' | ${pkgs.cowsay}/bin/cowsay" > $out/bin/startup 
       echo 'PATH_ENV=$(for var in "$@"; do echo -n "$var/bin:"; done | sed "s/:$//")' >> $out/bin/startup
-      echo 'LOAD_ENV=$(for var in "$@"; do echo -n "if [ -f $var/.env ]; then source $input/.env; fi; "; done | sed "s/:$//")' >> $out/bin/startup
+      echo 'LOAD_ENV=$(for var in "$@"; do echo -n "if [ -f $var/.env ]; then source $var/.env; fi; "; done | sed "s/:$//")' >> $out/bin/startup
       echo 'FILE=$(mktemp)' >> $out/bin/startup
       echo 'echo "export PATH=$PATH_ENV" >> $FILE' >> $out/bin/startup
       echo 'echo "export SHELL_NAME=alpha" >> $FILE' >> $out/bin/startup
