@@ -26,7 +26,7 @@ unFreePkgs.stdenv.mkDerivation rec {
       cat ${vcsodeWithExtension}/bin/code | sed 's,${unFreePkgs.vscode},${unFreePkgs.vscodium},g' | sed 's,/bin/code,/bin/codium,g' > $out/bin/code2
       chmod +x $out/bin/code2
 
-      echo "SHELL_RUN="PATH=\$PATH" $out/bin/code2" > $out/bin/code
+      echo "SHELL_RUN=\"source \$TEMP_NIX_START\" $out/bin/code2" >> $out/bin/code
       chmod +x $out/bin/code
     '';
 }

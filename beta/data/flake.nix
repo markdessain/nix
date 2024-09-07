@@ -18,10 +18,10 @@
             packages = [
               pkgs.glibcLocales
               pkgs.cacert
+              pkgs.coreutils
             ];
 
             buildInputs = [
-              pkgs.coreutils
               (import ./packages/terminal.nix { inherit pkgs; })
               (import ./packages/tools.nix { inherit pkgs; })
               (import ./packages/programming.nix { inherit pkgs; })
@@ -33,8 +33,8 @@
             ];
 
             shellHook = ''
-              export PATH=${pkgs.nix}/bin:${pkgs.bash}/bin:$(for input in $buildInputs; do echo -n "$input/bin:"; done | sed 's/:$//')
-              startup
+              source startup ${pkgs.coreutils} ${pkgs.nix} $(for input in $buildInputs; do echo -n "$input "; done)
+              source $TEMP_NIX_START
               cd $(cat $HOME/.shell_path)
             '';
           };

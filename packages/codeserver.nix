@@ -21,7 +21,7 @@ unFreePkgs.stdenv.mkDerivation rec {
       chmod +x $out/bin/code2
 
       echo "#!${unFreePkgs.bash}/bin/bash -e" > $out/bin/code
-      echo "SHELL_RUN="PATH=\$PATH" $out/bin/code2" >> $out/bin/code
+      echo "SHELL_RUN=\"source \$TEMP_NIX_START\" $out/bin/code2" >> $out/bin/code
       chmod +x $out/bin/code
 
       mkdir -p $out/config
