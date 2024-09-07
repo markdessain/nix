@@ -1,3 +1,4 @@
+#!/bin/bash
 
 if [[ "$1" == "alpha" ]]
 then
@@ -14,7 +15,7 @@ fi
 SHELL_NAME=$1
 NIX_REPO_ROOT=$(dirname $(readlink -f $0))
 
-cat <<EOT >> /lib/systemd/system/nix-code-server@.service
+cat <<EOT > /lib/systemd/system/nix-code-server@.service
 [Unit]
 Description=code-server
 After=network.target
@@ -28,5 +29,4 @@ User=%i
 
 [Install]
 WantedBy=default.target
-
 EOT
