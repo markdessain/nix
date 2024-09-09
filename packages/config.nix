@@ -34,6 +34,6 @@ pkgs.writeShellScriptBin "sync-config" ''
     done
 
     if [[ "$1" == "" ]]; then
-        echo "To confirm please execute: sync-secrets run"
+        echo "To confirm please execute: sync-config run"
     fi
 ''
