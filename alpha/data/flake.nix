@@ -28,7 +28,7 @@
               (import ./packages/data.nix { inherit pkgs system; })
               (import ./packages/config.nix { inherit pkgs system; })
               (import ./packages/codeserver.nix { inherit unFreePkgs system; })
-              (import ./packages/backup.nix { inherit pkgs; })
+              (import ./packages/backup.nix { inherit pkgs system; })
             ];
 
             shellHook = ''
