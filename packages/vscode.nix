@@ -42,7 +42,7 @@ unFreePkgs.stdenv.mkDerivation rec {
         {
             "workbench.colorTheme": "Default Light Modern",
             "terminal.integrated.defaultProfile.osx": "zsh",
-            "terminal.integrated.defaultProfile.linux": "zsh"
+            "terminal.integrated.defaultProfile.linux": "zsh",
             "git.path": "${pkgs.git}/bin/git"
         }
       EOT
