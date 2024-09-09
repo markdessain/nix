@@ -11,8 +11,8 @@ unFreePkgs.stdenv.mkDerivation rec {
         { publisher = "pomdtr"; name = "excalidraw-editor";version = "3.7.4"; sha256 = "sha256-hI+Qo8K+gLQuzKkaSq89D8vIxlYq9tMi31DgFiRzx0E="; }
         { publisher = "golang"; name = "go"; version = "0.41.4"; sha256 = "sha256-ntrEI/l+UjzqGJmtyfVf/+sZJstZy3fm/PSWKTd7/Q0="; }
         { publisher = "ms-azuretools"; name = "vscode-docker"; version = "1.29.1"; sha256 = "sha256-uleZLIkfOxKan+U56fKEwUjaleig07zdEwQKzsAzan0="; }
-        { publisher = "ms-toolsai"; name = "jupyter"; version = "2024.6.0"; sha256 = "sha256-T+8K/NbuWYnJk+cXekiDpmpnZAJ7jl/nqPQgWQ49mco="; }
-        { publisher = "ms-python"; name = "python"; version = "2024.6.0"; sha256 = "sha256-1clWeGT+fnj8HFROcw1jyGgRKYHNlt4VP6lPbFetCxE="; }
+        { publisher = "ms-toolsai"; name = "jupyter"; version = "2024.3.0"; sha256 = "sha256-m8sJ3c34lrV5c484s+wlOpQc8IWhDvhlMbWCJeo0en4="; }
+        { publisher = "ms-python"; name = "python"; version = "2024.4.1"; sha256 = "sha256-n1zNxUV7vfVcHY0jjWtwBVzZkgjZipwMT5vSubuNtZw="; }
         { publisher = "evilz"; name = "vscode-reveal"; version = "4.3.3"; sha256 = "sha256-KqvQi0DMfHppX96qKHIkO9zIueBdGGV+6dYkpFEzFBo="; }
         { publisher = "ms-python"; name = "debugpy"; version = "2024.8.0"; sha256 = "sha256-gvuYfyVIehy3ItJVfQbL/d8gO2KOl2rg9pBrmJuZeME="; }
         { publisher = "ms-toolsai"; name = "jupyter-renderers"; version = "1.0.18"; sha256 = "sha256-4EKXaWsafonBK7TftjVUBK3ujqD+OguXV0y/bWoWTyk="; }
