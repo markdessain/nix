@@ -70,6 +70,7 @@ pkgs.stdenv.mkDerivation rec {
       elif [[ "${system}" == "aarch64-linux" ]]; then
         echo "restic backup \"\$HOME/projects\" --exclude-file $out/config/exclude --tag projects \$DRY_RUN" >> $out/bin/backup
         echo "restic backup \"\$HOME/.config\" --exclude-file $out/config/exclude --tag config \$DRY_RUN" >> $out/bin/backup
+        echo "restic backup \"\$HOME/.local/share\" --exclude-file $out/config/exclude --tag share \$DRY_RUN" >> $out/bin/backup
       else
         echo "" >> $out/bin/backup
       fi  
