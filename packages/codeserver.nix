@@ -1,4 +1,4 @@
-{ unFreePkgs }:	
+{ unFreePkgs, system }:	
 
 unFreePkgs.stdenv.mkDerivation rec {
     pname = "codeserver";
@@ -17,7 +17,17 @@ unFreePkgs.stdenv.mkDerivation rec {
     installPhase = ''
       mkdir -p $out/bin
 
-      cat ${vcsodeWithExtension}/bin/code | sed 's,${unFreePkgs.vscode},${unFreePkgs.code-server},g' | sed 's,/bin/code,/bin/code-server,g' > $out/bin/code2
+      echo "" > $out/bin/code2
+
+      if [[ "${system}" == "aarch64-darwin" ]]; then
+        echo "" >> $out/bin/code2
+      elif [[ "${system}" == "aarch64-linux" ]]; then
+        echo "cp $out/config/settings.json \"\$HOME/.local/share/code-server/User/settings.json\" " >> $out/bin/code2
+      else
+        echo "" >> $out/bin/code2
+      fi
+
+      cat ${vcsodeWithExtension}/bin/code | sed 's,${unFreePkgs.vscode},${unFreePkgs.code-server},g' | sed 's,/bin/code,/bin/code-server,g' >> $out/bin/code2
       chmod +x $out/bin/code2
 
       echo "#!${unFreePkgs.bash}/bin/bash -e" > $out/bin/code
@@ -25,6 +35,14 @@ unFreePkgs.stdenv.mkDerivation rec {
       chmod +x $out/bin/code
 
       mkdir -p $out/config
+      cat <<EOT >> $out/config/settings.json
+        {
+            "workbench.colorTheme": "Default Light Modern",
+            "terminal.integrated.defaultProfile.osx": "zsh",
+            "terminal.integrated.defaultProfile.linux": "zsh"
+        }
+      EOT
+
       echo "bind-addr: 0.0.0.0:8080" > $out/config/config.yaml
       echo "auth: none" >> $out/config/config.yaml
 

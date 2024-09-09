@@ -27,8 +27,8 @@
               (import ./packages/programming.nix { inherit pkgs; })
               (import ./packages/kubernetes.nix { inherit pkgs; })
               (import ./packages/data.nix { inherit pkgs system; })
-              (import ./packages/secrets.nix { inherit pkgs; })
-              (import ./packages/vscode.nix { inherit unFreePkgs; })
+              (import ./packages/config.nix { inherit pkgs system; })
+              (import ./packages/vscode.nix { inherit pkgs unFreePkgs system; })
               (import ./packages/backup.nix { inherit pkgs; })
             ];
 

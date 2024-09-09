@@ -26,8 +26,8 @@
               (import ./packages/tools.nix { inherit pkgs; })
               (import ./packages/programming.nix { inherit pkgs; })
               (import ./packages/data.nix { inherit pkgs system; })
-              (import ./packages/secrets.nix { inherit pkgs; })
-              (import ./packages/codeserver.nix { inherit unFreePkgs; })
+              (import ./packages/config.nix { inherit pkgs system; })
+              (import ./packages/codeserver.nix { inherit unFreePkgs system; })
               (import ./packages/backup.nix { inherit pkgs; })
             ];
 

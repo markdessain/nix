@@ -1,4 +1,4 @@
-{ unFreePkgs }:	
+{ pkgs, unFreePkgs, system }:	
 
 unFreePkgs.stdenv.mkDerivation rec {
     pname = "vscode";
@@ -23,8 +23,29 @@ unFreePkgs.stdenv.mkDerivation rec {
 
     installPhase = ''
       mkdir -p $out/bin
-      cat ${vcsodeWithExtension}/bin/code | sed 's,${unFreePkgs.vscode},${unFreePkgs.vscodium},g' | sed 's,/bin/code,/bin/codium,g' > $out/bin/code2
+
+      echo "" > $out/bin/code2
+
+      if [[ "${system}" == "aarch64-darwin" ]]; then
+        echo "cp $out/config/settings.json \"\$HOME/Library/Application Support/VSCodium/User/settings.json\" " >> $out/bin/code2
+      elif [[ "${system}" == "aarch64-linux" ]]; then
+        echo "" >> $out/bin/code2
+      else
+        echo "" >> $out/bin/code2
+      fi
+
+      cat ${vcsodeWithExtension}/bin/code | sed 's,${unFreePkgs.vscode},${unFreePkgs.vscodium},g' | sed 's,/bin/code,/bin/codium,g' >> $out/bin/code2
       chmod +x $out/bin/code2
+
+      mkdir -p $out/config
+      cat <<EOT >> $out/config/settings.json
+        {
+            "workbench.colorTheme": "Default Light Modern",
+            "terminal.integrated.defaultProfile.osx": "zsh",
+            "terminal.integrated.defaultProfile.linux": "zsh"
+            "git.path": "${pkgs.git}/bin/git"
+        }
+      EOT
 
       echo "SHELL_RUN=\"source \$TEMP_NIX_START\" $out/bin/code2" >> $out/bin/code
       chmod +x $out/bin/code

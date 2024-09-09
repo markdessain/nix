@@ -22,6 +22,8 @@ pkgs.stdenv.mkDerivation rec {
       ln -s ${pkgs.gnused}/bin/sed $out/bin/sed
       ln -s ${pkgs.gnugrep}/bin/grep $out/bin/grep
       ln -s ${pkgs.nano}/bin/nano $out/bin/nano
+      ln -s ${pkgs.diffutils}/bin/cmp $out/bin/cmp
+      ln -s ${pkgs.diffutils}/bin/diff $out/bin/diff
       ln -s ${pkgs.vim}/bin/vim $out/bin/vim
       ln -s ${pkgs.git}/bin/git $out/bin/git
       ln -s ${pkgs.openssh}/bin/scp $out/bin/scp
