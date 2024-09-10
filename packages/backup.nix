@@ -67,6 +67,8 @@ pkgs.stdenv.mkDerivation rec {
         echo "To clean up please execute: backup prune"
         echo "To run adhoc command please execute: backup adhoc"
         echo "To restore execute: backup local adhoc restore <SNAPSHOT_ID> --target /"
+        echo "To view a single folder execute:  backup local adhoc ls --long --human-readable --recursive <SNAPSHOT_ID> <FOLDER_PATH>
+       
         exit
       fi
 
