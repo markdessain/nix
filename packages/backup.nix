@@ -20,10 +20,11 @@ pkgs.stdenv.mkDerivation rec {
       cat <<EOT >> $out/bin/backup
       WHOAMI=\$(whoami)
       if [[ ! "\$WHOAMI" == "root" ]]; then
-        eval "sudo su - -c \"USER_HOME=\$HOME $out/bin/backup \$@\""
+        export USER_HOME=\$HOME
+        sudo --preserve-env=USER_HOME $out/bin/backup \$@
         exit 0
       fi
-
+      
       if [[ "\$1" == "local" ]]; then
         echo "Run Local"
       elif [[ "\$1" == "remote" ]]; then
@@ -116,6 +117,14 @@ pkgs.stdenv.mkDerivation rec {
       go/bin
       .npm
       Library/Application Support/rancher-desktop/
+      Library/Application Support/CallHistoryDB/
+      Library/Application Support/CallHistoryTransactions/
+      Library/Application Support/FaceTime/
+      Library/Application Support/FileProvider/
+      Library/Application Support/Knowledge/
+      Library/Application Support/com.apple.TCC/
+      Library/Application Support/com.apple.avfoundation/Frecents/
+      Library/Application Support/com.apple.sharedfilelist/
       EOT
     '';
 }
