@@ -24,7 +24,7 @@ pkgs.stdenv.mkDerivation rec {
         sudo --preserve-env=USER_HOME $out/bin/backup \$@
         exit 0
       fi
-      
+
       if [[ "\$1" == "local" ]]; then
         echo "Run Local"
       elif [[ "\$1" == "remote" ]]; then
@@ -125,6 +125,7 @@ pkgs.stdenv.mkDerivation rec {
       Library/Application Support/com.apple.TCC/
       Library/Application Support/com.apple.avfoundation/Frecents/
       Library/Application Support/com.apple.sharedfilelist/
+      Library/Application Support/AddressBook/
       EOT
     '';
 }
