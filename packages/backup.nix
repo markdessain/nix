@@ -26,9 +26,9 @@ pkgs.stdenv.mkDerivation rec {
       fi
 
       if [[ "\$1" == "local" ]]; then
-        echo "Run Local"
+        A=1
       elif [[ "\$1" == "remote" ]]; then
-        echo "Run Remote"
+        A=1
       else
         echo "Please run: backup [local|remote] [dry|run|adhoc|prune|<emtpy>]"
         exit
@@ -41,13 +41,10 @@ pkgs.stdenv.mkDerivation rec {
       fi
 
       if [[ "\$2" == "dry" ]]; then
-        echo "Dry Run"
         DRY_RUN="--dry-run"
       elif [[ "\$2" == "run" ]]; then
-        echo "Real Run"
         DRY_RUN=""
       elif [[ "\$2" == "adhoc" ]]; then
-        echo "Interactive Run"
         shift
         shift
         restic "\$@"
@@ -68,6 +65,8 @@ pkgs.stdenv.mkDerivation rec {
         echo "To run adhoc command please execute: backup adhoc"
         echo "To restore execute: backup local adhoc restore <SNAPSHOT_ID> --target /"
         echo "To view a single folder execute:  backup local adhoc ls --long --human-readable --recursive <SNAPSHOT_ID> <FOLDER_PATH>"
+        echo "To view a single file execute: backup local adhoc dump <SNAPSHOT_ID> <FILE_PATH>"
+        echo "To diff a single file execute: backup local adhoc dump <SNAPSHOT_ID> <FILE_PATH> | diff <FILE_PATH> -"
        
         exit
       fi
