@@ -18,6 +18,11 @@ pkgs.stdenv.mkDerivation rec {
       chmod +x $out/bin/backup
 
       cat <<EOT >> $out/bin/backup
+      WHOAMI=\$(whoami)
+      if [[ ! "\$WHOAMI" == "root" ]]; then
+        eval "sudo su - -c \"USER_HOME=\$HOME $out/bin/backup \$@\""
+        exit 0
+      fi
 
       if [[ "\$1" == "local" ]]; then
         echo "Run Local"
@@ -27,7 +32,7 @@ pkgs.stdenv.mkDerivation rec {
         echo "Please run: backup [local|remote] [dry|run|adhoc|prune|<emtpy>]"
         exit
       fi
-      source \$HOME/.config/backup/\$1.env
+      source \$USER_HOME/.config/backup/\$1.env
 
       if [ ! -d "\$RESTIC_REPOSITORY" ]; then
         echo "\$RESTIC_REPOSITORY does exist."
@@ -42,6 +47,7 @@ pkgs.stdenv.mkDerivation rec {
         DRY_RUN=""
       elif [[ "\$2" == "adhoc" ]]; then
         echo "Interactive Run"
+        shift
         shift
         restic "\$@"
         exit
@@ -59,21 +65,38 @@ pkgs.stdenv.mkDerivation rec {
         echo "To confirm please execute: backup run"
         echo "To clean up please execute: backup prune"
         echo "To run adhoc command please execute: backup adhoc"
+        echo "To restore execute: backup local adhoc restore <SNAPSHOT_ID> --target /"
         exit
       fi
 
       EOT
 
       if [[ "${system}" == "aarch64-darwin" ]]; then
-        echo "restic backup \"\$HOME/Library/Application Support\"  --exclude-file $out/config/exclude --tag application_support \$DRY_RUN" >> $out/bin/backup
-        echo "restic backup \"\$HOME/projects\" --exclude-file $out/config/exclude --tag projects \$DRY_RUN" >> $out/bin/backup
+        echo "restic backup \"\$USER_HOME/Library/Application Support\"  --exclude-file $out/config/exclude --tag application_support \$DRY_RUN" >> $out/bin/backup
+        echo "restic backup \"\$USER_HOME/projects\" --exclude-file $out/config/exclude --tag \"projects\" \$DRY_RUN" >> $out/bin/backup
       elif [[ "${system}" == "aarch64-linux" ]]; then
-        echo "restic backup \"\$HOME/projects\" --exclude-file $out/config/exclude --tag projects \$DRY_RUN" >> $out/bin/backup
-        echo "restic backup \"\$HOME/.config\" --exclude-file $out/config/exclude --tag config \$DRY_RUN" >> $out/bin/backup
-        echo "restic backup \"\$HOME/.local/share\" --exclude-file $out/config/exclude --tag share \$DRY_RUN" >> $out/bin/backup
+        echo "restic backup \"\$USER_HOME/projects\" --exclude-file $out/config/exclude --tag \"projects\" \$DRY_RUN" >> $out/bin/backup
+        echo "restic backup \"\$USER_HOME/.config\" --exclude-file $out/config/exclude --tag \"config\" \$DRY_RUN" >> $out/bin/backup
+        echo "restic backup \"\$USER_HOME/.local/share\" --exclude-file $out/config/exclude --tag \"share\" \$DRY_RUN" >> $out/bin/backup
       else
         echo "" >> $out/bin/backup
       fi  
+
+      cat <<EOT >> $out/bin/backup
+      echo \$DOCKER_VOLUMES | jq -c '.[]' | while read i; do
+          if [[ "\$2" == "run" ]]; then
+            docker stop \$(echo \$i | jq -r ".container")
+          fi
+
+          VOLUME_NAME=\$(echo \$i | jq -r ".volume")
+          VOLUME_TAG=\$(echo \$i | jq -r ".container")
+          restic backup "\$VOLUME_NAME" --tag "\$VOLUME_TAG" \$DRY_RUN
+
+          if [[ "\$2" == "runs" ]]; then
+            docker start \$(echo \$i | jq -r ".container")
+          fi
+      done
+      EOT
 
       cat <<EOT >> $out/bin/backup
       if [[ "\$2" == "" ]]; then

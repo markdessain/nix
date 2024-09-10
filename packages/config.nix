@@ -17,8 +17,8 @@ pkgs.writeShellScriptBin "sync-config" ''
         if [[ "$NOTES" == "null" ]]; then
             echo $FIELDS | jq -r '.[] | "export " + .name + "=" + .value' > "$REMOTE_FILE"
         else
-            echo "$NOTES" > "$REMOTE_FILE"
-            sed -i 's/\\n/\n/g' "$REMOTE_FILE"
+            # bitwarden replaces quotes with special characters when saving from the mobile app. So this reverts the change
+            echo "$NOTES" | sed 's/\\n/\n/g' | sed 's/”/"/g' | sed 's/“/"/g' | sed "s/‘/'/g" | sed "s/’/'/g" > "$REMOTE_FILE"
         fi
 
         if cmp --silent -- "$FILE" "$REMOTE_FILE"; then

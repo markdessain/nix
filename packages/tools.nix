@@ -28,6 +28,7 @@ pkgs.stdenv.mkDerivation rec {
       ln -s ${pkgs.git}/bin/git $out/bin/git
       ln -s ${pkgs.flyctl}/bin/flyctl $out/bin/flyctl
       ln -s ${pkgs.flyctl}/bin/flyctl $out/bin/fly
+      ln -s /usr/bin/sudo $out/bin/sudo
       ln -s ${pkgs.openssh}/bin/scp $out/bin/scp
       ln -s ${pkgs.openssh}/bin/sftp $out/bin/sftp
       ln -s ${pkgs.openssh}/bin/ssh $out/bin/ssh
