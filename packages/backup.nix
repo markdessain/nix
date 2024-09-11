@@ -27,13 +27,25 @@ pkgs.stdenv.mkDerivation rec {
 
       if [[ "\$1" == "local" ]]; then
         A=1
-      elif [[ "\$1" == "remote" ]]; then
+      elif [[ "\$1" == "onsite" ]]; then
+        A=1
+      elif [[ "\$1" == "offsite" ]]; then
         A=1
       else
-        echo "Please run: backup [local|remote] [dry|run|adhoc|prune|<emtpy>]"
+        echo "Please run: backup [local|onsite|offsite] [dry|run|adhoc|prune|<emtpy>]"
         exit
       fi
       source \$USER_HOME/.config/backup/\$1.env
+
+      if [[ "\$1" == "onsite" ]]; then
+        bash -c "umount \$BACKUP_MNT_DIR; rm -rf \$BACKUP_MNT_DIR; mkdir \$BACKUP_MNT_DIR; mount \$BACKUP_MNT_DEVICE \$BACKUP_MNT_DIR; exit 0"
+
+        echo \$RESTIC_REPOSITORY
+        if [ ! -d "\$RESTIC_REPOSITORY" ]; then
+          echo "Unable to find drive"
+          exit 1; 
+        fi;
+      fi
 
       if [ ! -d "\$RESTIC_REPOSITORY" ]; then
         echo "\$RESTIC_REPOSITORY does exist."
@@ -98,9 +110,12 @@ pkgs.stdenv.mkDerivation rec {
             docker start \$(echo \$i | jq -r ".container")
           fi
       done
-      EOT
 
-      cat <<EOT >> $out/bin/backup
+      if [[ "\$1" == "onsite" ]]; then
+        umount \$BACKUP_MNT_DIR
+        rm -rf \$BACKUP_MNT_DIR
+      fi
+
       if [[ "\$2" == "" ]]; then
         echo "To confirm please execute: backup run"
       fi
