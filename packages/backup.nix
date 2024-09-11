@@ -94,7 +94,7 @@ pkgs.stdenv.mkDerivation rec {
           VOLUME_TAG=\$(echo \$i | jq -r ".container")
           restic backup "\$VOLUME_NAME" --tag "\$VOLUME_TAG" \$DRY_RUN
 
-          if [[ "\$2" == "runs" ]]; then
+          if [[ "\$2" == "run" ]]; then
             docker start \$(echo \$i | jq -r ".container")
           fi
       done
