@@ -47,9 +47,15 @@ pkgs.stdenv.mkDerivation rec {
         fi;
       fi
 
-      if [ ! -d "\$RESTIC_REPOSITORY" ]; then
-        echo "\$RESTIC_REPOSITORY does exist."
-        restic init
+
+      if [[ "\$1" == "offsite" ]]; then
+        # Need to init with adhoc command
+        A=1
+      else
+        if [ ! -d "\$RESTIC_REPOSITORY" ]; then
+          echo "\$RESTIC_REPOSITORY is empty or does not exist."
+          restic init
+        fi
       fi
 
       if [[ "\$2" == "dry" ]]; then
