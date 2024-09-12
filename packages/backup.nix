@@ -24,6 +24,8 @@ pkgs.stdenv.mkDerivation rec {
           export USER_HOME=\$HOME
           sudo --preserve-env=USER_HOME $out/bin/backup \$@
           exit 0
+        else
+          export USER_HOME=\$HOME
         fi
       fi
 
