@@ -20,9 +20,11 @@ pkgs.stdenv.mkDerivation rec {
       cat <<EOT >> $out/bin/backup
       WHOAMI=\$(whoami)
       if [[ ! "\$WHOAMI" == "root" ]]; then
-        export USER_HOME=\$HOME
-        sudo --preserve-env=USER_HOME $out/bin/backup \$@
-        exit 0
+        if [[ "\$DONTUSESUDO" == "" ]]; then
+          export USER_HOME=\$HOME
+          sudo --preserve-env=USER_HOME $out/bin/backup \$@
+          exit 0
+        fi
       fi
 
       if [[ "\$1" == "local" ]]; then
@@ -86,7 +88,7 @@ pkgs.stdenv.mkDerivation rec {
         echo "To view a single file execute: backup local adhoc dump <SNAPSHOT_ID> <FILE_PATH>"
         echo "To diff a single file execute: backup local adhoc dump <SNAPSHOT_ID> <FILE_PATH> | diff <FILE_PATH> -"
        
-        exit
+        exit 1
       fi
 
       EOT
