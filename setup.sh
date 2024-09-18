@@ -60,6 +60,14 @@ then
         cd $NIX_REPO_ROOT/$SHELL_NAME 
         nix-shell --pure --command "zsh -c 'code \$@'"
     }
+
+    function shell_run() {
+        echo \$PWD > $HOME/.shell_path 
+        rm -f $NIX_REPO_ROOT/$SHELL_NAME/packages 
+        cp -r $NIX_REPO_ROOT/packages $NIX_REPO_ROOT/$SHELL_NAME/data 
+        cd $NIX_REPO_ROOT/$SHELL_NAME 
+        nix-shell --pure --command "\$@"
+    }
   fi
 fi
 

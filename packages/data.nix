@@ -16,6 +16,8 @@ pkgs.stdenv.mkDerivation rec {
       mkdir -p $out/bin
       ln -s ${pkgs.duckdb}/bin/duckdb $out/bin/duckdb
       ln -s ${pkgs.sqlite}/bin/sqlite3 $out/bin/sqlite3
+      ln -s ${pkgs.rqlite}/bin/rqlite $out/bin/rqlite
+      ln -s ${pkgs.rqlite}/bin/rqlited $out/bin/rqlited
 
       if [[ "${system}" == "aarch64-darwin" ]]; then
         wget https://pub-bfa534868c66482daf271defe5d6d468.r2.dev/data-duck/${dataDuckVersion}/data-duck-mac-arm64.gz
