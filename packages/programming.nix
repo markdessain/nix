@@ -10,6 +10,8 @@ pkgs.stdenv.mkDerivation rec {
       ln -s ${pkgs.go}/bin/go $out/bin/go
       ln -s ${pkgs.gopls}/bin/gopls $out/bin/gopls
       ln -s ${pkgs.go}/bin/gofmt $out/bin/gofmt
+      ln -s ${pkgs.air}/bin/air $out/bin/air
+      ln -s ${pkgs.go-task}/bin/task $out/bin/task
       ln -s ${pkgs.python311}/bin/python3 $out/bin/python3
       ln -s ${pkgs.python311}/bin/python3 $out/bin/python
       ln -s ${pkgs.poetry}/bin/poetry $out/bin/poetry
