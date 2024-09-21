@@ -18,6 +18,7 @@ unFreePkgs.stdenv.mkDerivation rec {
         { publisher = "ms-toolsai"; name = "jupyter-renderers"; version = "1.0.18"; sha256 = "sha256-4EKXaWsafonBK7TftjVUBK3ujqD+OguXV0y/bWoWTyk="; }
         { publisher = "ms-toolsai"; name = "jupyter-keymap"; version = "1.1.2"; sha256 = "sha256-9BLyBZzZ0Z6QQ05QSxFJYNZmZDc5O3eYkCxe/UsmKws="; }
         { publisher = "ms-toolsai"; name = "vscode-jupyter-cell-tags"; version = "0.1.9"; sha256 = "sha256-XODbFbOr2kBTzFc0JtjiDUcCDBX1Hd4uajlil7mhqPY="; }
+        { publisher = "streetsidesoftware"; name = "code-spell-checker"; version = "4.0.13"; sha256 = "sha256-8VYg7NAFNW2aLZD0q25fgcrBfU1ptWF7Fy7I4SizTGc="; }
       ];
     };
 
@@ -28,13 +29,15 @@ unFreePkgs.stdenv.mkDerivation rec {
 
       if [[ "${system}" == "aarch64-darwin" ]]; then
         echo "cp $out/config/settings.json \"\$HOME/Library/Application Support/VSCodium/User/settings.json\" " >> $out/bin/code2
+        echo "cp $out/config/settings.json \"\$HOME/Library/Application Support/Code/User/settings.json\" " >> $out/bin/code2
       elif [[ "${system}" == "aarch64-linux" ]]; then
         echo "" >> $out/bin/code2
       else
         echo "" >> $out/bin/code2
       fi
 
-      cat ${vcsodeWithExtension}/bin/code | sed 's,${unFreePkgs.vscode},${unFreePkgs.vscodium},g' | sed 's,/bin/code,/bin/codium,g' >> $out/bin/code2
+      #cat ${vcsodeWithExtension}/bin/code | sed 's,${unFreePkgs.vscode},${unFreePkgs.vscodium},g' | sed 's,/bin/code,/bin/codium,g' >> $out/bin/code2
+      cat ${vcsodeWithExtension}/bin/code >> $out/bin/code2
       chmod +x $out/bin/code2
 
       mkdir -p $out/config
