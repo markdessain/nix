@@ -13,7 +13,7 @@ pkgs.stdenv.mkDerivation rec {
       ln -s ${pkgs.atuin}/bin/atuin $out/bin/atuin
       ln -s ${pkgs.zoxide}/bin/zoxide $out/bin/zoxide
       ln -s ${pkgs.jnv}/bin/jnv $out/bin/jnv
-      ln -s ${pkgs.lsof}/bin/lsof $out/bin/lsof 
+      ln -s ${pkgs.lsof}/bin/lsof $out/bin/lsof
       ln -s ${pkgs.zenith}/bin/zenith $out/bin/zenith
       ln -s ${pkgs.act}/bin/act $out/bin/act
       ln -s ${pkgs.docker}/bin/docker $out/bin/docker

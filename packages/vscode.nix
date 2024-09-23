@@ -19,6 +19,7 @@ unFreePkgs.stdenv.mkDerivation rec {
         { publisher = "ms-toolsai"; name = "jupyter-keymap"; version = "1.1.2"; sha256 = "sha256-9BLyBZzZ0Z6QQ05QSxFJYNZmZDc5O3eYkCxe/UsmKws="; }
         { publisher = "ms-toolsai"; name = "vscode-jupyter-cell-tags"; version = "0.1.9"; sha256 = "sha256-XODbFbOr2kBTzFc0JtjiDUcCDBX1Hd4uajlil7mhqPY="; }
         { publisher = "streetsidesoftware"; name = "code-spell-checker"; version = "4.0.13"; sha256 = "sha256-8VYg7NAFNW2aLZD0q25fgcrBfU1ptWF7Fy7I4SizTGc="; }
+        { publisher = "rjmacarthy"; name = "twinny"; version = "3.17.9"; sha256 = "sha256-ARJNGthnXKxaSE6ultQ7qrhwy6zSmanEAn6vk18Nmi0="; }
       ];
     };
 
