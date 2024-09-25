@@ -10,6 +10,7 @@ pkgs.stdenv.mkDerivation rec {
       ln -s ${pkgs.go}/bin/go $out/bin/go
       ln -s ${pkgs.gopls}/bin/gopls $out/bin/gopls
       ln -s ${pkgs.go}/bin/gofmt $out/bin/gofmt
+      ln -s ${pkgs.gnumake}/bin/make $out/bin/make
       ln -s ${pkgs.sqlc}/bin/sqlc $out/bin/sqlc
       ln -s ${pkgs.air}/bin/air $out/bin/air
       ln -s ${pkgs.go-task}/bin/task $out/bin/task
@@ -19,7 +20,7 @@ pkgs.stdenv.mkDerivation rec {
       ln -s ${pkgs.jdk17}/bin/java $out/bin/java
       ln -s ${pkgs.jdk17}/bin/javac $out/bin/javac
       ln -s ${pkgs.jdk17}/bin/jar $out/bin/jar
-      ln -s ${pkgs.clang}/bin/clang $out/bin/clang
+      ln -s ${pkgs.clang_18}/bin/clang $out/bin/clang
     '';
 
 }
