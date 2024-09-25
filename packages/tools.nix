@@ -27,6 +27,7 @@ pkgs.stdenv.mkDerivation rec {
       ln -s ${pkgs.diffutils}/bin/diff $out/bin/diff
       ln -s ${pkgs.vim}/bin/vim $out/bin/vim
       ln -s ${pkgs.git}/bin/git $out/bin/git
+      ln -s ${pkgs.gh}/bin/gh $out/bin/gh
       ln -s ${pkgs.flyctl}/bin/flyctl $out/bin/flyctl
       ln -s ${pkgs.flyctl}/bin/flyctl $out/bin/fly
       ln -s ${pkgs.doctl}/bin/doctl $out/bin/doctl
