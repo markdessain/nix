@@ -20,6 +20,8 @@ unFreePkgs.stdenv.mkDerivation rec {
         { publisher = "ms-toolsai"; name = "vscode-jupyter-cell-tags"; version = "0.1.9"; sha256 = "sha256-XODbFbOr2kBTzFc0JtjiDUcCDBX1Hd4uajlil7mhqPY="; }
         { publisher = "streetsidesoftware"; name = "code-spell-checker"; version = "4.0.13"; sha256 = "sha256-8VYg7NAFNW2aLZD0q25fgcrBfU1ptWF7Fy7I4SizTGc="; }
         { publisher = "rjmacarthy"; name = "twinny"; version = "3.17.9"; sha256 = "sha256-ARJNGthnXKxaSE6ultQ7qrhwy6zSmanEAn6vk18Nmi0="; }
+        { publisher = "Evidence"; name = "evidence-vscode"; version = "1.5.1"; sha256 = "sha256-UWuAvn0pU7pW7xIQJA1zfop3N6bGrdGX2xE8thPbqh0="; }
+        { publisher = "svelte"; name = "svelte-vscode"; version = "109.0.2"; sha256 = "sha256-FrGvQ074iaHxZukB0bL6rNkdB5UpZJ5yp4wnmlRJA+g="; }
       ];
     };
 
