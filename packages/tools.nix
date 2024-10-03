@@ -41,5 +41,6 @@ pkgs.stdenv.mkDerivation rec {
       ln -s ${pkgs.openssh}/bin/ssh-keygen $out/bin/ssh-keygen
       ln -s ${pkgs.openssh}/bin/ssh-keyscan $out/bin/ssh-keyscan
       ln -s ${pkgs.openssh}/bin/sshd $out/bin/sshd
+      ln -s ${pkgs.hugo}/bin/hugo $out/bin/hugo
     '';
 }
