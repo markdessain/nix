@@ -42,5 +42,7 @@ pkgs.stdenv.mkDerivation rec {
       ln -s ${pkgs.openssh}/bin/ssh-keyscan $out/bin/ssh-keyscan
       ln -s ${pkgs.openssh}/bin/sshd $out/bin/sshd
       ln -s ${pkgs.hugo}/bin/hugo $out/bin/hugo
+      ln -s ${pkgs.jira-cli-go}/bin/jira $out/bin/jira
+      ln -s ${pkgs.less}/bin/less $out/bin/less
     '';
 }

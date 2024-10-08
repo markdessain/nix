@@ -24,6 +24,8 @@ pkgs.stdenv.mkDerivation rec {
       ln -s ${pkgs.jdk17}/bin/javac $out/bin/javac
       ln -s ${pkgs.jdk17}/bin/jar $out/bin/jar
       ln -s ${pkgs.clang}/bin/clang $out/bin/clang
+      ln -s ${pkgs.binutils_nogold}/bin/ld $out/bin/ld
+      
     '';
 
 }

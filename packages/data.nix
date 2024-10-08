@@ -5,7 +5,7 @@ pkgs.stdenv.mkDerivation rec {
     version = "0.1.0";
     phases = [ "installPhase" ];
 
-    dataDuckVersion = "v0.52.0";
+    dataDuckVersion = "v0.60.0";
 
     buildInputs = [
       pkgs.wget
