@@ -33,6 +33,10 @@
               (import ./packages/ai.nix { inherit pkgs; })
             ];
 
+            # Sometimes needed for mac
+            # pkgs.darwin.apple_sdk.frameworks.Security
+            # pkgs.darwin.apple_sdk.frameworks.SystemConfiguration
+
             shellHook = ''
               source startup ${pkgs.coreutils} ${pkgs.nix} $(for input in $buildInputs; do echo -n "$input "; done)
               source $TEMP_NIX_START
