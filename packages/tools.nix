@@ -20,6 +20,8 @@ pkgs.stdenv.mkDerivation rec {
       ln -s ${pkgs.speedtest-cli}/bin/speedtest $out/bin/speedtest
       ln -s ${pkgs.pinentry-tty}/bin/pinentry $out/bin/pinentry
       ln -s ${pkgs.jq}/bin/jq $out/bin/jq
+      ln -s ${pkgs.miller}/bin/mlr $out/bin/mlr
+      ln -s ${pkgs.mermaid-cli}/bin/mmdc $out/bin/mmdc
       ln -s ${pkgs.gnused}/bin/sed $out/bin/sed
       ln -s ${pkgs.gnugrep}/bin/grep $out/bin/grep
       ln -s ${pkgs.nano}/bin/nano $out/bin/nano
@@ -44,5 +46,7 @@ pkgs.stdenv.mkDerivation rec {
       ln -s ${pkgs.hugo}/bin/hugo $out/bin/hugo
       ln -s ${pkgs.jira-cli-go}/bin/jira $out/bin/jira
       ln -s ${pkgs.less}/bin/less $out/bin/less
+      ln -s ${pkgs.chromium}/bin/chromium $out/bin/chromium
+      ln -s ${pkgs.chromium}/bin/chromium-browser $out/bin/chromium-browser
     '';
 }
