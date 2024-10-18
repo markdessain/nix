@@ -17,6 +17,12 @@ pkgs.stdenv.mkDerivation rec {
       ln -s ${pkgs.zenith}/bin/zenith $out/bin/zenith
       ln -s ${pkgs.act}/bin/act $out/bin/act
       ln -s ${pkgs.docker}/bin/docker $out/bin/docker
+
+      if [[ "${system}" == "aarch64-darwin" ]]; then
+        ln -s ${pkgs.docker-credential-helpers}/bin/docker-credential-osxkeychain $out/bin/docker-credential-osxkeychain
+        ln -s ${pkgs.docker-credential-helpers}/bin/docker-credential-pass $out/bin/docker-credential-pass
+      fi
+
       ln -s ${pkgs.speedtest-cli}/bin/speedtest $out/bin/speedtest
       ln -s ${pkgs.pinentry-tty}/bin/pinentry $out/bin/pinentry
       ln -s ${pkgs.jq}/bin/jq $out/bin/jq
