@@ -15,7 +15,6 @@ pkgs.stdenv.mkDerivation rec {
       ln -s ${pkgs.jnv}/bin/jnv $out/bin/jnv
       ln -s ${pkgs.lsof}/bin/lsof $out/bin/lsof
       ln -s ${pkgs.zenith}/bin/zenith $out/bin/zenith
-      ln -s ${pkgs.act}/bin/act $out/bin/act
       ln -s ${pkgs.docker}/bin/docker $out/bin/docker
 
       if [[ "${system}" == "aarch64-darwin" ]]; then
@@ -54,5 +53,13 @@ pkgs.stdenv.mkDerivation rec {
       ln -s ${pkgs.less}/bin/less $out/bin/less
       ln -s ${pkgs.chromium}/bin/chromium $out/bin/chromium
       ln -s ${pkgs.chromium}/bin/chromium-browser $out/bin/chromium-browser
+
+      if [[ "${system}" == "aarch64-darwin" ]]; then
+        echo 'DOCKER_HOST=$(docker context inspect --format "{{.Endpoints.docker.Host}}") ${pkgs.act}/bin/act --container-architecture linux/amd64 --pull=false $@' >> $out/bin/act
+      else
+        echo 'DOCKER_HOST=$(docker context inspect --format "{{.Endpoints.docker.Host}}") ${pkgs.act}/bin/act --pull=false $@' >> $out/bin/act
+      fi
+      chmod +x $out/bin/act 
+
     '';
 }
