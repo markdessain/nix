@@ -1,4 +1,4 @@
-{ pkgs }:	
+{ pkgs, system }:	
 
 pkgs.stdenv.mkDerivation rec {
     pname = "tools";
@@ -21,7 +21,7 @@ pkgs.stdenv.mkDerivation rec {
         ln -s ${pkgs.docker-credential-helpers}/bin/docker-credential-osxkeychain $out/bin/docker-credential-osxkeychain
         ln -s ${pkgs.docker-credential-helpers}/bin/docker-credential-pass $out/bin/docker-credential-pass
       fi
-
+      
       ln -s ${pkgs.speedtest-cli}/bin/speedtest $out/bin/speedtest
       ln -s ${pkgs.pinentry-tty}/bin/pinentry $out/bin/pinentry
       ln -s ${pkgs.jq}/bin/jq $out/bin/jq
@@ -51,8 +51,6 @@ pkgs.stdenv.mkDerivation rec {
       ln -s ${pkgs.hugo}/bin/hugo $out/bin/hugo
       ln -s ${pkgs.jira-cli-go}/bin/jira $out/bin/jira
       ln -s ${pkgs.less}/bin/less $out/bin/less
-      ln -s ${pkgs.chromium}/bin/chromium $out/bin/chromium
-      ln -s ${pkgs.chromium}/bin/chromium-browser $out/bin/chromium-browser
 
       if [[ "${system}" == "aarch64-darwin" ]]; then
         echo 'DOCKER_HOST=$(docker context inspect --format "{{.Endpoints.docker.Host}}") ${pkgs.act}/bin/act --container-architecture linux/amd64 --pull=false $@' >> $out/bin/act
