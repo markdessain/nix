@@ -13,12 +13,28 @@
           pkgs = import nixpkgs {inherit system;}; 
           unFreePkgs = import nixpkgs {inherit system; config.allowUnfree = true;}; 
       in
-        { 
+        {
+
+          # Sometimes needed for mac
+          # https://github.com/NixOS/nixpkgs/blob/master/pkgs/os-specific/darwin/apple-sdk/default.nix
+          # pkgs.darwin.apple_sdk.frameworks.Security
+          # pkgs.darwin.apple_sdk.frameworks.SystemConfiguration
+
           devShell = pkgs.mkShell {
             packages = [
               pkgs.glibcLocales
               pkgs.cacert
               pkgs.coreutils
+
+              pkgs.darwin.apple_sdk.frameworks.CoreAudio
+              pkgs.darwin.apple_sdk.frameworks.AudioToolbox
+              pkgs.darwin.apple_sdk.frameworks.AudioUnit
+              pkgs.darwin.apple_sdk.frameworks.CoreFoundation
+              pkgs.darwin.apple_sdk.frameworks.CoreServices
+              pkgs.darwin.apple_sdk.frameworks.Security
+              pkgs.darwin.apple_sdk.frameworks.Accelerate
+              pkgs.darwin.apple_sdk.frameworks.Foundation
+              pkgs.darwin.apple_sdk.frameworks.MetalKit
             ];
 
             buildInputs = [
@@ -32,10 +48,6 @@
               (import ./packages/backup.nix { inherit pkgs system; })
               (import ./packages/ai.nix { inherit pkgs; })
             ];
-
-            # Sometimes needed for mac
-            # pkgs.darwin.apple_sdk.frameworks.Security
-            # pkgs.darwin.apple_sdk.frameworks.SystemConfiguration
 
             shellHook = ''
               source startup ${pkgs.coreutils} ${pkgs.nix} $(for input in $buildInputs; do echo -n "$input "; done)

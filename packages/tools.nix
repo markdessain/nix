@@ -51,6 +51,8 @@ pkgs.stdenv.mkDerivation rec {
       ln -s ${pkgs.hugo}/bin/hugo $out/bin/hugo
       ln -s ${pkgs.jira-cli-go}/bin/jira $out/bin/jira
       ln -s ${pkgs.less}/bin/less $out/bin/less
+      ln -s ${pkgs.gawk}/bin/awk $out/bin/awk
+      ln -s ${pkgs.gawk}/bin/which $out/bin/which
 
       if [[ "${system}" == "aarch64-darwin" ]]; then
         echo 'DOCKER_HOST=$(docker context inspect --format "{{.Endpoints.docker.Host}}") ${pkgs.act}/bin/act --container-architecture linux/amd64 --pull=false $@' >> $out/bin/act
