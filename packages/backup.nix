@@ -107,17 +107,17 @@ pkgs.stdenv.mkDerivation rec {
       fi  
 
       cat <<EOT >> $out/bin/backup
-      echo \$DOCKER_VOLUMES | jq -c '.[]' | while read i; do
+      echo \$DOCKER_VOLUMES | ${pkgs.jq}/bin/jq -c '.[]' | while read i; do
           if [[ "\$2" == "run" ]]; then
-            docker stop \$(echo \$i | jq -r ".container")
+            docker stop \$(echo \$i | ${pkgs.jq}/bin/jq -r ".container")
           fi
 
-          VOLUME_NAME=\$(echo \$i | jq -r ".volume")
-          VOLUME_TAG=\$(echo \$i | jq -r ".container")
+          VOLUME_NAME=\$(echo \$i | ${pkgs.jq}/bin/jq -r ".volume")
+          VOLUME_TAG=\$(echo \$i | ${pkgs.jq}/bin/jq -r ".container")
           restic backup "\$VOLUME_NAME" --tag "\$VOLUME_TAG" \$DRY_RUN
 
           if [[ "\$2" == "run" ]]; then
-            docker start \$(echo \$i | jq -r ".container")
+            docker start \$(echo \$i | ${pkgs.jq}/bin/jq -r ".container")
           fi
       done
 
