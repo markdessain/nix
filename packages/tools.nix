@@ -54,6 +54,7 @@ pkgs.stdenv.mkDerivation rec {
       ln -s ${pkgs.gawk}/bin/awk $out/bin/awk
       ln -s ${pkgs.gawk}/bin/which $out/bin/which
       ln -s ${pkgs.gparted}/bin/gparted $out/bin/gparted
+      ln -s ${pkgs.unzip}/bin/unzip $out/bin/unzip
 
       if [[ "${system}" == "aarch64-darwin" ]]; then
         echo 'DOCKER_HOST=$(docker context inspect --format "{{.Endpoints.docker.Host}}") ${pkgs.act}/bin/act --container-architecture linux/amd64 --pull=false $@' >> $out/bin/act
