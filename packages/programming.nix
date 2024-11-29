@@ -4,11 +4,7 @@ pkgs.stdenv.mkDerivation rec {
     pname = "programming";
     version = "0.1.0";
     phases = [ "installPhase" ];
-
-    buildInputs = [
-      pkgs.portaudio
-    ];
-
+    
     installPhase = ''
       mkdir -p $out/bin
       ln -s ${pkgs.go}/bin/go $out/bin/go
@@ -39,6 +35,10 @@ pkgs.stdenv.mkDerivation rec {
       ln -s ${pkgs.binutils_nogold}/bin/ld $out/bin/ld
       ln -s ${pkgs.pnpm}/bin/pnpm $out/bin/pnpm
       
+      echo 'mkdir -p ~/.config/kube' > $out/.env
+      echo 'PKG_CONFIG_PATH=${pkgs.portaudio}/lib/pkgconfig' >> $out/.env 
+      chmod +x $out/.env 
+
     '';
 
 }
