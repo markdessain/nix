@@ -29,6 +29,7 @@ pkgs.stdenv.mkDerivation rec {
       ln -s ${pkgs.jdk17}/bin/jar $out/bin/jar
       ln -s ${pkgs.clang}/bin/clang $out/bin/clang
       ln -s ${pkgs.clang}/bin/clang++ $out/bin/clang++
+      ln -s ${pkgs.llvm_18}/bin/dsymutil $out/bin/dsymutil
       ln -s ${pkgs.gnumake}/bin/make $out/bin/make
       ln -s ${pkgs.protobuf_26}/bin/protoc $out/bin/protoc
       ln -s ${pkgs.protoc-gen-go}/bin/protoc-gen-go $out/bin/protoc-gen-go
@@ -36,6 +37,7 @@ pkgs.stdenv.mkDerivation rec {
       ln -s ${pkgs.grpc-gateway}/bin/protoc-gen-grpc-gateway $out/bin/protoc-gen-grpc-gateway
       ln -s ${pkgs.pkg-config}/bin/pkg-config $out/bin/pkg-config
       ln -s ${pkgs.binutils_nogold}/bin/ld $out/bin/ld
+      ln -s ${pkgs.pnpm}/bin/pnpm $out/bin/pnpm
       
     '';
 
