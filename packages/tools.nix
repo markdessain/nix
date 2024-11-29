@@ -53,7 +53,6 @@ pkgs.stdenv.mkDerivation rec {
       ln -s ${pkgs.less}/bin/less $out/bin/less
       ln -s ${pkgs.gawk}/bin/awk $out/bin/awk
       ln -s ${pkgs.gawk}/bin/which $out/bin/which
-      ln -s ${pkgs.gparted}/bin/gparted $out/bin/gparted
       ln -s ${pkgs.unzip}/bin/unzip $out/bin/unzip
       ln -s ${pkgs.ffmpeg}/bin/ffmpeg $out/bin/ffmpeg
       ln -s ${pkgs.coreutils}/bin/sha256sum $out/bin/sha256sum
