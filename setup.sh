@@ -36,7 +36,8 @@ then
         rm -f $NIX_REPO_ROOT/$SHELL_NAME/packages 
         cp -r $NIX_REPO_ROOT/packages $NIX_REPO_ROOT/$SHELL_NAME/data 
         cd $NIX_REPO_ROOT/$SHELL_NAME 
-        nix-shell --pure --command zsh
+        # nix-shell --pure --command zsh
+        nix-shell --pure --command "zsh -c 'SHELL_RUN=\"source \$TEMP_NIX_START\" zsh'"
     }
 
     function shell_root() {
@@ -70,6 +71,14 @@ then
     }
   fi
 fi
+
+if [[ -n \$SHELL_RUN ]] then
+   eval "\$SHELL_RUN"
+fi
+
+EOT
+
+cat <<EOT >> $HOME/.zshrc
 
 if [[ -n \$SHELL_RUN ]] then
    eval "\$SHELL_RUN"
