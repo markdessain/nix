@@ -36,10 +36,9 @@ then
         rm -f $NIX_REPO_ROOT/$SHELL_NAME/packages 
         cp -r $NIX_REPO_ROOT/packages $NIX_REPO_ROOT/$SHELL_NAME/data 
         cd $NIX_REPO_ROOT/$SHELL_NAME 
-        # nix-shell --pure --command zsh
-        nix-shell --pure --command "zsh -c 'SHELL_RUN=\"source \$TEMP_NIX_START\" zsh'"
+        nix-shell --pure --command "SHELL_RUN=\"source \$TEMP_NIX_START\" zsh"
     }
-
+    
     function shell_root() {
         echo $NIX_REPO_ROOT/$SHELL_NAME 
     }
@@ -59,7 +58,7 @@ then
         rm -f $NIX_REPO_ROOT/$SHELL_NAME/packages 
         cp -r $NIX_REPO_ROOT/packages $NIX_REPO_ROOT/$SHELL_NAME/data 
         cd $NIX_REPO_ROOT/$SHELL_NAME 
-        nix-shell --pure --command "zsh -c 'code \$@'"
+        nix-shell --pure --command "SHELL_RUN=\"source \$TEMP_NIX_START\" zsh -c code"
     }
 
     function shell_run() {
