@@ -56,6 +56,9 @@ pkgs.stdenv.mkDerivation rec {
       ln -s ${pkgs.unzip}/bin/unzip $out/bin/unzip
       ln -s ${pkgs.ffmpeg}/bin/ffmpeg $out/bin/ffmpeg
       ln -s ${pkgs.coreutils}/bin/sha256sum $out/bin/sha256sum
+      ln -s ${pkgs.findutils}/bin/find $out/bin/find
+      ln -s ${pkgs.findutils}/bin/xargs $out/bin/xargs
+      ln -s ${pkgs.binutils}/bin/ar $out/bin/ar
 
       if [[ "${system}" == "aarch64-darwin" ]]; then
         echo 'DOCKER_HOST=$(docker context inspect --format "{{.Endpoints.docker.Host}}") ${pkgs.act}/bin/act --container-architecture linux/amd64 --pull=false $@' >> $out/bin/act
