@@ -34,6 +34,7 @@ pkgs.stdenv.mkDerivation rec {
       ln -s ${pkgs.pkg-config}/bin/pkg-config $out/bin/pkg-config
       ln -s ${pkgs.binutils_nogold}/bin/ld $out/bin/ld
       ln -s ${pkgs.pnpm}/bin/pnpm $out/bin/pnpm
+      ln -s ${pkgs.deno}/bin/deno $out/bin/deno
       
       echo 'mkdir -p ~/.config/kube' > $out/.env
       echo 'PKG_CONFIG_PATH=${pkgs.portaudio}/lib/pkgconfig' >> $out/.env 
