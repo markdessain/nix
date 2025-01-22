@@ -10,6 +10,7 @@ pkgs.stdenv.mkDerivation rec {
       ln -s ${pkgs.go}/bin/go $out/bin/go
       ln -s ${pkgs.gopls}/bin/gopls $out/bin/gopls
       ln -s ${pkgs.azure-cli}/bin/az $out/bin/az
+      ln -s ${pkgs.azure-storage-azcopy}/bin/azcopy $out/bin/azcopy
       ln -s ${pkgs.go}/bin/gofmt $out/bin/gofmt
       ln -s ${pkgs.sqlc}/bin/sqlc $out/bin/sqlc
       ln -s ${pkgs.dbmate}/bin/dbmate $out/bin/dbmate
