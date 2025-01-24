@@ -24,7 +24,7 @@
             buildInputs = [
               (import ./packages/terminal.nix { inherit pkgs; })
               (import ./packages/tools.nix { inherit pkgs system; })
-              (import ./packages/programming.nix { inherit pkgs; })
+              (import ./packages/programming.nix { inherit pkgs system; })
               (import ./packages/data.nix { inherit pkgs system; })
               (import ./packages/config.nix { inherit pkgs system; })
               (import ./packages/codeserver.nix { inherit unFreePkgs system; })

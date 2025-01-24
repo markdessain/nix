@@ -1,4 +1,4 @@
-{ pkgs }:	
+{ pkgs, system }:	
 
 pkgs.stdenv.mkDerivation rec {
     pname = "programming";
@@ -18,7 +18,6 @@ pkgs.stdenv.mkDerivation rec {
       ln -s ${pkgs.go-task}/bin/task $out/bin/task
       ln -s ${pkgs.python311}/bin/python3 $out/bin/python3
       ln -s ${pkgs.python311}/bin/python3 $out/bin/python
-      ln -s ${pkgs.poetry}/bin/poetry $out/bin/poetry
       ln -s ${pkgs.nodejs_20}/bin/node $out/bin/node
       ln -s ${pkgs.nodejs_20}/bin/npm $out/bin/npm
       ln -s ${pkgs.nodejs_20}/bin/npx $out/bin/npx
@@ -38,6 +37,19 @@ pkgs.stdenv.mkDerivation rec {
       ln -s ${pkgs.pnpm}/bin/pnpm $out/bin/pnpm
       ln -s ${pkgs.deno}/bin/deno $out/bin/deno
       
+      if [[ "${system}" == "aarch64-darwin" ]]; then
+        # Temp while poetry is incompomatiable with old version of numpy
+        mkdir -p $out/poetry
+        export NIX_SSL_CERT_FILE="/nix/var/nix/profiles/default/etc/ssl/certs/ca-bundle.crt"
+        export SSL_CERT_FILE="/nix/var/nix/profiles/default/etc/ssl/certs/ca-bundle.crt"
+        export POETRY_HOME="$out/poetry"
+        export POETRY_VERSION="1.8.5"
+        ${pkgs.curl}/bin/curl -sSL https://install.python-poetry.org | ${pkgs.python311}/bin/python3 -
+        ln -s $out/poetry/bin/poetry $out/bin/poetry
+      elif [[ "${system}" == "aarch64-linux" ]]; then
+        ln -s ${pkgs.poetry}/bin/poetry $out/bin/poetry
+      fi
+
       echo 'mkdir -p ~/.config/kube' > $out/.env
       echo 'PKG_CONFIG_PATH=${pkgs.portaudio}/lib/pkgconfig' >> $out/.env 
       chmod +x $out/.env 
