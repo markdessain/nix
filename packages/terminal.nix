@@ -17,6 +17,7 @@ pkgs.stdenv.mkDerivation rec {
       echo 'export TEMP_NIX_START=$FILE' >> $out/bin/startup
       chmod +x $out/bin/startup 
 
+      ln -s /usr/bin/open $out/bin/open
       ln -s ${pkgs.git}/bin/git $out/bin/git
       ln -s ${pkgs.zsh}/bin/zsh $out/bin/zsh
       ln -s ${pkgs.bash}/bin/bash $out/bin/bash

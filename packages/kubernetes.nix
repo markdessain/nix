@@ -12,6 +12,7 @@ pkgs.stdenv.mkDerivation rec {
       ln -s ${pkgs.k6}/bin/k6 $out/bin/k6
       ln -s ${pkgs.kubernetes-helm}/bin/helm $out/bin/helm
       ln -s ${pkgs.kind}/bin/kind $out/bin/kind
+      ln -s ${pkgs.minikube}/bin/minikube $out/bin/minikube
 
       echo 'mkdir -p ~/.config/kube' > $out/.env
       echo 'if [ -z "$( ls -A ~/.config/kube )" ]; then echo "No kubernetes configs found"; else export KUBECONFIG=$(for filename in ~/.config/kube/*; do echo -n "$filename:"; done | sed "s/:$//"); fi' >> $out/.env 

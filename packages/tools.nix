@@ -60,6 +60,7 @@ pkgs.stdenv.mkDerivation rec {
       ln -s ${pkgs.findutils}/bin/find $out/bin/find
       ln -s ${pkgs.findutils}/bin/xargs $out/bin/xargs
       ln -s ${pkgs.binutils}/bin/ar $out/bin/ar
+      ln -s ${pkgs.wasmer}/bin/wasmer $out/bin/wasmer
 
       if [[ "${system}" == "aarch64-darwin" ]]; then
         echo 'DOCKER_HOST=$(docker context inspect --format "{{.Endpoints.docker.Host}}") ${pkgs.act}/bin/act --container-architecture linux/amd64 --pull=false $@' >> $out/bin/act
