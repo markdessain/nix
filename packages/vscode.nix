@@ -45,6 +45,14 @@ unFreePkgs.stdenv.mkDerivation rec {
 
     extensionConfigFileText = unFreePkgs.vscode-utils.toExtensionJson allExtensions;
 
+    # Bug with installing - fix here: https://github.com/nix-community/home-manager/issues/6532 
+    vscode = unFreePkgs.vscodium.overrideAttrs (old: {
+      installPhase = "whoami\n" + old.installPhase;
+    });
+    vscodium = unFreePkgs.vscodium.overrideAttrs (old: {
+      installPhase = "whoami\n" + old.installPhase;
+    });
+    
     installPhase = ''
       mkdir -p $out/bin
       mkdir -p $out/extensions
@@ -98,8 +106,8 @@ unFreePkgs.stdenv.mkDerivation rec {
       fi
 
       # Choose to use vscodium or vscode
-      echo "exec \"${unFreePkgs.vscodium}/bin/codium\" --extensions-dir \"$out/extensions\" \"\$@\" " >> $out/bin/code2
-      #echo "exec \"${unFreePkgs.vscode}/bin/code\" --extensions-dir \"$out/extensions\" \"\$@\" " >> $out/bin/code2
+      echo "exec \"${vscodium}/bin/codium\" --extensions-dir \"$out/extensions\" \"\$@\" " >> $out/bin/code2
+      #echo "exec \"${vscode}/bin/code\" --extensions-dir \"$out/extensions\" \"\$@\" " >> $out/bin/code2
 
       chmod +x $out/bin/code2
 
