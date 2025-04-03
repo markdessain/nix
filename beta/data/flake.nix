@@ -47,6 +47,7 @@
               (import ./packages/vscode.nix { inherit pkgs unFreePkgs system; })
               (import ./packages/backup.nix { inherit pkgs system; })
               (import ./packages/ai.nix { inherit pkgs; })
+              (import ./packages/mac.nix { inherit pkgs unFreePkgs system; })
             ];
 
             shellHook = ''
