@@ -53,12 +53,20 @@ then
         rbw sync
     }
 
-    function shell_code() {
+    function shell_web() {
         echo \$PWD > $HOME/.shell_path 
         rm -f $NIX_REPO_ROOT/$SHELL_NAME/packages 
         cp -r $NIX_REPO_ROOT/packages $NIX_REPO_ROOT/$SHELL_NAME/data 
         cd $NIX_REPO_ROOT/$SHELL_NAME 
-        nix-shell --pure --command "SHELL_RUN=\"source \$TEMP_NIX_START\" zsh -c code"
+        nix-shell --pure --command "SHELL_RUN=\"source \$TEMP_NIX_START\" zsh -c code_web"
+    }
+
+    function shell_desktop() {
+        echo \$PWD > $HOME/.shell_path 
+        rm -f $NIX_REPO_ROOT/$SHELL_NAME/packages 
+        cp -r $NIX_REPO_ROOT/packages $NIX_REPO_ROOT/$SHELL_NAME/data 
+        cd $NIX_REPO_ROOT/$SHELL_NAME 
+        nix-shell --pure --command "SHELL_RUN=\"source \$TEMP_NIX_START\" zsh -c code_desktop"
     }
 
     function shell_run() {

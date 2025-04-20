@@ -86,9 +86,9 @@ unFreePkgs.stdenv.mkDerivation rec {
       #cat ${vcsodeWithExtension}/bin/code | sed 's,${unFreePkgs.vscode},${unFreePkgs.code-server},g' | sed 's,/bin/code,/bin/code-server,g' >> $out/bin/code2
       chmod +x $out/bin/code2
 
-      echo "#!${unFreePkgs.bash}/bin/bash -e" > $out/bin/code
-      echo "SHELL_RUN=\"source \$TEMP_NIX_START\" $out/bin/code2" >> $out/bin/code
-      chmod +x $out/bin/code
+      echo "#!${unFreePkgs.bash}/bin/bash -e" > $out/bin/code_web
+      echo "SHELL_RUN=\"source \$TEMP_NIX_START\" $out/bin/code2" >> $out/bin/code_web
+      chmod +x $out/bin/code_web
 
       mkdir -p $out/config
       cat <<EOT >> $out/config/settings.json

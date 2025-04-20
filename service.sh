@@ -22,7 +22,7 @@ After=network.target
 
 [Service]
 Type=exec
-ExecStart=/nix/var/nix/profiles/default/bin/nix-shell --pure --command "zsh -c 'code'"
+ExecStart=/nix/var/nix/profiles/default/bin/nix-shell --pure --command "zsh -c 'code_web'"
 WorkingDirectory=$NIX_REPO_ROOT/$SHELL_NAME
 Restart=always
 User=%i

@@ -100,6 +100,11 @@ unFreePkgs.stdenv.mkDerivation rec {
         #echo "$extensionConfigFileText" | jq -r ". + [$data_duck, $another_extension]" > $out/extensions/extensions.json
 
       elif [[ "${system}" == "aarch64-linux" ]]; then
+        echo "cp $out/config/settings.json \"\$HOME/.config/VSCodium/User/settings.json\" " >> $out/bin/code2
+
+        for input in $allExtensions; do ln -s $input/share/vscode/extensions/$(ls -AU $input/share/vscode/extensions/ | head -1) $out/extensions/$(ls -AU $input/share/vscode/extensions/ | head -1); done
+        echo "$extensionConfigFileText" > $out/extensions/extensions.json
+  
         echo "" >> $out/bin/code2
       else
         echo "" >> $out/bin/code2
@@ -122,7 +127,7 @@ unFreePkgs.stdenv.mkDerivation rec {
         }
       EOT
 
-      echo "SHELL_RUN=\"source \$TEMP_NIX_START\" $out/bin/code2" >> $out/bin/code
-      chmod +x $out/bin/code
+      echo "SHELL_RUN=\"source \$TEMP_NIX_START\" $out/bin/code2" >> $out/bin/code_desktop
+      chmod +x $out/bin/code_desktop
     '';
 }
