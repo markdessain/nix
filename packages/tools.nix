@@ -5,14 +5,20 @@ pkgs.stdenv.mkDerivation rec {
     version = "0.1.0";
     phases = [ "installPhase" ];
 
+    k3s = if system == "aarch64-linux" then pkgs.k3s else "";
+    slirp4netns = if system == "aarch64-linux" then pkgs.slirp4netns else "";
+  
     installPhase = ''
       mkdir -p $out/bin
-      ln -s ${pkgs.k3s}/bin/k3s $out/bin/k3s
-      ln -s ${pkgs.k3s}/bin/k3s-killall.sh $out/bin/k3s-killall.sh
-      ln -s ${pkgs.k3s}/bin/kubectl $out/bin/kubectl
-      ln -s ${pkgs.slirp4netns}/bin/slirp4netns $out/bin/slirp4netns
-      ln -s /usr/bin/newgidmap $out/bin/newgidmap
-      ln -s /usr/bin/newuidmap $out/bin/newuidmap
+
+      if [[ "${k3s}" != "" ]]; then
+        ln -s ${k3s}/bin/k3s $out/bin/k3s
+        ln -s ${k3s}/bin/kubectl $out/bin/kubectl
+        ln -s ${slirp4netns}/bin/slirp4netns $out/bin/slirp4netns
+        ln -s /usr/bin/newgidmap $out/bin/newgidmap
+        ln -s /usr/bin/newuidmap $out/bin/newuidmap
+      fi
+      
       ln -s ${pkgs.curl}/bin/curl $out/bin/curl
       ln -s ${pkgs.rbw}/bin/rbw $out/bin/rbw
       ln -s ${pkgs.rbw}/bin/rbw-agent $out/bin/rbw-agent
@@ -77,10 +83,12 @@ pkgs.stdenv.mkDerivation rec {
       fi
       chmod +x $out/bin/act 
 
-      echo 'sudo ${pkgs.k3s}/bin/k3s server --write-kubeconfig-mode 644 --disable=traefik' > $out/bin/k3s-server 
-      chmod +x $out/bin/k3s-server
+      if [[ "${system}" == "aarch64-linux" ]]; then
+        echo 'sudo ${k3s}/bin/k3s server --write-kubeconfig-mode 644 --disable=traefik' > $out/bin/k3s-server 
+        chmod +x $out/bin/k3s-server
 
-      echo 'docker save $1 | sudo ${pkgs.k3s}/bin/k3s ctr images import -' > $out/bin/k3s-image 
-      chmod +x $out/bin/k3s-image
+        echo 'docker save $1 | sudo ${k3s}/bin/k3s ctr images import -' > $out/bin/k3s-image 
+        chmod +x $out/bin/k3s-image
+      fi
     '';
 }
