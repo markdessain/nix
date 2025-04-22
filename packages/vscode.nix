@@ -25,6 +25,7 @@ unFreePkgs.stdenv.mkDerivation rec {
       { publisher = "Evidence"; name = "evidence-vscode"; version = "1.5.6"; sha256 = "sha256-uRiv3aarSeY8kHYeKYQzhDCEn16ZErgKQTUGoZtFuPc="; }
       { publisher = "svelte"; name = "svelte-vscode"; version = "109.5.2"; sha256 = "sha256-y1se0+LY1M+YKCm+gxBsyHLOQU6Xl095xP6z0xpf9mM="; }
       { publisher = "ms-vscode"; name = "wasm-wasi-core"; version = "1.0.2"; sha256 = "sha256-hrzPNPaG8LPNMJq/0uyOS8jfER1Q0CyFlwR42KmTz8g="; }
+      { publisher = "saoudrizwan"; name = "claude-dev"; version = "3.13.1"; sha256 = "sha256-uN7TfvupqMsYg5hXEvTQ2HhD+uZU4b4fVsEf6biR2Ms="; }
     ];
     # { publisher = "rjmacarthy"; name = "twinny"; version = "3.21.14"; sha256 = "sha256-M0GcYRNEiSQS3cfFche2olYHr7kC+Pm8U5q6+voAV9c"; }
     # { publisher = "Continue"; name = "continue"; version = "0.8.62"; sha256 = "sha256-BsOPfZ8973YomdWsLm5LShFiO/sU5k0ZTASZReRtE8o="; }
@@ -59,53 +60,45 @@ unFreePkgs.stdenv.mkDerivation rec {
 
       echo "" > $out/bin/code2
 
+      for input in $allExtensions; do ln -s $input/share/vscode/extensions/$(ls -AU $input/share/vscode/extensions/ | head -1) $out/extensions/$(ls -AU $input/share/vscode/extensions/ | head -1); done
+      echo "$extensionConfigFileText" > $out/extensions/extensions.json
+      
+      # Install Custom extension
+      # {
+      #    "identifier":{
+      #       "id":"__NAME__"
+      #    },
+      #    "version":"_VERSION__",
+      #    "location":{
+      #       "$mid":1,
+      #       "fsPath":"__PATH__/__NAME__-__VERSION__",
+      #       "external":"__PATH__/__NAME__-__VERSION__",
+      #       "path":"__PATH__/__NAME__-__VERSION__",
+      #       "scheme":"file"
+      #    },
+      #    "relativeLocation":"__NAME__-__VERSION__",
+      #    "metadata":{
+      #       "installedTimestamp":1738577399412,
+      #       "pinned":true,
+      #       "source":"vsix"
+      #    }
+      # }
+      PACKAGE_SETTING='{"identifier":{"id":"__NAME__"},"version":"__VERSION__","location":{"$mid":1,"fsPath":"__PATH__/__NAME__-__VERSION__","external":"__PATH__/__NAME__-__VERSION__","path":"__PATH__/__NAME__-__VERSION__","scheme":"file"},"relativeLocation":"__NAME__-__VERSION__","metadata":{"installedTimestamp":0,"pinned":true,"source":"vsix"}}'
+
+      # For each extension do the following:
+      data_duck=$(echo $PACKAGE_SETTING | sed "s/__NAME__/undefined_publisher.dataduck/g" | sed "s/__VERSION__/0.0.1/g" | sed "s|__PATH__|$out/extensions|g")
+      mkdir -p $out/extensions/undefined_publisher.dataduck-0.0.1
+      ${unFreePkgs.unzip}/bin/unzip $dataDuck -d $out/duck
+      mv $out/duck/extension/* $out/extensions/undefined_publisher.dataduck-0.0.1
+
+      # Add all the extensions in a list
+      echo "$extensionConfigFileText" | jq -r ". + [$data_duck]" > $out/extensions/extensions.json
+      #echo "$extensionConfigFileText" | jq -r ". + [$data_duck, $another_extension]" > $out/extensions/extensions.json
+
       if [[ "${system}" == "aarch64-darwin" ]]; then
-        # Choose to use vscodium or vscode
         echo "cp $out/config/settings.json \"\$HOME/Library/Application Support/VSCodium/User/settings.json\" " >> $out/bin/code2
-        #echo "cp $out/config/settings.json \"\$HOME/Library/Application Support/Code/User/settings.json\" " >> $out/bin/code2
-
-        for input in $allExtensions; do ln -s $input/share/vscode/extensions/$(ls -AU $input/share/vscode/extensions/ | head -1) $out/extensions/$(ls -AU $input/share/vscode/extensions/ | head -1); done
-        echo "$extensionConfigFileText" > $out/extensions/extensions.json
-        
-        # Install Custom extension
-        # {
-        #    "identifier":{
-        #       "id":"__NAME__"
-        #    },
-        #    "version":"_VERSION__",
-        #    "location":{
-        #       "$mid":1,
-        #       "fsPath":"__PATH__/__NAME__-__VERSION__",
-        #       "external":"__PATH__/__NAME__-__VERSION__",
-        #       "path":"__PATH__/__NAME__-__VERSION__",
-        #       "scheme":"file"
-        #    },
-        #    "relativeLocation":"__NAME__-__VERSION__",
-        #    "metadata":{
-        #       "installedTimestamp":1738577399412,
-        #       "pinned":true,
-        #       "source":"vsix"
-        #    }
-        # }
-        PACKAGE_SETTING='{"identifier":{"id":"__NAME__"},"version":"__VERSION__","location":{"$mid":1,"fsPath":"__PATH__/__NAME__-__VERSION__","external":"__PATH__/__NAME__-__VERSION__","path":"__PATH__/__NAME__-__VERSION__","scheme":"file"},"relativeLocation":"__NAME__-__VERSION__","metadata":{"installedTimestamp":0,"pinned":true,"source":"vsix"}}'
-
-        # For each extension do the following:
-        data_duck=$(echo $PACKAGE_SETTING | sed "s/__NAME__/undefined_publisher.dataduck/g" | sed "s/__VERSION__/0.0.1/g" | sed "s|__PATH__|$out/extensions|g")
-        mkdir -p $out/extensions/undefined_publisher.dataduck-0.0.1
-        ${unFreePkgs.unzip}/bin/unzip $dataDuck -d $out/duck
-        mv $out/duck/extension/* $out/extensions/undefined_publisher.dataduck-0.0.1
-
-        # Add all the extensions in a list
-        echo "$extensionConfigFileText" | jq -r ". + [$data_duck]" > $out/extensions/extensions.json
-        #echo "$extensionConfigFileText" | jq -r ". + [$data_duck, $another_extension]" > $out/extensions/extensions.json
-
       elif [[ "${system}" == "aarch64-linux" ]]; then
         echo "cp $out/config/settings.json \"\$HOME/.config/VSCodium/User/settings.json\" " >> $out/bin/code2
-
-        for input in $allExtensions; do ln -s $input/share/vscode/extensions/$(ls -AU $input/share/vscode/extensions/ | head -1) $out/extensions/$(ls -AU $input/share/vscode/extensions/ | head -1); done
-        echo "$extensionConfigFileText" > $out/extensions/extensions.json
-  
-        echo "" >> $out/bin/code2
       else
         echo "" >> $out/bin/code2
       fi

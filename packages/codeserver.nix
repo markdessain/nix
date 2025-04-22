@@ -39,44 +39,43 @@ unFreePkgs.stdenv.mkDerivation rec {
 
       echo "" > $out/bin/code2
 
+      for input in $allExtensions; do ln -s $input/share/vscode/extensions/$(ls -AU $input/share/vscode/extensions/ | head -1) $out/extensions/$(ls -AU $input/share/vscode/extensions/ | head -1); done
+      echo "$extensionConfigFileText" > $out/extensions/extensions.json
+
+      # Install Custom extension
+      # {
+      #    "identifier":{
+      #       "id":"__NAME__"
+      #    },
+      #    "version":"_VERSION__",
+      #    "location":{
+      #       "$mid":1,
+      #       "fsPath":"__PATH__/__NAME__-__VERSION__",
+      #       "external":"__PATH__/__NAME__-__VERSION__",
+      #       "path":"__PATH__/__NAME__-__VERSION__",
+      #       "scheme":"file"
+      #    },
+      #    "relativeLocation":"__NAME__-__VERSION__",
+      #    "metadata":{
+      #       "installedTimestamp":1738577399412,
+      #       "pinned":true,
+      #       "source":"vsix"
+      #    }
+      # }
+      PACKAGE_SETTING='{"identifier":{"id":"__NAME__"},"version":"__VERSION__","location":{"$mid":1,"fsPath":"__PATH__/__NAME__-__VERSION__","external":"__PATH__/__NAME__-__VERSION__","path":"__PATH__/__NAME__-__VERSION__","scheme":"file"},"relativeLocation":"__NAME__-__VERSION__","metadata":{"installedTimestamp":0,"pinned":true,"source":"vsix"}}'
+
+      # For each extension do the following:
+      data_duck=$(echo $PACKAGE_SETTING | sed "s/__NAME__/undefined_publisher.dataduck/g" | sed "s/__VERSION__/0.0.1/g" | sed "s|__PATH__|$out/extensions|g")
+      mkdir -p $out/extensions/undefined_publisher.dataduck-0.0.1
+      ${unFreePkgs.unzip}/bin/unzip $dataDuck -d $out/duck
+      mv $out/duck/extension/* $out/extensions/undefined_publisher.dataduck-0.0.1
+
+      echo "$extensionConfigFileText" | jq -r ". + [$data_duck]" > $out/extensions/extensions.json
+      
       if [[ "${system}" == "aarch64-darwin" ]]; then
         echo "" >> $out/bin/code2
       elif [[ "${system}" == "aarch64-linux" ]]; then
         echo "cp $out/config/settings.json \"\$HOME/.local/share/code-server/User/settings.json\" " >> $out/bin/code2
-
-        for input in $allExtensions; do ln -s $input/share/vscode/extensions/$(ls -AU $input/share/vscode/extensions/ | head -1) $out/extensions/$(ls -AU $input/share/vscode/extensions/ | head -1); done
-        echo "$extensionConfigFileText" > $out/extensions/extensions.json
-
-        # Install Custom extension
-        # {
-        #    "identifier":{
-        #       "id":"__NAME__"
-        #    },
-        #    "version":"_VERSION__",
-        #    "location":{
-        #       "$mid":1,
-        #       "fsPath":"__PATH__/__NAME__-__VERSION__",
-        #       "external":"__PATH__/__NAME__-__VERSION__",
-        #       "path":"__PATH__/__NAME__-__VERSION__",
-        #       "scheme":"file"
-        #    },
-        #    "relativeLocation":"__NAME__-__VERSION__",
-        #    "metadata":{
-        #       "installedTimestamp":1738577399412,
-        #       "pinned":true,
-        #       "source":"vsix"
-        #    }
-        # }
-        PACKAGE_SETTING='{"identifier":{"id":"__NAME__"},"version":"__VERSION__","location":{"$mid":1,"fsPath":"__PATH__/__NAME__-__VERSION__","external":"__PATH__/__NAME__-__VERSION__","path":"__PATH__/__NAME__-__VERSION__","scheme":"file"},"relativeLocation":"__NAME__-__VERSION__","metadata":{"installedTimestamp":0,"pinned":true,"source":"vsix"}}'
-
-        # For each extension do the following:
-        data_duck=$(echo $PACKAGE_SETTING | sed "s/__NAME__/undefined_publisher.dataduck/g" | sed "s/__VERSION__/0.0.1/g" | sed "s|__PATH__|$out/extensions|g")
-        mkdir -p $out/extensions/undefined_publisher.dataduck-0.0.1
-        ${unFreePkgs.unzip}/bin/unzip $dataDuck -d $out/duck
-        mv $out/duck/extension/* $out/extensions/undefined_publisher.dataduck-0.0.1
-
-        echo "$extensionConfigFileText" | jq -r ". + [$data_duck]" > $out/extensions/extensions.json
-
       else
         echo "" >> $out/bin/code2
       fi
