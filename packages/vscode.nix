@@ -40,7 +40,7 @@ unFreePkgs.stdenv.mkDerivation rec {
     # url = "file://${current_folder}/dataduck-0.0.1.vsix";
     dataDuck = builtins.fetchurl {
       url = "https://pub-bfa534868c66482daf271defe5d6d468.r2.dev/data-duck-vscode/latest/duckdb.vsix";
-	    sha256 = "sha256:0ahnm23s2gzw5mhvqahsc05hjfvm5gi04hgfi7gzi9q2b3fxljrp";
+	    sha256 = "sha256:1gvcfxpns4dfqwv02vy89k1jlj2yf98grgqrc4ydlysh5qz604sc";
 	  };
 
 
