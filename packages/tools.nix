@@ -45,6 +45,7 @@ pkgs.stdenv.mkDerivation rec {
       ln -s ${pkgs.diffutils}/bin/cmp $out/bin/cmp
       ln -s ${pkgs.diffutils}/bin/diff $out/bin/diff
       ln -s ${pkgs.vim}/bin/vim $out/bin/vim
+      ln -s ${pkgs.vim}/bin/vim $out/bin/vi
       ln -s ${pkgs.git}/bin/git $out/bin/git
       ln -s ${pkgs.gh}/bin/gh $out/bin/gh
       ln -s ${pkgs.gcc13}/bin/gcc $out/bin/gcc

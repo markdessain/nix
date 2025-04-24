@@ -122,5 +122,8 @@ unFreePkgs.stdenv.mkDerivation rec {
 
       echo "SHELL_RUN=\"source \$TEMP_NIX_START\" $out/bin/code2" >> $out/bin/code_desktop
       chmod +x $out/bin/code_desktop
+
+      echo "SHELL_RUN=\"source \$TEMP_NIX_START\" $out/bin/code2" >> $out/bin/code-desktop
+      chmod +x $out/bin/code-desktop
     '';
 }

@@ -7,7 +7,7 @@ pkgs.stdenv.mkDerivation rec {
 
     installPhase = ''
       mkdir -p $out/bin
-      echo "echo 'Hello $USER' | ${pkgs.cowsay}/bin/cowsay" > $out/bin/startup 
+      echo "echo 'Welcome Mark - it is' $(date '+%Y-%m-%d') | ${pkgs.cowsay}/bin/cowsay && echo 'Useful commands:' && echo ' - sync-config' && echo ' - code-desktop' && echo ' - backup'" > $out/bin/startup 
       echo 'PATH_ENV=$(for var in "$@"; do echo -n "$var/bin:"; done | sed "s/:$//")' >> $out/bin/startup
       echo 'LOAD_ENV=$(for var in "$@"; do echo -n "if [ -f $var/.env ]; then source $var/.env; fi; "; done | sed "s/:$//")' >> $out/bin/startup
       echo 'FILE=$(mktemp)' >> $out/bin/startup
