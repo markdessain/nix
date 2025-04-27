@@ -41,7 +41,7 @@
               (import ./packages/terminal.nix { inherit pkgs; })
               (import ./packages/tools.nix { inherit pkgs unFreePkgs system; })
               (import ./packages/programming.nix { inherit pkgs system; })
-              (import ./packages/kubernetes.nix { inherit pkgs; })
+              (import ./packages/kubernetes.nix { inherit pkgs system; })
               (import ./packages/data.nix { inherit pkgs system; })
               (import ./packages/config.nix { inherit pkgs system; })
               (import ./packages/vscode.nix { inherit pkgs unFreePkgs system; })

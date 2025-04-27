@@ -37,21 +37,16 @@ unFreePkgs.stdenv.mkDerivation rec {
     current_folder = builtins.toString ./.;
 
     # List of custom extensions
-    # url = "file://${current_folder}/dataduck-0.0.1.vsix";
     dataDuck = builtins.fetchurl {
-      url = "https://pub-bfa534868c66482daf271defe5d6d468.r2.dev/data-duck-vscode/latest/duckdb.vsix";
-	    sha256 = "sha256:1gvcfxpns4dfqwv02vy89k1jlj2yf98grgqrc4ydlysh5qz604sc";
+      url = "https://pub-bfa534868c66482daf271defe5d6d468.r2.dev/data-duck-vscode/v0.124.0/duckdb.vsix";
+	    sha256 = "sha256:0sb8bj44mf098zz5nh9yna3gml54fpd07nc2fqh642qb8hdawkcx";
 	  };
-
 
     extensionConfigFileText = unFreePkgs.vscode-utils.toExtensionJson allExtensions;
 
     # Bug with installing - fix here: https://github.com/nix-community/home-manager/issues/6532 
-    vscode = unFreePkgs.vscodium.overrideAttrs (old: {
-      installPhase = "whoami\n" + old.installPhase;
-    });
     vscodium = unFreePkgs.vscodium.overrideAttrs (old: {
-      installPhase = "whoami\n" + old.installPhase;
+      installPhase = "whoami\n " + old.installPhase;
     });
     
     installPhase = ''
@@ -105,8 +100,7 @@ unFreePkgs.stdenv.mkDerivation rec {
 
       # Choose to use vscodium or vscode
       echo "exec \"${vscodium}/bin/codium\" --extensions-dir \"$out/extensions\" \"\$@\" " >> $out/bin/code2
-      #echo "exec \"${vscode}/bin/code\" --extensions-dir \"$out/extensions\" \"\$@\" " >> $out/bin/code2
-
+      
       chmod +x $out/bin/code2
 
       mkdir -p $out/config

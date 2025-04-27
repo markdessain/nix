@@ -3,12 +3,13 @@
 ## Install Nix
 
 ```bash
-sh <(curl -L https://nixos.org/nix/install)
+curl -L https://nixos.org/nix/install | sh
+curl https://releases.nixos.org/nix/nix-2.28.2/install | sh
 ```
 
 ## Uninstall Nix
 
-Guide here: https://nix.dev/manual/nix/2.21/installation/uninstall
+Guide here: https://nix.dev/manual/nix/2.28/installation/uninstall
 
 ```bash
 sudo launchctl unload /Library/LaunchDaemons/org.nixos.nix-daemon.plist
@@ -22,7 +23,7 @@ for u in $(sudo dscl . -list /Users | grep _nixbld); do sudo dscl . -delete /Use
 sudo vifs
 sudo nano /etc/synthetic.conf
 
-sudo rm -rf /etc/nix /var/root/.nix-profile /var/root/.nix-defexpr /var/root/.nix-channels ~/.nix-profile ~/.nix-defexpr ~/.nix-channels\n
+sudo rm -rf /etc/nix /var/root/.nix-profile /var/root/.nix-defexpr /var/root/.nix-channels ~/.nix-profile ~/.nix-defexpr ~/.nix-channels
 sudo diskutil apfs deleteVolume /nix
 diskutil list
 sudo rm /etc/bashrc.backup-before-nix

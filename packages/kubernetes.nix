@@ -1,4 +1,4 @@
-{ pkgs }:	
+{ pkgs, system }:	
 
 pkgs.stdenv.mkDerivation rec {
     pname = "kubernetes";
@@ -15,6 +15,11 @@ pkgs.stdenv.mkDerivation rec {
       ln -s ${pkgs.minikube}/bin/minikube $out/bin/minikube
       ln -s ${pkgs.kubelogin}/bin/kubelogin $out/bin/kubelogin
 
+      # if [[ "${system}" == "aarch64-darwin" ]]; then
+      #  ${pkgs.wget}/bin/wget --no-check-certificate https://github.com/kubetail-org/kubetail/releases/latest/download/kubetail-darwin-arm64 -O $out/bin/kubetail
+      #  chmod +x $out/bin/kubetail
+      # fi
+      
       echo 'mkdir -p ~/.config/kube' > $out/.env
       echo 'if [ -z "$( ls -A ~/.config/kube )" ]; then echo "No kubernetes configs found"; else export KUBECONFIG=$(for filename in ~/.config/kube/*; do echo -n "$filename:"; done | sed "s/:$//"); fi' >> $out/.env 
       chmod +x $out/.env 

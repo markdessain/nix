@@ -5,7 +5,7 @@ pkgs.stdenv.mkDerivation rec {
     version = "0.1.0";
     phases = [ "installPhase" ];
 
-    dataDuckVersion = "v0.89.0";
+    dataDuckVersion = "v0.122.0";
 
     buildInputs = [
       pkgs.wget
@@ -21,9 +21,9 @@ pkgs.stdenv.mkDerivation rec {
       ln -s ${pkgs.postgresql_16}/bin/psql $out/bin/psql
 
       if [[ "${system}" == "aarch64-darwin" ]]; then
-        wget https://pub-bfa534868c66482daf271defe5d6d468.r2.dev/data-duck/${dataDuckVersion}/data-duck-mac-arm64.gz
-        gzip -d ./data-duck-mac-arm64.gz
-        mv ./data-duck-mac-arm64 $out/bin/data-duck
+        wget https://pub-bfa534868c66482daf271defe5d6d468.r2.dev/data-duck/${dataDuckVersion}/data-duck-macos-arm64.gz
+        gzip -d ./data-duck-macos-arm64.gz
+        mv ./data-duck-macos-arm64 $out/bin/data-duck
         chmod +x $out/bin/data-duck
       elif [[ "${system}" == "aarch64-linux" ]]; then
         exit 0
