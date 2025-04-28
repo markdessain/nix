@@ -27,8 +27,8 @@ unFreePkgs.stdenv.mkDerivation rec {
     # List of custom extensions
     # url = "file://${current_folder}/dataduck-0.0.1.vsix";
     dataDuck = builtins.fetchurl {
-      url = "https://pub-bfa534868c66482daf271defe5d6d468.r2.dev/data-duck-vscode/latest/duckdb.vsix";
-	    sha256 = "sha256:0ahnm23s2gzw5mhvqahsc05hjfvm5gi04hgfi7gzi9q2b3fxljrp";
+      url = "https://pub-bfa534868c66482daf271defe5d6d468.r2.dev/data-duck-vscode/v0.128.0/duckdb.vsix";
+	    sha256 = "sha256:1wvhlahz2509zkwnhlpz7a5zvkfswnnillildwr6nzsm4lhvrxsm";
 	  };
 
     extensionConfigFileText = unFreePkgs.vscode-utils.toExtensionJson allExtensions;
