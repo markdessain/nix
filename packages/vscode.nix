@@ -26,6 +26,7 @@ unFreePkgs.stdenv.mkDerivation rec {
       { publisher = "svelte"; name = "svelte-vscode"; version = "109.5.2"; sha256 = "sha256-y1se0+LY1M+YKCm+gxBsyHLOQU6Xl095xP6z0xpf9mM="; }
       { publisher = "ms-vscode"; name = "wasm-wasi-core"; version = "1.0.2"; sha256 = "sha256-hrzPNPaG8LPNMJq/0uyOS8jfER1Q0CyFlwR42KmTz8g="; }
       { publisher = "saoudrizwan"; name = "claude-dev"; version = "3.13.1"; sha256 = "sha256-uN7TfvupqMsYg5hXEvTQ2HhD+uZU4b4fVsEf6biR2Ms="; }
+      { publisher = "TabbyML"; name = "vscode-tabby"; version = "1.28.0"; sha256 = "sha256-QuEGtsSP6MemP9wc9JnVicPOaa0t63ZTmEisH+IK2hY="; }
     ];
     # { publisher = "rjmacarthy"; name = "twinny"; version = "3.21.14"; sha256 = "sha256-M0GcYRNEiSQS3cfFche2olYHr7kC+Pm8U5q6+voAV9c"; }
     # { publisher = "Continue"; name = "continue"; version = "0.8.62"; sha256 = "sha256-BsOPfZ8973YomdWsLm5LShFiO/sU5k0ZTASZReRtE8o="; }

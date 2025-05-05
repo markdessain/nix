@@ -11,5 +11,7 @@ pkgs.stdenv.mkDerivation rec {
       mkdir -p $out/bin
       ln -s ${pkgs.ollama}/bin/ollama $out/bin/ollama
       ln -s ${pkgs.openai-whisper}/bin/whisper $out/bin/whisper
+      ln -s ${pkgs.tabby}/bin/tabby $out/bin/tabby
+      ln -s ${pkgs.tabby-agent}/bin/tabby-agent $out/bin/tabby-agent
     '';
 }
