@@ -1,5 +1,14 @@
 # nix
 
+## Mac
+
+The Tabby nix does not seem to work well so please install with brew
+
+```
+brew install tabbyml/tabby/tabby
+tabby serve --device metal --model StarCoder-1B --chat-model Qwen2-1.5B-Instruct
+```
+
 ## Install Nix
 
 ```bash
