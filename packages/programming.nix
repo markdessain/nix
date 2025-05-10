@@ -1,4 +1,4 @@
-{ pkgs, system }:	
+{ pkgs, unFreePkgs, system }:	
 
 pkgs.stdenv.mkDerivation rec {
     pname = "programming";
@@ -36,6 +36,7 @@ pkgs.stdenv.mkDerivation rec {
       ln -s ${pkgs.binutils_nogold}/bin/ld $out/bin/ld
       ln -s ${pkgs.pnpm}/bin/pnpm $out/bin/pnpm
       ln -s ${pkgs.deno}/bin/deno $out/bin/deno
+      ln -s ${unFreePkgs.terraform}/bin/terraform $out/bin/terraform
       
       if [[ "${system}" == "aarch64-darwin" ]]; then
         # Temp while poetry is incompomatiable with old version of numpy
