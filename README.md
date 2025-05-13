@@ -9,6 +9,8 @@ brew install tabbyml/tabby/tabby
 tabby serve --device metal --model StarCoder-1B --chat-model Qwen2-1.5B-Instruct
 ```
 
+And follow the instructions: https://github.com/projectdiscovery/katana#installation
+
 ## Install Nix
 
 ```bash
