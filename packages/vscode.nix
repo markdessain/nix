@@ -25,10 +25,12 @@ unFreePkgs.stdenv.mkDerivation rec {
       { publisher = "Evidence"; name = "evidence-vscode"; version = "1.5.6"; sha256 = "sha256-uRiv3aarSeY8kHYeKYQzhDCEn16ZErgKQTUGoZtFuPc="; }
       { publisher = "svelte"; name = "svelte-vscode"; version = "109.5.2"; sha256 = "sha256-y1se0+LY1M+YKCm+gxBsyHLOQU6Xl095xP6z0xpf9mM="; }
       { publisher = "ms-vscode"; name = "wasm-wasi-core"; version = "1.0.2"; sha256 = "sha256-hrzPNPaG8LPNMJq/0uyOS8jfER1Q0CyFlwR42KmTz8g="; }
-      { publisher = "saoudrizwan"; name = "claude-dev"; version = "3.13.1"; sha256 = "sha256-uN7TfvupqMsYg5hXEvTQ2HhD+uZU4b4fVsEf6biR2Ms="; }
       #{ publisher = "TabbyML"; name = "vscode-tabby"; version = "1.20.0"; sha256 = "sha256-fATHvQyCCdYIrbUydEXVuR+++gju1ByIaKZvKLPaq9Y="; }
       { publisher = "TabbyML"; name = "vscode-tabby"; version = "1.28.0"; sha256 = "sha256-QuEGtsSP6MemP9wc9JnVicPOaa0t63ZTmEisH+IK2hY="; }
-    ];
+      ];
+    # { publisher = "saoudrizwan"; name = "claude-dev"; version = "3.13.1"; sha256 = "sha256-uN7TfvupqMsYg5hXEvTQ2HhD+uZU4b4fVsEf6biR2Ms="; }
+    # { publisher = "meta"; name = "pyrefly"; version = "0.15.2"; sha256 = "sha256-nWfkpfDpIWwRMF8ErT0zK3Oiwhn+NE+/ltRqZ2BZq6k="; }
+    
     # { publisher = "rjmacarthy"; name = "twinny"; version = "3.21.14"; sha256 = "sha256-M0GcYRNEiSQS3cfFche2olYHr7kC+Pm8U5q6+voAV9c"; }
     # { publisher = "Continue"; name = "continue"; version = "0.8.62"; sha256 = "sha256-BsOPfZ8973YomdWsLm5LShFiO/sU5k0ZTASZReRtE8o="; }
    
@@ -42,6 +44,12 @@ unFreePkgs.stdenv.mkDerivation rec {
     dataDuck = builtins.fetchurl {
       url = "https://pub-bfa534868c66482daf271defe5d6d468.r2.dev/data-duck-vscode/v0.128.0/duckdb.vsix";
 	    sha256 = "sha256:1wvhlahz2509zkwnhlpz7a5zvkfswnnillildwr6nzsm4lhvrxsm";
+	  };
+
+    pyrefly = builtins.fetchurl {
+      name = "pyrefly";
+      url = "https://open-vsx.org/api/meta/pyrefly/darwin-arm64/0.15.2/file/meta.pyrefly-0.15.2@darwin-arm64.vsix";
+	    sha256 = "sha256:0drj0l2d4flfm7bi83n1ahd4v7dl5f4d6r9g04rfw8awin4bcrzp";
 	  };
 
     extensionConfigFileText = unFreePkgs.vscode-utils.toExtensionJson allExtensions;
@@ -88,9 +96,20 @@ unFreePkgs.stdenv.mkDerivation rec {
       ${unFreePkgs.unzip}/bin/unzip $dataDuck -d $out/duck
       mv $out/duck/extension/* $out/extensions/undefined_publisher.dataduck-0.0.1
 
-      # Add all the extensions in a list
-      echo "$extensionConfigFileText" | jq -r ". + [$data_duck]" > $out/extensions/extensions.json
-      #echo "$extensionConfigFileText" | jq -r ". + [$data_duck, $another_extension]" > $out/extensions/extensions.json
+      if [[ "${system}" == "aarch64-darwin" ]]; then
+        mkdir -p $out/extensions/meta.pyrefly-0.15.2
+        ${unFreePkgs.unzip}/bin/unzip $pyrefly -d $out/pyrefly
+        mv $out/pyrefly/extension/* $out/extensions/meta.pyrefly-0.15.2
+      fi
+
+      pyreflyEx=$(echo $PACKAGE_SETTING | sed "s/__NAME__/meta.pyrefly/g" | sed "s/__VERSION__/0.15.2/g" | sed "s|__PATH__|$out/extensions|g")
+      
+
+      if [[ "${system}" == "aarch64-darwin" ]]; then
+        echo "$extensionConfigFileText" | jq -r ". + [$data_duck, $pyreflyEx]" > $out/extensions/extensions.json
+      else
+        echo "$extensionConfigFileText" | jq -r ". + [$data_duck]" > $out/extensions/extensions.json
+      fi
 
       if [[ "${system}" == "aarch64-darwin" ]]; then
         echo "cp $out/config/settings.json \"\$HOME/Library/Application Support/VSCodium/User/settings.json\" " >> $out/bin/code2
