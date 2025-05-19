@@ -22,7 +22,7 @@
             ];
 
             buildInputs = [
-              (import ./packages/terminal.nix { inherit pkgs; })
+              (import ./packages/terminal.nix { inherit pkgs system; })
               (import ./packages/tools.nix { inherit pkgs unFreePkgs system; })
               (import ./packages/programming.nix { inherit pkgs unFreePkgs system; })
               (import ./packages/data.nix { inherit pkgs system; })

@@ -1,4 +1,4 @@
-{ pkgs }:	
+{ pkgs, system }:	
 
 pkgs.stdenv.mkDerivation rec {
     pname = "terminal";
@@ -25,5 +25,14 @@ pkgs.stdenv.mkDerivation rec {
       ln -s ${pkgs.atuin}/bin/atuin $out/bin/atuin
       ln -s /usr/bin/locale $out/bin/locale
       ln -s ${pkgs.iconv}/bin/iconv $out/bin/iconv
+      ln -s ${pkgs.glow}/bin/glow $out/bin/glow
+
+      if [[ "${system}" == "aarch64-darwin" ]]; then
+        ln -s /usr/bin/pbcopy $out/bin/pbcopy
+        ln -s /usr/bin/pbpaste $out/bin/pbpaste
+      elif [[ "${system}" == "aarch64-linux" ]]; then
+        alias pbcopy='xsel — clipboard — input'
+        alias pbpaste='xsel — clipboard — output'
+      fi
     '';
 }

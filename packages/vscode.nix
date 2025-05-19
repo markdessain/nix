@@ -25,8 +25,9 @@ unFreePkgs.stdenv.mkDerivation rec {
       { publisher = "Evidence"; name = "evidence-vscode"; version = "1.5.6"; sha256 = "sha256-uRiv3aarSeY8kHYeKYQzhDCEn16ZErgKQTUGoZtFuPc="; }
       { publisher = "svelte"; name = "svelte-vscode"; version = "109.5.2"; sha256 = "sha256-y1se0+LY1M+YKCm+gxBsyHLOQU6Xl095xP6z0xpf9mM="; }
       { publisher = "ms-vscode"; name = "wasm-wasi-core"; version = "1.0.2"; sha256 = "sha256-hrzPNPaG8LPNMJq/0uyOS8jfER1Q0CyFlwR42KmTz8g="; }
-      #{ publisher = "TabbyML"; name = "vscode-tabby"; version = "1.20.0"; sha256 = "sha256-fATHvQyCCdYIrbUydEXVuR+++gju1ByIaKZvKLPaq9Y="; }
       { publisher = "TabbyML"; name = "vscode-tabby"; version = "1.28.0"; sha256 = "sha256-QuEGtsSP6MemP9wc9JnVicPOaa0t63ZTmEisH+IK2hY="; }
+      { publisher = "GitHub"; name = "vscode-github-actions"; version = "0.27.1"; sha256 = "sha256-mHKaWXSyDmsdQVzMqJI6ctNUwE/6bs1ZyeAEWKg9CV8="; }
+      
       ];
     # { publisher = "saoudrizwan"; name = "claude-dev"; version = "3.13.1"; sha256 = "sha256-uN7TfvupqMsYg5hXEvTQ2HhD+uZU4b4fVsEf6biR2Ms="; }
     # { publisher = "meta"; name = "pyrefly"; version = "0.15.2"; sha256 = "sha256-nWfkpfDpIWwRMF8ErT0zK3Oiwhn+NE+/ltRqZ2BZq6k="; }
