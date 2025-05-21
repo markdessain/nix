@@ -26,6 +26,7 @@ pkgs.stdenv.mkDerivation rec {
       ln -s /usr/bin/locale $out/bin/locale
       ln -s ${pkgs.iconv}/bin/iconv $out/bin/iconv
       ln -s ${pkgs.glow}/bin/glow $out/bin/glow
+      ln -s ${pkgs.goreman}/bin/goreman $out/bin/goreman
 
       if [[ "${system}" == "aarch64-darwin" ]]; then
         ln -s /usr/bin/pbcopy $out/bin/pbcopy

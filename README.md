@@ -11,6 +11,12 @@ tabby serve --device metal --model StarCoder-1B --chat-model Qwen2-1.5B-Instruct
 
 And follow the instructions: https://github.com/projectdiscovery/katana#installation
 
+## Update Nix
+
+```bash
+nix --extra-experimental-features "nix-command flakes" flake update
+```
+
 ## Install Nix
 
 ```bash

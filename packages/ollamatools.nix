@@ -15,6 +15,11 @@ pkgs.stdenv.mkDerivation rec {
         pbpaste | ${pkgs.ollama}/bin/ollama run gemma3:12b-it-q4_K_M "provide a concise summary of the given text. If it helps then use bulletpoints to break down sections. Make the response as short as possible but no longer than 200 words, start with the header # Summary<br><br>:" | tee /dev/tty | ${pkgs.glow}/bin/glow
       EOT
 
+      cat <<EOT >> $out/bin/audio
+        data_dir=\$(mktemp -d)
+        ffmpeg -f avfoundation -i ":0" -y \$data_dir/sample.mp3 && whisper --output_format txt --output_dir \$data_dir --language en \$data_dir/sample.mp3 && cat \$data_dir/sample.txt | bash -c 'echo "-------------" && ollama run gemma3:12b-it-q4_K_M "answer the following question, keep the answer small with a max of 200 words and include code examples if it helps to explain to concept:" && echo "-------"' | tee /dev/tty | glow
+      EOT
+
       cat <<EOT >> $out/bin/mind
         PROMPT="
           You are a specialized mind map generator that creates markmap-compatible markdown output. Your task is to analyze the provided text and create a hierarchical mind map structure using markdown syntax.
@@ -45,6 +50,7 @@ pkgs.stdenv.mkDerivation rec {
       EOT
 
       chmod +x $out/bin/tldr
+      chmod +x $out/bin/audio
       chmod +x $out/bin/mind
     '';
 }

@@ -60,6 +60,15 @@ then
         cd $NIX_REPO_ROOT/$SHELL_NAME 
         nix-shell --pure --command "\$@"
     }
+
+    function shell_services() {
+        echo \$PWD > $HOME/.shell_path 
+        rm -f $NIX_REPO_ROOT/$SHELL_NAME/packages 
+        cp -r $NIX_REPO_ROOT/packages $NIX_REPO_ROOT/$SHELL_NAME/data 
+        cd $NIX_REPO_ROOT/$SHELL_NAME 
+        nix-shell --pure --command "cd $NIX_REPO_ROOT/$SHELL_NAME && goreman start"
+    }
+
   fi
 fi
 
