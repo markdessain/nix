@@ -22,7 +22,13 @@ pkgs.stdenv.mkDerivation rec {
       ln -s ${pkgs.zsh}/bin/zsh $out/bin/zsh
       ln -s ${pkgs.bash}/bin/bash $out/bin/bash
       ln -s ${pkgs.bash}/bin/sh $out/bin/sh
-      ln -s ${pkgs.atuin}/bin/atuin $out/bin/atuin
+
+      if [[ "${system}" == "aarch64-darwin" ]]; then
+        ln -s /opt/homebrew/bin/atuin $out/bin/atuin
+      elif [[ "${system}" == "aarch64-linux" ]]; then
+        ln -s ${pkgs.atuin}/bin/atuin $out/bin/atuin
+      fi
+
       ln -s /usr/bin/locale $out/bin/locale
       ln -s ${pkgs.iconv}/bin/iconv $out/bin/iconv
       ln -s ${pkgs.glow}/bin/glow $out/bin/glow
