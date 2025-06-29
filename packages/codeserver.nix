@@ -17,6 +17,7 @@ unFreePkgs.stdenv.mkDerivation rec {
       { publisher = "saoudrizwan"; name = "claude-dev"; version = "3.13.1"; sha256 = "sha256-uN7TfvupqMsYg5hXEvTQ2HhD+uZU4b4fVsEf6biR2Ms="; }
      # { publisher = "TabbyML"; name = "vscode-tabby"; version = "1.20.0"; sha256 = "sha256-fATHvQyCCdYIrbUydEXVuR+++gju1ByIaKZvKLPaq9Y="; }
       { publisher = "TabbyML"; name = "vscode-tabby"; version = "1.28.0"; sha256 = "sha256-QuEGtsSP6MemP9wc9JnVicPOaa0t63ZTmEisH+IK2hY="; }
+      { publisher = "Google"; name = "geminicodeassist"; version = "2.37.0"; sha256 = "sha256-oJmWxdEN2uTo5Ms3WFrTbosd+DKQq4jrOtPChQjaWe0="; }
     ];
     # { publisher = "streetsidesoftware"; name = "code-spell-checker"; version = "4.0.13"; sha256 = "sha256-8VYg7NAFNW2aLZD0q25fgcrBfU1ptWF7Fy7I4SizTGc="; }
 

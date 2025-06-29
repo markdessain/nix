@@ -12,18 +12,19 @@ pkgs.stdenv.mkDerivation rec {
       pkgs.git
     ];
 
-    # ln -s ${pkgs.tabby}/bin/tabby $out/bin/tabby
-    # ln -s ${pkgs.tabby}/bin/llama-server $out/bin/llama-server
-    # ln -s ${pkgs.tabby-agent}/bin/tabby-agent $out/bin/tabby-agent
+    # ln -s ${allowBroken.open-webui}/bin/open-webui $out/bin/open-webui
+
+    # nix shell nixpkgs#gemini-cli --extra-experimental-features nix-command --extra-experimental-features flakes
     installPhase = ''
       mkdir -p $out/bin
-      ln -s ${pkgs.ollama}/bin/ollama $out/bin/ollama
-      ln -s ${pkgs.openai-whisper}/bin/whisper $out/bin/whisper
-      ln -s ${allowBroken.open-webui}/bin/open-webui $out/bin/open-webui
 
       if [[ "${system}" == "aarch64-darwin" ]]; then
+        ln -s ${pkgs.ollama}/bin/ollama $out/bin/ollama
+        ln -s ${pkgs.openai-whisper}/bin/whisper $out/bin/whisper
         ln -s /opt/homebrew/bin/tabby $out/bin/tabby
         ln -s /opt/homebrew/bin/llama-server $out/bin/llama-server
+      elif [[ "${system}" == "aarch64-linux" ]]; then        
+        ln -s /nix/store/kakd108mxvgr5kcbxksq3qschqs4fnya-gemini-cli-0.1.5/bin/gemini $out/bin/gemini
       fi 
 
     '';
