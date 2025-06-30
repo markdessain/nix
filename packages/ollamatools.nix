@@ -12,7 +12,7 @@ pkgs.stdenv.mkDerivation rec {
       mkdir -p $out/bin
 
       cat <<EOT >> $out/bin/record
-        recorder --output ~/CloudDrive/brain/transcriptions
+        recorder --output ~/CloudDrive/brain/meetings
       EOT
       chmod +x $out/bin/record
 
