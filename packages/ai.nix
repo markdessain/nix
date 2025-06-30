@@ -23,8 +23,11 @@ pkgs.stdenv.mkDerivation rec {
         ln -s ${pkgs.openai-whisper}/bin/whisper $out/bin/whisper
         ln -s /opt/homebrew/bin/tabby $out/bin/tabby
         ln -s /opt/homebrew/bin/llama-server $out/bin/llama-server
-      elif [[ "${system}" == "aarch64-linux" ]]; then        
+      elif [[ "${system}" == "aarch64-linux" ]]; then         
+
         ln -s /nix/store/kakd108mxvgr5kcbxksq3qschqs4fnya-gemini-cli-0.1.5/bin/gemini $out/bin/gemini
+        echo 'cd ~/projects/tools && cd $(${pkgs.gum}/bin/gum choose $(ls)) && /nix/store/kakd108mxvgr5kcbxksq3qschqs4fnya-gemini-cli-0.1.5/bin/gemini --sandbox-image gemini --yolo' > $out/bin/gemini-tools 
+        chmod +x $out/bin/gemini-tools
       fi 
 
     '';

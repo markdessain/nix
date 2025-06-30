@@ -77,6 +77,7 @@ pkgs.stdenv.mkDerivation rec {
       ln -s ${pkgs.pv}/bin/pv $out/bin/pv
       ln -s ${pkgs.gnutar}/bin/tar $out/bin/tar
       ln -s ${pkgs.pre-commit}/bin/pre-commit $out/bin/pre-commit
+      ln -s ${pkgs.gum}/bin/gum $out/bin/gum
 
       if [[ "${system}" == "aarch64-darwin" ]]; then
         echo 'DOCKER_HOST=$(docker context inspect --format "{{.Endpoints.docker.Host}}") ${pkgs.act}/bin/act --container-architecture linux/amd64 --pull=false $@' >> $out/bin/act
