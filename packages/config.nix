@@ -25,7 +25,7 @@ pkgs.writeShellScriptBin "sync-config" ''
             echo "."
         else
             if [[ "$1" == "run" ]]; then
-                mv $REMOTE_FILE $FILE
+                mv "$REMOTE_FILE" "$FILE"
             else 
                 echo "$FILE is different"
                 diff --new-file --color='auto' "$FILE" "$REMOTE_FILE"
