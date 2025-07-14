@@ -92,8 +92,6 @@ pkgs.stdenv.mkDerivation rec {
 
         echo 'docker save $1 | sudo ${k3s}/bin/k3s ctr images import -' > $out/bin/k3s-image 
         chmod +x $out/bin/k3s-image
-
-        ln -s ${pkgs.ddcutil}/bin/ddcutil $out/bin/ddcutil
       fi
     '';
 }
