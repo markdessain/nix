@@ -79,8 +79,6 @@ pkgs.stdenv.mkDerivation rec {
       ln -s ${pkgs.pre-commit}/bin/pre-commit $out/bin/pre-commit
       ln -s ${pkgs.gum}/bin/gum $out/bin/gum
 
-      ln -s ${pkgs.ddcutil}/bin/ddcutil $out/bin/ddcutil
-
       if [[ "${system}" == "aarch64-darwin" ]]; then
         echo 'DOCKER_HOST=$(docker context inspect --format "{{.Endpoints.docker.Host}}") ${pkgs.act}/bin/act --container-architecture linux/amd64 --pull=false $@' >> $out/bin/act
       else
@@ -94,6 +92,8 @@ pkgs.stdenv.mkDerivation rec {
 
         echo 'docker save $1 | sudo ${k3s}/bin/k3s ctr images import -' > $out/bin/k3s-image 
         chmod +x $out/bin/k3s-image
+
+        ln -s ${pkgs.ddcutil}/bin/ddcutil $out/bin/ddcutil
       fi
     '';
 }
