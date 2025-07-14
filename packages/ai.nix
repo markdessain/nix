@@ -15,6 +15,7 @@ pkgs.stdenv.mkDerivation rec {
     # ln -s ${allowBroken.open-webui}/bin/open-webui $out/bin/open-webui
 
     # nix shell nixpkgs#gemini-cli --extra-experimental-features nix-command --extra-experimental-features flakes
+    # nix shell nixpkgs#opencode --extra-experimental-features nix-command --extra-experimental-features flakes
     installPhase = ''
       mkdir -p $out/bin
 
@@ -31,9 +32,9 @@ pkgs.stdenv.mkDerivation rec {
 
       fi 
 
-      echo 'cd ~/projects/tools && cd $(${pkgs.gum}/bin/gum choose $(ls)) && docker run -it -v "~/.local/share/opencode:/root/.local/share/opencode" -v "~/.config/opencode:/ot/.config/opencode" -v "~/.local/state/opencode:/root/.local/state/opencode" -v $(pwd):/project --workdir /project opencode ' > $out/bin/opencode-tools 
+      echo 'cd ~/projects/tools && cd $(${pkgs.gum}/bin/gum choose $(ls)) && docker run -it -v "$HOME/.local/share/opencode:/root/.local/share/opencode" -v "$HOME/.config/opencode:/root/.config/opencode" -v "$HOME/.local/state/opencode:/root/.local/state/opencode" -v $(pwd):/project --workdir /project opencode ' > $out/bin/opencode-tools 
       chmod +x $out/bin/opencode-tools
-      echo 'docker run -it -v "~/.local/share/opencode:/root/.local/share/opencode" -v "~/.config/opencode:/ot/.config/opencode" -v "~/.local/state/opencode:/root/.local/state/opencode" -v $(pwd):/project --workdir /project opencode ' > $out/bin/opencode-project 
+      echo 'docker run -it -v "$HOME/.local/share/opencode:/root/.local/share/opencode" -v "$HOME/.config/opencode:/root/.config/opencode" -v "$HOME/.local/state/opencode:/root/.local/state/opencode" -v $(pwd):/project --workdir /project opencode ' > $out/bin/opencode-project 
       chmod +x $out/bin/opencode-project
     '';
 }
