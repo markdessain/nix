@@ -18,6 +18,9 @@ pkgs.stdenv.mkDerivation rec {
       chmod +x $out/bin/backup
 
       cat <<EOT >> $out/bin/backup
+      set -e
+      set -o pipefail
+
       WHOAMI=\$(whoami)
       if [[ ! "\$WHOAMI" == "root" ]]; then
         if [[ "\$DONTUSESUDO" == "" ]]; then
