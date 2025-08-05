@@ -133,12 +133,23 @@ pkgs.stdenv.mkDerivation rec {
 
           VOLUME_NAME=\$(echo \$i | ${pkgs.jq}/bin/jq -r ".volume")
           VOLUME_TAG=\$(echo \$i | ${pkgs.jq}/bin/jq -r ".container")
-          restic backup "\$VOLUME_NAME" --tag "\$VOLUME_TAG" \$DRY_RUN
+          EXCLUDE=\$(echo \$i | ${pkgs.jq}/bin/jq -r ".exclude")
+          restic backup "\$VOLUME_NAME" --tag "\$VOLUME_TAG" --exclude "\$EXCLUDE" \$DRY_RUN
 
           if [[ "\$2" == "run" ]]; then
             docker start \$(echo \$i | ${pkgs.jq}/bin/jq -r ".container")
           fi
       done
+
+      echo \$OTHER_VOLUMES | ${pkgs.jq}/bin/jq -c '.[]' | while read i; do
+
+          VOLUME_PATH=\$(echo \$i | ${pkgs.jq}/bin/jq -r ".volume")
+          VOLUME_TAG=\$(echo \$i | ${pkgs.jq}/bin/jq -r ".name")
+          EXCLUDE=\$(echo \$i | ${pkgs.jq}/bin/jq -r ".exclude")
+          restic backup "\$VOLUME_PATH" --tag "\$VOLUME_TAG" --exclude "\$EXCLUDE" \$DRY_RUN
+
+      done
+
 
       # if [[ "\$1" == "onsite" ]]; then
         # umount \$BACKUP_MNT_DIR
