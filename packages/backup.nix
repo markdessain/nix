@@ -38,8 +38,10 @@ pkgs.stdenv.mkDerivation rec {
         A=1
       elif [[ "\$1" == "offsite" ]]; then
         A=1
+      elif [[ "\$1" == "recovery" ]]; then
+        A=1
       else
-        echo "Please run: backup [local|onsite|offsite] [dry|run|home|adhoc|prune|<emtpy>]"
+        echo "Please run: backup [local|recovery|onsite|offsite] [dry|run|home|services|adhoc|prune|<emtpy>]"
         exit
       fi
       source \$USER_HOME/.config/backup/\$1.env
@@ -104,6 +106,9 @@ pkgs.stdenv.mkDerivation rec {
         exit 1
       fi
 
+      if [[ "\$SERVICES_ONLY" == "true" ]]; then
+        A=1
+      else 
       EOT
 
       if [[ "${system}" == "aarch64-darwin" ]]; then
@@ -115,7 +120,10 @@ pkgs.stdenv.mkDerivation rec {
         echo "restic backup \"\$USER_HOME/.local/share\" --exclude-file $out/config/exclude --tag \"share\" \$DRY_RUN" >> $out/bin/backup
       else
         echo "" >> $out/bin/backup
-      fi  
+      fi
+
+      # Ends the SERVICES_ONLY clause 
+      echo "fi" >> $out/bin/backup  
 
       cat <<EOT >> $out/bin/backup
       echo \$DOCKER_VOLUMES | ${pkgs.jq}/bin/jq -c '.[]' | while read i; do
