@@ -127,17 +127,38 @@ pkgs.stdenv.mkDerivation rec {
 
       cat <<EOT >> $out/bin/backup
       echo \$DOCKER_VOLUMES | ${pkgs.jq}/bin/jq -c '.[]' | while read i; do
+          VOLUME_NAME=\$(echo \$i | ${pkgs.jq}/bin/jq -r ".volume")
+          VOLUME_TAG=\$(echo \$i | ${pkgs.jq}/bin/jq -r ".name")
+          EXCLUDE=\$(echo \$i | ${pkgs.jq}/bin/jq -r ".exclude")
+
+          echo "Backup \$VOLUME_NAME"
+
           if [[ "\$2" == "run" ]]; then
-            docker stop \$(echo \$i | ${pkgs.jq}/bin/jq -r ".container")
+            echo \$i | ${pkgs.jq}/bin/jq -r '.containers[]' | while read container; do
+              echo "Stopping \$container"
+              RUNNING=\$(docker ps --all --filter "status=exited" --filter "status=created" --filter "status=restarting" --filter "status=running" --filter "status=paused" --filter "status=dead" --filter "name=^"\$container --quiet)
+              
+              if [ "\$RUNNING" = "" ]; then
+                  echo "Not running"
+              else
+                  docker stop \$RUNNING
+              fi
+            done
           fi
 
-          VOLUME_NAME=\$(echo \$i | ${pkgs.jq}/bin/jq -r ".volume")
-          VOLUME_TAG=\$(echo \$i | ${pkgs.jq}/bin/jq -r ".container")
-          EXCLUDE=\$(echo \$i | ${pkgs.jq}/bin/jq -r ".exclude")
           restic backup "\$VOLUME_NAME" --tag "\$VOLUME_TAG" --exclude "\$EXCLUDE" \$DRY_RUN
 
           if [[ "\$2" == "run" ]]; then
-            docker start \$(echo \$i | ${pkgs.jq}/bin/jq -r ".container")
+            echo \$i | ${pkgs.jq}/bin/jq -r '.containers[]' | while read container; do
+              echo "Starting \$container"
+              RUNNING=\$(docker ps --all --filter "status=exited" --filter "status=created" --filter "status=restarting" --filter "status=running" --filter "status=paused" --filter "status=dead" --filter "name=^"\$container --quiet)
+              
+              if [ "\$RUNNING" = "" ]; then
+                  echo "Not running"
+              else
+                  docker start \$RUNNING
+              fi
+            done
           fi
       done
 
