@@ -30,6 +30,8 @@ unFreePkgs.stdenv.mkDerivation rec {
       { publisher = "GitHub"; name = "copilot"; version = "1.323.0"; sha256 = "sha256-rTAq6snn3HAARrYbMJYy7aZ5rDucLfFS/t01VPjgXAo="; }
       { publisher = "GitHub"; name = "copilot-chat"; version = "0.27.1"; sha256 = "sha256-HXzPI8B4wISly2SQNdbFO6CEREfhey+SH4HhutxH7Mg="; }
       { publisher = "saoudrizwan"; name = "claude-dev"; version = "3.5.1"; sha256 = "sha256-4s4CYZXa3iImHI6F17BbeG05kqwG/nj0bkHSc1K2Sb4="; }
+      { publisher = "sst-dev"; name = "opencode"; version = "0.0.9"; sha256 = "sha256-1ORTcXX9OBPo2l3njXNhE6uUT2B3JbtFtjUe6IPywbE="; }
+      
       
       ];
     # { publisher = "meta"; name = "pyrefly"; version = "0.15.2"; sha256 = "sha256-nWfkpfDpIWwRMF8ErT0zK3Oiwhn+NE+/ltRqZ2BZq6k="; }
