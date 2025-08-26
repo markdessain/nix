@@ -20,12 +20,13 @@ pkgs.stdenv.mkDerivation rec {
       mkdir -p $out/bin
 
       if [[ "${system}" == "aarch64-darwin" ]]; then
+        ln -s /nix/store/wg5alzs70c17bxizzdbnv7798v3lh8vc-opencode-0.5.13/bin/opencode $out/bin/opencode
         ln -s ${pkgs.ollama}/bin/ollama $out/bin/ollama
         ln -s ${pkgs.openai-whisper}/bin/whisper $out/bin/whisper
         ln -s /opt/homebrew/bin/tabby $out/bin/tabby
         ln -s /opt/homebrew/bin/llama-server $out/bin/llama-server
       elif [[ "${system}" == "aarch64-linux" ]]; then         
-        ln -s /nix/store/lb8a87ynrji2b0i0i7bwp1jjwzav8maq-opencode-0.1.194/bin/opencode $out/bin/opencode
+        ln -s /nix/store/cqcx120j5241qcjnbm6lg62kicn3znvq-opencode-0.5.13/bin/opencode $out/bin/opencode
         ln -s /nix/store/kakd108mxvgr5kcbxksq3qschqs4fnya-gemini-cli-0.1.5/bin/gemini $out/bin/gemini
         echo 'cd ~/projects/tools && cd $(${pkgs.gum}/bin/gum choose $(ls)) && /nix/store/kakd108mxvgr5kcbxksq3qschqs4fnya-gemini-cli-0.1.5/bin/gemini --sandbox-image gemini --yolo' > $out/bin/gemini-tools 
         chmod +x $out/bin/gemini-tools
