@@ -31,10 +31,10 @@ unFreePkgs.stdenv.mkDerivation rec {
 
     # List of custom extensions
     # url = "file://${current_folder}/dataduck-0.0.1.vsix";
-    dataDuck = builtins.fetchurl {
-      url = "https://pub-bfa534868c66482daf271defe5d6d468.r2.dev/data-duck-vscode/v0.128.0/duckdb.vsix";
-	    sha256 = "sha256:1wvhlahz2509zkwnhlpz7a5zvkfswnnillildwr6nzsm4lhvrxsm";
-	  };
+    # dataDuck = builtins.fetchurl {
+    #   url = "https://pub-bfa534868c66482daf271defe5d6d468.r2.dev/data-duck-vscode/v0.128.0/duckdb.vsix";
+	  #   sha256 = "sha256:1wvhlahz2509zkwnhlpz7a5zvkfswnnillildwr6nzsm4lhvrxsm";
+	  # };
 
     extensionConfigFileText = unFreePkgs.vscode-utils.toExtensionJson allExtensions;
     
@@ -70,12 +70,12 @@ unFreePkgs.stdenv.mkDerivation rec {
       PACKAGE_SETTING='{"identifier":{"id":"__NAME__"},"version":"__VERSION__","location":{"$mid":1,"fsPath":"__PATH__/__NAME__-__VERSION__","external":"__PATH__/__NAME__-__VERSION__","path":"__PATH__/__NAME__-__VERSION__","scheme":"file"},"relativeLocation":"__NAME__-__VERSION__","metadata":{"installedTimestamp":0,"pinned":true,"source":"vsix"}}'
 
       # For each extension do the following:
-      data_duck=$(echo $PACKAGE_SETTING | sed "s/__NAME__/undefined_publisher.dataduck/g" | sed "s/__VERSION__/0.0.1/g" | sed "s|__PATH__|$out/extensions|g")
-      mkdir -p $out/extensions/undefined_publisher.dataduck-0.0.1
-      ${unFreePkgs.unzip}/bin/unzip $dataDuck -d $out/duck
-      mv $out/duck/extension/* $out/extensions/undefined_publisher.dataduck-0.0.1
+      # data_duck=$(echo $PACKAGE_SETTING | sed "s/__NAME__/undefined_publisher.dataduck/g" | sed "s/__VERSION__/0.0.1/g" | sed "s|__PATH__|$out/extensions|g")
+      # mkdir -p $out/extensions/undefined_publisher.dataduck-0.0.1
+      # ${unFreePkgs.unzip}/bin/unzip $dataDuck -d $out/duck
+      # mv $out/duck/extension/* $out/extensions/undefined_publisher.dataduck-0.0.1
 
-      echo "$extensionConfigFileText" | jq -r ". + [$data_duck]" > $out/extensions/extensions.json
+      # echo "$extensionConfigFileText" | jq -r ". + [$data_duck]" > $out/extensions/extensions.json
       
       if [[ "${system}" == "aarch64-darwin" ]]; then
         echo "" >> $out/bin/code2
