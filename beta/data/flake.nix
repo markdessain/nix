@@ -13,6 +13,8 @@
           pkgs = import nixpkgs {inherit system;}; 
           unFreePkgs = import nixpkgs {inherit system; config.allowUnfree = true;}; 
           allowBroken = import nixpkgs {inherit system; config.allowBroken = true;}; 
+          bigModel = "github-copilot/claude-sonnet-4";
+          smallModel = "github-copilot/gpt-4.1";
       in
         {
 
@@ -38,7 +40,7 @@
               (import ./packages/config.nix { inherit pkgs system; })
               (import ./packages/vscode.nix { inherit pkgs unFreePkgs system; })
               (import ./packages/backup.nix { inherit pkgs system; })
-              (import ./packages/ai.nix { inherit pkgs system allowBroken; })
+              (import ./packages/ai.nix { inherit pkgs system allowBroken smallModel bigModel; })
               (import ./packages/mac.nix { inherit pkgs unFreePkgs system; })
               (import ./packages/ollamatools.nix { inherit pkgs; })
             ];

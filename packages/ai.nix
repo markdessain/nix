@@ -1,4 +1,4 @@
-{ pkgs, system, allowBroken }:	
+{ pkgs, system, allowBroken, bigModel, smallModel }:	
 
 pkgs.stdenv.mkDerivation rec {
     pname = "ai";
@@ -19,10 +19,7 @@ pkgs.stdenv.mkDerivation rec {
     installPhase = ''
       mkdir -p $out/bin
 
-      if [[ "${system}" == "aarch64-darwin" ]]; then         
-        BIG_MODEL="github-copilot/claude-sonnet-4"    
-        SMALL_MODEL="github-copilot/gpt-4.1"
-
+      if [[ "${system}" == "aarch64-darwin" ]]; then   
         ln -s ${pkgs.ollama}/bin/ollama $out/bin/ollama
         echo "rm --force \$HOME/.config/opencode && ln -s $out/.config/opencode/ \$HOME/.config/opencode && /nix/store/wg5alzs70c17bxizzdbnv7798v3lh8vc-opencode-0.5.13/bin/opencode" > $out/bin/opencode
         chmod +x $out/bin/opencode
@@ -30,10 +27,7 @@ pkgs.stdenv.mkDerivation rec {
         ln -s ${pkgs.openai-whisper}/bin/whisper $out/bin/whisper
         ln -s /opt/homebrew/bin/tabby $out/bin/tabby
         ln -s /opt/homebrew/bin/llama-server $out/bin/llama-server
-      elif [[ "${system}" == "aarch64-linux" ]]; then         
-        BIG_MODEL="google/gemini-2.5-pro"    
-        SMALL_MODEL="google/gemini-2.5-flash"
-        
+      elif [[ "${system}" == "aarch64-linux" ]]; then   
         echo "rm --force \$HOME/.config/opencode && ln -s $out/.config/opencode/ \$HOME/.config/opencode && /nix/store/cqcx120j5241qcjnbm6lg62kicn3znvq-opencode-0.5.13/bin/opencode" > $out/bin/opencode
         chmod +x $out/bin/opencode
 
@@ -55,7 +49,7 @@ pkgs.stdenv.mkDerivation rec {
             "agent": {
               "readonly": {
                 "mode": "primary",
-                "model": "$SMALL_MODEL",
+                "model": "${bigModel}",
                 "permission": {
                   "edit": "deny",
                   "bash": "deny",
@@ -77,7 +71,7 @@ pkgs.stdenv.mkDerivation rec {
               },
               "build": {
                 "mode": "primary",
-                "model": "$BIG_MODEL",
+                "model": "${bigModel}",
                 "permission": {
                   "edit": "ask",
                   "bash": {
@@ -103,7 +97,7 @@ pkgs.stdenv.mkDerivation rec {
               },
               "plan": {
                 "mode": "primary",
-                "model": "$SMALL_MODEL",
+                "model": "${smallModel}",
                 "permission": {
                   "edit": "deny",
                   "bash": "ask",
@@ -126,7 +120,7 @@ pkgs.stdenv.mkDerivation rec {
               "code-reviewer": {
                 "description": "Reviews code for best practices and potential issues",
                 "mode": "primary",
-                "model": "$SMALL_MODEL",
+                "model": "${smallModel}",
                 "prompt": "You are a code reviewer. Focus on security, performance, and maintainability.",
                 "permission": {
                   "edit": "deny",
@@ -160,7 +154,7 @@ pkgs.stdenv.mkDerivation rec {
       ---
       description: Writing golang web applications with a UI and API
       mode: primary
-      model: $BIG_MODEL
+      model: ${bigModel}
       permission:
         edit: allow
         bash: ask

@@ -69,6 +69,17 @@ then
         nix-shell --pure --command "cd $NIX_REPO_ROOT/$SHELL_NAME && goreman start"
     }
 
+    function ide() {
+        export PATH=$(cat $HOME/.nixpath)
+        code-destop
+    }
+
+    function ai() {
+        export PATH=$(cat $HOME/.nixpath)
+        opencode
+    }
+
+
   fi
 fi
 

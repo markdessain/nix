@@ -15,6 +15,7 @@ pkgs.stdenv.mkDerivation rec {
       echo 'echo "export SHELL_NAME=alpha" >> $FILE' >> $out/bin/startup
       echo 'echo "$LOAD_ENV" >> $FILE' >> $out/bin/startup
       echo 'export TEMP_NIX_START=$FILE' >> $out/bin/startup
+      echo 'echo $PATH > $HOME/.nixpath' >> $out/bin/startup
       chmod +x $out/bin/startup 
 
       ln -s /usr/bin/open $out/bin/open
