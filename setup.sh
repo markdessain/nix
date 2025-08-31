@@ -71,7 +71,7 @@ then
 
     function ide() {
         export PATH=$(cat $HOME/.nixpath)
-        code-destop
+        code-desktop
     }
 
     function ai() {
