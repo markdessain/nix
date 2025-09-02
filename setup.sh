@@ -69,9 +69,9 @@ then
         nix-shell --pure --command "cd $NIX_REPO_ROOT/$SHELL_NAME && goreman start"
     }
 
-    function ai() {
+    function opencode() {
         source $HOME/.nixpath
-        opencode
+        ai-project
     }
 
   fi

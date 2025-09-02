@@ -33,7 +33,6 @@ pkgs.stdenv.mkDerivation rec {
       fi 
 
       cat <<EOT >> $out/bin/ai-project
-        cd \$HOME/projects/ 
         PROJECT=\$(${pkgs.gum}/bin/gum file --height 15 --directory .)
 
         retVal=\$?
