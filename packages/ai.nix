@@ -24,23 +24,27 @@ pkgs.stdenv.mkDerivation rec {
         echo "rm --force \$HOME/.config/opencode && ln -s $out/.config/opencode/ \$HOME/.config/opencode && /nix/store/wg5alzs70c17bxizzdbnv7798v3lh8vc-opencode-0.5.13/bin/opencode --continue" > $out/bin/opencode
         chmod +x $out/bin/opencode
 
-        echo 'cd $HOME/projects/ && cd $(${pkgs.gum}/bin/gum file --directory .) && opencode' > $out/bin/ai-project 
-        chmod +x $out/bin/ai-project
-
         ln -s ${pkgs.openai-whisper}/bin/whisper $out/bin/whisper
         ln -s /opt/homebrew/bin/tabby $out/bin/tabby
         ln -s /opt/homebrew/bin/llama-server $out/bin/llama-server
       elif [[ "${system}" == "aarch64-linux" ]]; then   
         echo "rm --force \$HOME/.config/opencode && ln -s $out/.config/opencode/ \$HOME/.config/opencode && /nix/store/cqcx120j5241qcjnbm6lg62kicn3znvq-opencode-0.5.13/bin/opencode --continue" > $out/bin/opencode
         chmod +x $out/bin/opencode
-
-        echo 'cd $HOME/projects/ && cd $(${pkgs.gum}/bin/gum file --directory .) && opencode' > $out/bin/ai-project 
-        chmod +x $out/bin/ai-project
-
-        ln -s /nix/store/kakd108mxvgr5kcbxksq3qschqs4fnya-gemini-cli-0.1.5/bin/gemini $out/bin/gemini
-        echo 'cd ~/projects/tools && cd $(${pkgs.gum}/bin/gum choose $(ls)) && /nix/store/kakd108mxvgr5kcbxksq3qschqs4fnya-gemini-cli-0.1.5/bin/gemini --sandbox-image gemini --yolo' > $out/bin/gemini-tools 
-        chmod +x $out/bin/gemini-tools
       fi 
+
+      cat <<EOT >> $out/bin/ai-project
+        cd \$HOME/projects/ 
+        PROJECT=\$(${pkgs.gum}/bin/gum file --height 15 --directory .)
+
+        retVal=\$?
+        if [ \$retVal -ne 0 ]; then
+          echo "Quit"
+        else
+          cd \$PROJECT
+          opencode
+        fi
+      EOT
+      chmod +x $out/bin/ai-project
 
       mkdir -p $out/.config/opencode/
 
