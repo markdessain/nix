@@ -14,7 +14,6 @@ pkgs.stdenv.mkDerivation rec {
 
     installPhase = ''
       mkdir -p $out/bin
-      ln -s ${pkgs.duckdb}/bin/duckdb $out/bin/duckdb
       ln -s ${pkgs.sqlite}/bin/sqlite3 $out/bin/sqlite3
       ln -s ${pkgs.rqlite}/bin/rqlite $out/bin/rqlite
       ln -s ${pkgs.rqlite}/bin/rqlited $out/bin/rqlited
@@ -36,6 +35,39 @@ pkgs.stdenv.mkDerivation rec {
         echo "Unsupported system"
         exit 1
       fi
+
+      if [[ "${system}" == "aarch64-darwin" ]]; then
+      cat <<EOT >> $out/bin/duckdb
+      #!/bin/bash
+      file=./.duckdb/init.sql
+
+      if [[ ! -n "\$IGNOREDUCKDBINIT" ]]; then 
+        if [ -e "\$file" ]; then
+            $out/bin/duckdb-binary -init \$file \$@
+        else 
+            $out/bin/duckdb-binary \$@
+        fi 
+      else 
+        $out/bin/duckdb-binary \$@
+      fi
+     
+      EOT
+      chmod +x $out/bin/duckdb
+      fi
+
+      if [[ "${system}" == "aarch64-darwin" ]]; then
+
+        wget https://github.com/duckdb/duckdb/releases/download/v1.3.2/duckdb_cli-osx-universal.gz
+        gzip -d ./duckdb_cli-osx-universal.gz
+        mv ./duckdb_cli-osx-universal $out/bin/duckdb-binary
+        chmod +x $out/bin/duckdb-binary
+      elif [[ "${system}" == "aarch64-linux" ]]; then
+        ln -s ${pkgs.duckdb}/bin/duckdb $out/bin/duckdb
+      else
+        echo "Unsupported system"
+        exit 1
+      fi
+
 
 
     '';
