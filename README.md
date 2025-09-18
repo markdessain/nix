@@ -24,7 +24,26 @@ curl -L https://nixos.org/nix/install | sh
 curl https://releases.nixos.org/nix/nix-2.28.2/install | sh
 ```
 
-## Uninstall Nix
+## Uninstall Nix Linux
+
+Guide here: https://nix.dev/manual/nix/2.28/installation/uninstall
+
+```bash
+sudo systemctl stop nix-daemon.service
+sudo systemctl disable nix-daemon.socket nix-daemon.service
+sudo systemctl daemon-reload
+Remove files created by Nix:
+
+sudo rm -rf /etc/nix /etc/profile.d/nix.sh /etc/tmpfiles.d/nix-daemon.conf /nix ~root/.nix-channels ~root/.nix-defexpr ~root/.nix-profile ~root/.cache/nix
+Remove build users and their group:
+
+for i in $(seq 1 32); do
+  sudo userdel nixbld$i
+done
+sudo groupdel nixbld
+```
+
+## Uninstall Nix Mac
 
 Guide here: https://nix.dev/manual/nix/2.28/installation/uninstall
 

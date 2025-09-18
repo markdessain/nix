@@ -18,7 +18,16 @@ pkgs.stdenv.mkDerivation rec {
         ln -s /usr/bin/newgidmap $out/bin/newgidmap
         ln -s /usr/bin/newuidmap $out/bin/newuidmap
       fi
-      
+
+
+      if [[ "${system}" == "aarch64-darwin" ]]; then
+        ln -s /usr/bin/nettop $out/bin/nettop
+      fi
+
+      ln -s /bin/ps $out/bin/ps
+      ln -s /usr/bin/pkill $out/bin/pkill
+
+      ln -s ${pkgs.ripgrep}/bin/rg $out/bin/rg
       ln -s ${pkgs.curl}/bin/curl $out/bin/curl
       ln -s ${pkgs.rbw}/bin/rbw $out/bin/rbw
       ln -s ${pkgs.rbw}/bin/rbw-agent $out/bin/rbw-agent
