@@ -38,12 +38,12 @@ pkgs.stdenv.mkDerivation rec {
       fi
 
       if [[ "${system}" == "aarch64-darwin" ]]; then
-        wget https://github.com/duckdb/duckdb/releases/download/v1.3.2/duckdb_cli-osx-universal.gz
+        wget https://github.com/duckdb/duckdb/releases/download/v1.4.1/duckdb_cli-osx-universal.gz
         gzip -d ./duckdb_cli-osx-universal.gz
         mv ./duckdb_cli-osx-universal $out/bin/duckdb-binary
         chmod +x $out/bin/duckdb-binary
       elif [[ "${system}" == "aarch64-linux" ]]; then
-        ln -s ${pkgs.duckdb}/bin/duckdb $out/bin/duckdb-binary
+        ln -s /nix/store/3bfmr87lcras2dqmr02lw3j17jdvav2x-duckdb-1.3.2/bin/duckdb $out/bin/duckdb-binary
       else
         echo "Unsupported system"
         exit 1

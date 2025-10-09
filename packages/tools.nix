@@ -75,6 +75,7 @@ pkgs.stdenv.mkDerivation rec {
       ln -s ${pkgs.less}/bin/less $out/bin/less
       ln -s ${pkgs.gawk}/bin/awk $out/bin/awk
       ln -s ${pkgs.gawk}/bin/which $out/bin/which
+      ln -s ${pkgs.awscli2}/bin/aws $out/bin/aws
       ln -s ${pkgs.unzip}/bin/unzip $out/bin/unzip
       ln -s ${pkgs.zip}/bin/zip $out/bin/zip
       ln -s ${pkgs.ffmpeg}/bin/ffmpeg $out/bin/ffmpeg
