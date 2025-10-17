@@ -55,12 +55,12 @@ pkgs.stdenv.mkDerivation rec {
 
       if [[ ! -n "\$IGNOREDUCKDBINIT" ]]; then 
         if [ -e "\$file" ]; then
-            $out/bin/duckdb-binary -init \$file \$@
+            $out/bin/duckdb-binary -init \$file "\$@"
         else 
-            $out/bin/duckdb-binary \$@
+            $out/bin/duckdb-binary "\$@"
         fi 
       else 
-        $out/bin/duckdb-binary \$@
+        $out/bin/duckdb-binary "\$@"
       fi
      
       EOT

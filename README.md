@@ -62,6 +62,7 @@ sudo nano /etc/synthetic.conf
 sudo rm -rf /etc/nix /var/root/.nix-profile /var/root/.nix-defexpr /var/root/.nix-channels ~/.nix-profile ~/.nix-defexpr ~/.nix-channels
 sudo diskutil apfs deleteVolume /nix
 diskutil list
+sudo rm /etc/bashrc
 sudo rm /etc/bashrc.backup-before-nix
 ```
 
