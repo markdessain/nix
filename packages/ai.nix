@@ -19,6 +19,14 @@ pkgs.stdenv.mkDerivation rec {
     installPhase = ''
       mkdir -p $out/bin
 
+
+      export NIX_SSL_CERT_FILE="/nix/var/nix/profiles/default/etc/ssl/certs/ca-bundle.crt"
+      export SSL_CERT_FILE="/nix/var/nix/profiles/default/etc/ssl/certs/ca-bundle.crt"
+      export HOME=$out
+      ${pkgs.nodejs_20}/bin/npm install --prefix $out @fission-ai/openspec@latest
+
+      ln -s $out/node_modules/@fission-ai/openspec/bin/openspec.js $out/bin/openspec
+
       if [[ "${system}" == "aarch64-darwin" ]]; then   
         ln -s ${pkgs.ollama}/bin/ollama $out/bin/ollama
         echo "rm --force \$HOME/.config/opencode && ln -s $out/.config/opencode/ \$HOME/.config/opencode && /nix/store/wg5alzs70c17bxizzdbnv7798v3lh8vc-opencode-0.5.13/bin/opencode --continue" > $out/bin/opencode

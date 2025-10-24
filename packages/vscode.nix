@@ -31,7 +31,7 @@ unFreePkgs.stdenv.mkDerivation rec {
       { publisher = "GitHub"; name = "copilot-chat"; version = "0.27.1"; sha256 = "sha256-HXzPI8B4wISly2SQNdbFO6CEREfhey+SH4HhutxH7Mg="; }
       { publisher = "saoudrizwan"; name = "claude-dev"; version = "3.5.1"; sha256 = "sha256-4s4CYZXa3iImHI6F17BbeG05kqwG/nj0bkHSc1K2Sb4="; }
       { publisher = "sst-dev"; name = "opencode"; version = "0.0.9"; sha256 = "sha256-1ORTcXX9OBPo2l3njXNhE6uUT2B3JbtFtjUe6IPywbE="; }
-      { publisher = "bruin"; name = "bruin"; version = "0.69.3"; sha256 = "sha256-YWggk+ajywZyu4nnnuziX+dFk4abiKMtAm7e7HBNU1U="; }
+      { publisher = "bruin"; name = "bruin"; version = "0.69.9"; sha256 = "sha256-dhw6IAojPsHf/oJW0m7t5fg7eYrJHel9gBuVaDs1+YU="; }
       { publisher = "redhat"; name = "vscode-yaml"; version = "1.19.1"; sha256 = "sha256-ZLuGtB7DjIVrcYomcwptwJxGmIjz0Vu1fCFqYb2XLk4="; }
       ];
     # { publisher = "meta"; name = "pyrefly"; version = "0.15.2"; sha256 = "sha256-nWfkpfDpIWwRMF8ErT0zK3Oiwhn+NE+/ltRqZ2BZq6k="; }
@@ -137,7 +137,8 @@ unFreePkgs.stdenv.mkDerivation rec {
             "terminal.integrated.defaultProfile.linux": "zsh",
             "git.path": "${pkgs.git}/bin/git",
             "dataduck.binary": "data-duck",
-            "tabby.config.telemetry": true
+            "tabby.config.telemetry": true,
+            "redhat.telemetry.enabled": false
         }
       EOT
 

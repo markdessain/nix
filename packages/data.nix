@@ -43,7 +43,11 @@ pkgs.stdenv.mkDerivation rec {
         mv ./duckdb_cli-osx-universal $out/bin/duckdb-binary
         chmod +x $out/bin/duckdb-binary
       elif [[ "${system}" == "aarch64-linux" ]]; then
-        ln -s /nix/store/3bfmr87lcras2dqmr02lw3j17jdvav2x-duckdb-1.3.2/bin/duckdb $out/bin/duckdb-binary
+        echo "skip duckdb"
+        # wget https://github.com/duckdb/duckdb/releases/download/v1.4.1/duckdb_cli-linux-arm64.gz
+        # gzip -d ./duckdb_cli-linux-universal.gz
+        # mv ./duckdb_cli-linux-universal $out/bin/duckdb-binary
+        # chmod +x $out/bin/duckdb-binary
       else
         echo "Unsupported system"
         exit 1

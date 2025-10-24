@@ -91,6 +91,7 @@ pkgs.stdenv.mkDerivation rec {
       ln -s ${pkgs.mutt}/bin/mutt $out/bin/mutt
       ln -s ${pkgs.lynx}/bin/lynx $out/bin/lynx
       ln -s ${pkgs.gzip}/bin/gzip $out/bin/gzip
+      ln -s ${pkgs.versitygw}/bin/versitygw $out/bin/versitygw
 
       if [[ "${system}" == "aarch64-darwin" ]]; then
         echo 'DOCKER_HOST=$(docker context inspect --format "{{.Endpoints.docker.Host}}") ${pkgs.act}/bin/act --container-architecture linux/amd64 --pull=false $@' >> $out/bin/act
