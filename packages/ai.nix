@@ -7,7 +7,9 @@ pkgs.stdenv.mkDerivation rec {
     
     buildInputs = [
       pkgs.ncurses
+      pkgs.wget
       pkgs.curl
+      pkgs.unzip
       pkgs.python3
       pkgs.git
     ];
@@ -29,14 +31,26 @@ pkgs.stdenv.mkDerivation rec {
 
       if [[ "${system}" == "aarch64-darwin" ]]; then   
         ln -s ${pkgs.ollama}/bin/ollama $out/bin/ollama
-        echo "rm --force \$HOME/.config/opencode && ln -s $out/.config/opencode/ \$HOME/.config/opencode && /nix/store/wg5alzs70c17bxizzdbnv7798v3lh8vc-opencode-0.5.13/bin/opencode --continue" > $out/bin/opencode
+
+        wget  https://github.com/sst/opencode/releases/download/v0.15.16/opencode-darwin-arm64.zip
+        unzip opencode-darwin-arm64.zip
+        mv ./opencode $out/bin/opencode-binary
+        chmod +x $out/bin/opencode-binary
+       
+        echo "rm --force \$HOME/.config/opencode && ln -s $out/.config/opencode/ \$HOME/.config/opencode && $out/bin/opencode-binary --continue" > $out/bin/opencode
         chmod +x $out/bin/opencode
 
         ln -s ${pkgs.openai-whisper}/bin/whisper $out/bin/whisper
         ln -s /opt/homebrew/bin/tabby $out/bin/tabby
         ln -s /opt/homebrew/bin/llama-server $out/bin/llama-server
       elif [[ "${system}" == "aarch64-linux" ]]; then   
-        echo "rm --force \$HOME/.config/opencode && ln -s $out/.config/opencode/ \$HOME/.config/opencode && /nix/store/cqcx120j5241qcjnbm6lg62kicn3znvq-opencode-0.5.13/bin/opencode --continue" > $out/bin/opencode
+
+        wget  https://github.com/sst/opencode/releases/download/v0.15.16/opencode-linux-arm64.zip
+        unzip opencode-linux-arm64.zip
+        mv ./opencode $out/bin/opencode-binary
+        chmod +x $out/bin/opencode-binary
+        
+        echo "rm --force \$HOME/.config/opencode && ln -s $out/.config/opencode/ \$HOME/.config/opencode && $out/bin/opencode-binary --continue" > $out/bin/opencode
         chmod +x $out/bin/opencode
       fi 
 
