@@ -7,7 +7,8 @@ pkgs.stdenv.mkDerivation rec {
 
     k3s = if system == "aarch64-linux" then pkgs.k3s else "";
     slirp4netns = if system == "aarch64-linux" then pkgs.slirp4netns else "";
-  
+    versitygw = if system == "aarch64-linux" then "" else pkgs.versitygw;  
+
     installPhase = ''
       mkdir -p $out/bin
 
@@ -19,6 +20,9 @@ pkgs.stdenv.mkDerivation rec {
         ln -s /usr/bin/newuidmap $out/bin/newuidmap
       fi
 
+      if [[ "${versitygw}" != "" ]]; then
+        ln -s ${versitygw}/bin/versitygw $out/bin/versitygw
+      fi
 
       if [[ "${system}" == "aarch64-darwin" ]]; then
         ln -s /usr/bin/nettop $out/bin/nettop
@@ -91,7 +95,7 @@ pkgs.stdenv.mkDerivation rec {
       ln -s ${pkgs.mutt}/bin/mutt $out/bin/mutt
       ln -s ${pkgs.lynx}/bin/lynx $out/bin/lynx
       ln -s ${pkgs.gzip}/bin/gzip $out/bin/gzip
-      ln -s ${pkgs.versitygw}/bin/versitygw $out/bin/versitygw
+      ln -s ${pkgs.d2}/bin/d2 $out/bin/d2      
 
       if [[ "${system}" == "aarch64-darwin" ]]; then
         echo 'DOCKER_HOST=$(docker context inspect --format "{{.Endpoints.docker.Host}}") ${pkgs.act}/bin/act --container-architecture linux/amd64 --pull=false $@' >> $out/bin/act

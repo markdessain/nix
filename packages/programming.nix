@@ -21,6 +21,7 @@ pkgs.stdenv.mkDerivation rec {
       ln -s ${pkgs.python312}/bin/python3 $out/bin/python312
       ln -s ${pkgs.nodejs_20}/bin/node $out/bin/node
       ln -s ${pkgs.nodejs_20}/bin/npm $out/bin/npm
+      ln -s ${pkgs.yarn-berry}/bin/yarn $out/bin/yarn
       ln -s ${pkgs.nodejs_20}/bin/npx $out/bin/npx
       ln -s ${pkgs.jdk17}/bin/java $out/bin/java
       ln -s ${pkgs.jdk17}/bin/javac $out/bin/javac
