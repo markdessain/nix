@@ -79,6 +79,16 @@ unFreePkgs.stdenv.mkDerivation rec {
 
       # echo "$extensionConfigFileText" | jq -r ". + [$data_duck]" > $out/extensions/extensions.json
       
+      marmio=$(echo $PACKAGE_SETTING | sed "s/__NAME__/marimo-team.vscode-marimo/g" | sed "s/__VERSION__/0.8.3/g" | sed "s|__PATH__|/Users/mark.dessain/vscode_extensions|g")
+      
+      if [[ "${system}" == "aarch64-darwin" ]]; then
+        ln -s /Users/mark.dessain/vscode_extensions/marimo-team.vscode-marimo-0.8.3 $out/extensions/marimo-team.vscode-marimo-0.8.3
+        echo "$extensionConfigFileText" | jq -r ". + [$marmio]" > $out/extensions/extensions.json
+      else
+        ln -s /home/pi/vscode_extensions/marimo-team.vscode-marimo-0.8.3 $out/extensions/marimo-team.vscode-marimo-0.8.3
+        echo "$extensionConfigFileText" | jq -r ". + [$marmio]" > $out/extensions/extensions.json
+      fi
+
       if [[ "${system}" == "aarch64-darwin" ]]; then
         echo "" >> $out/bin/code2
       elif [[ "${system}" == "aarch64-linux" ]]; then

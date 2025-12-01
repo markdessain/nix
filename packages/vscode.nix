@@ -35,7 +35,7 @@ unFreePkgs.stdenv.mkDerivation rec {
       { publisher = "redhat"; name = "vscode-yaml"; version = "1.19.1"; sha256 = "sha256-ZLuGtB7DjIVrcYomcwptwJxGmIjz0Vu1fCFqYb2XLk4="; }
       ];
     # { publisher = "meta"; name = "pyrefly"; version = "0.15.2"; sha256 = "sha256-nWfkpfDpIWwRMF8ErT0zK3Oiwhn+NE+/ltRqZ2BZq6k="; }
-    
+    # { publisher = "marimo-team"; name = "vscode-marimo"; version = "0.8.3"; sha256 = "sha256-b+ZGJsK89XC/jQGNWLfLp7/6J5mIfiQ+UjK+oxZb06U="; }
     # { publisher = "rjmacarthy"; name = "twinny"; version = "3.21.14"; sha256 = "sha256-M0GcYRNEiSQS3cfFche2olYHr7kC+Pm8U5q6+voAV9c"; }
     # { publisher = "Continue"; name = "continue"; version = "0.8.62"; sha256 = "sha256-BsOPfZ8973YomdWsLm5LShFiO/sU5k0ZTASZReRtE8o="; }
    
@@ -55,6 +55,11 @@ unFreePkgs.stdenv.mkDerivation rec {
     #   name = "pyrefly";
     #   url = "https://open-vsx.org/api/meta/pyrefly/darwin-arm64/0.15.2/file/meta.pyrefly-0.15.2@darwin-arm64.vsix";
 	  #   sha256 = "sha256:0drj0l2d4flfm7bi83n1ahd4v7dl5f4d6r9g04rfw8awin4bcrzp";
+	  # };
+
+    # marimo = builtins.fetchurl {
+    #  url = "https://open-vsx.org/api/marimo-team/vscode-marimo/0.8.3/file/marimo-team.vscode-marimo-0.8.3.vsix";
+	  #  sha256 = "sha256:1wvhlahz2509zkwnhlpz7a5zvkfswnnillildwr6nzsm4lhvrxsn";
 	  # };
 
     extensionConfigFileText = unFreePkgs.vscode-utils.toExtensionJson allExtensions;
@@ -107,14 +112,16 @@ unFreePkgs.stdenv.mkDerivation rec {
       #   mv $out/pyrefly/extension/* $out/extensions/meta.pyrefly-0.15.2
       # fi
 
-      #  pyreflyEx=$(echo $PACKAGE_SETTING | sed "s/__NAME__/meta.pyrefly/g" | sed "s/__VERSION__/0.15.2/g" | sed "s|__PATH__|$out/extensions|g")
+      # pyreflyEx=$(echo $PACKAGE_SETTING | sed "s/__NAME__/meta.pyrefly/g" | sed "s/__VERSION__/0.15.2/g" | sed "s|__PATH__|$out/extensions|g")
+      marmio=$(echo $PACKAGE_SETTING | sed "s/__NAME__/marimo-team.vscode-marimo/g" | sed "s/__VERSION__/0.8.3/g" | sed "s|__PATH__|/Users/mark.dessain/vscode_extensions|g")
       
-
-      # if [[ "${system}" == "aarch64-darwin" ]]; then
-      #   echo "$extensionConfigFileText" | jq -r ". + [$data_duck, $pyreflyEx]" > $out/extensions/extensions.json
-      # else
-      #   echo "$extensionConfigFileText" | jq -r ". + [$data_duck]" > $out/extensions/extensions.json
-      # fi
+      if [[ "${system}" == "aarch64-darwin" ]]; then
+        ln -s /Users/mark.dessain/vscode_extensions/marimo-team.vscode-marimo-0.8.3 $out/extensions/marimo-team.vscode-marimo-0.8.3
+        echo "$extensionConfigFileText" | jq -r ". + [$marmio]" > $out/extensions/extensions.json
+      else
+        ln -s /home/pi/vscode_extensions/marimo-team.vscode-marimo-0.8.3 $out/extensions/marimo-team.vscode-marimo-0.8.3
+        echo "$extensionConfigFileText" | jq -r ". + [$marmio]" > $out/extensions/extensions.json
+      fi
 
       if [[ "${system}" == "aarch64-darwin" ]]; then
         echo "cp $out/config/settings.json \"\$HOME/Library/Application Support/VSCodium/User/settings.json\" " >> $out/bin/code2
