@@ -16,6 +16,7 @@ pkgs.stdenv.mkDerivation rec {
       ln -s ${pkgs.dbmate}/bin/dbmate $out/bin/dbmate
       ln -s ${pkgs.air}/bin/air $out/bin/air
       ln -s ${pkgs.go-task}/bin/task $out/bin/task
+      ln -s ${pkgs.uv}/bin/uv $out/bin/uv
       ln -s ${pkgs.python311}/bin/python3 $out/bin/python3
       ln -s ${pkgs.python311}/bin/python3 $out/bin/python
       ln -s ${pkgs.python312}/bin/python3 $out/bin/python312
