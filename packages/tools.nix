@@ -61,7 +61,6 @@ pkgs.stdenv.mkDerivation rec {
       ln -s ${pkgs.vim}/bin/vim $out/bin/vi
       ln -s ${pkgs.git}/bin/git $out/bin/git
       ln -s ${pkgs.gh}/bin/gh $out/bin/gh
-      ln -s ${pkgs.gcc13}/bin/gcc $out/bin/gcc
       ln -s ${pkgs.flyctl}/bin/flyctl $out/bin/flyctl
       ln -s ${pkgs.flyctl}/bin/flyctl $out/bin/fly
       ln -s ${pkgs.doctl}/bin/doctl $out/bin/doctl

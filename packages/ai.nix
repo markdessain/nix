@@ -15,6 +15,7 @@ pkgs.stdenv.mkDerivation rec {
     ];
 
     # ln -s ${allowBroken.open-webui}/bin/open-webui $out/bin/open-webui
+    # ln -s ${pkgs.ollama}/bin/ollama $out/bin/ollama
 
     # nix shell nixpkgs#gemini-cli --extra-experimental-features nix-command --extra-experimental-features flakes
     # nix shell nixpkgs#opencode --extra-experimental-features nix-command --extra-experimental-features flakes
@@ -22,7 +23,6 @@ pkgs.stdenv.mkDerivation rec {
       mkdir -p $out/bin
 
       if [[ "${system}" == "aarch64-darwin" ]]; then   
-        ln -s ${pkgs.ollama}/bin/ollama $out/bin/ollama
 
         export NIX_SSL_CERT_FILE="/nix/var/nix/profiles/default/etc/ssl/certs/ca-bundle.crt"
         export SSL_CERT_FILE="/nix/var/nix/profiles/default/etc/ssl/certs/ca-bundle.crt"

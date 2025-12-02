@@ -1,6 +1,6 @@
 {
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
     flake-utils.url = "github:numtide/flake-utils";
     flake-compat.url = "github:edolstra/flake-compat";
     flake-compat.flake = false;
@@ -43,7 +43,7 @@
               (import ./packages/ai.nix { inherit pkgs system allowBroken smallModel bigModel; })
               (import ./packages/aiagents.nix { inherit pkgs system allowBroken smallModel bigModel; })
               (import ./packages/mac.nix { inherit pkgs unFreePkgs system; })
-              (import ./packages/ollamatools.nix { inherit pkgs; })
+              # (import ./packages/ollamatools.nix { inherit pkgs; })
             ];
 
             shellHook = ''
