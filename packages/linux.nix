@@ -8,5 +8,6 @@ pkgs.stdenv.mkDerivation rec {
     installPhase = ''
       mkdir -p $out/bin
       ln -s ${pkgs.ddcutil}/bin/ddcutil $out/bin/ddcutil
+      ln -s ${pkgs.solaar}/bin/solaar $out/bin/solaar
     '';
 }
