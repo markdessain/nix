@@ -41,7 +41,6 @@ pkgs.stdenv.mkDerivation rec {
       ln -s ${pkgs.lsof}/bin/lsof $out/bin/lsof
       ln -s ${pkgs.zenith}/bin/zenith $out/bin/zenith
       ln -s ${pkgs.docker}/bin/docker $out/bin/docker
-      ln -s ${pkgs.bluez}/bin/bluetoothctl $out/bin/bluetoothctl
 
       if [[ "${system}" == "aarch64-darwin" ]]; then
         ln -s ${pkgs.docker-credential-helpers}/bin/docker-credential-osxkeychain $out/bin/docker-credential-osxkeychain
@@ -96,7 +95,6 @@ pkgs.stdenv.mkDerivation rec {
       ln -s ${pkgs.lynx}/bin/lynx $out/bin/lynx
       ln -s ${pkgs.gzip}/bin/gzip $out/bin/gzip
       ln -s ${pkgs.d2}/bin/d2 $out/bin/d2      
-      ln -s ${pkgs.gccgo15}/bin/gcc $out/bin/gcc
 
       if [[ "${system}" == "aarch64-darwin" ]]; then
         echo 'DOCKER_HOST=$(docker context inspect --format "{{.Endpoints.docker.Host}}") ${pkgs.act}/bin/act --container-architecture linux/amd64 --pull=false $@' >> $out/bin/act

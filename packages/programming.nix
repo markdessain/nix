@@ -31,6 +31,7 @@ pkgs.stdenv.mkDerivation rec {
       ln -s ${pkgs.clang}/bin/clang++ $out/bin/clang++
       ln -s ${pkgs.llvm_18}/bin/dsymutil $out/bin/dsymutil
       ln -s ${pkgs.gnumake}/bin/make $out/bin/make
+      ln -s ${pkgs.cmake}/bin/cmake $out/bin/cmake
       ln -s ${pkgs.protobuf}/bin/protoc $out/bin/protoc
       ln -s ${pkgs.protoc-gen-go}/bin/protoc-gen-go $out/bin/protoc-gen-go
       ln -s ${pkgs.protoc-gen-go-grpc}/bin/protoc-gen-go-grpc $out/bin/protoc-gen-go-grpc

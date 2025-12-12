@@ -17,7 +17,7 @@ pkgs.stdenv.mkDerivation rec {
       sha256 = "sha256-aLeNzm4mKp/f+diGQWYbZDef9uBAfNpe/huYRAvBLNE=";
     } else if system == "aarch64-darwin" then pkgs.fetchzip {
       url = "https://github.com/duckdb/duckdb/releases/download/v1.4.1/duckdb_cli-osx-universal.zip";
-      sha256 = "sha256-aLeNzm4mKp/f+diGQWYbZDef9uBAfNpe/huYRAvBLND=";
+      sha256 = "sha256-vXmNXdxGNgJwYeyiYihw1kxoGohPDK4NbO3dqIYCd8g=";
     }  else "missing";
  
     installPhase = ''
