@@ -12,6 +12,14 @@ pkgs.stdenv.mkDerivation rec {
       pkgs.cacert
     ];
 
+    duckdb = if system == "aarch64-linux" then pkgs.fetchzip {
+      url = "https://github.com/duckdb/duckdb/releases/download/v1.4.1/duckdb_cli-linux-arm64.zip";
+      sha256 = "sha256-aLeNzm4mKp/f+diGQWYbZDef9uBAfNpe/huYRAvBLNE=";
+    } else if system == "aarch64-darwin" then pkgs.fetchzip {
+      url = "https://github.com/duckdb/duckdb/releases/download/v1.4.1/duckdb_cli-osx-universal.zip";
+      sha256 = "sha256-aLeNzm4mKp/f+diGQWYbZDef9uBAfNpe/huYRAvBLND=";
+    }  else "missing";
+ 
     installPhase = ''
       mkdir -p $out/bin
       ln -s ${pkgs.sqlite}/bin/sqlite3 $out/bin/sqlite3
@@ -37,38 +45,24 @@ pkgs.stdenv.mkDerivation rec {
         exit 1
       fi
 
-      if [[ "${system}" == "aarch64-darwin" ]]; then
-        wget https://github.com/duckdb/duckdb/releases/download/v1.4.1/duckdb_cli-osx-universal.gz
-        gzip -d ./duckdb_cli-osx-universal.gz
-        mv ./duckdb_cli-osx-universal $out/bin/duckdb-binary
-        chmod +x $out/bin/duckdb-binary
-      elif [[ "${system}" == "aarch64-linux" ]]; then
-        echo "skip duckdb"
-        # wget https://github.com/duckdb/duckdb/releases/download/v1.4.1/duckdb_cli-linux-arm64.gz
-        # gzip -d ./duckdb_cli-linux-universal.gz
-        # mv ./duckdb_cli-linux-universal $out/bin/duckdb-binary
-        # chmod +x $out/bin/duckdb-binary
-      else
-        echo "Unsupported system"
-        exit 1
-      fi
+      ln -s ${duckdb}/duckdb $out/bin/duckdb
 
-      cat <<EOT >> $out/bin/duckdb
+      cat <<EOT >> $out/bin/duckdb-init
       #!/bin/bash
       file=./.duckdb/init.sql
 
       if [[ ! -n "\$IGNOREDUCKDBINIT" ]]; then 
         if [ -e "\$file" ]; then
-            $out/bin/duckdb-binary -init \$file "\$@"
+            $out/bin/duckdb -init \$file "\$@"
         else 
-            $out/bin/duckdb-binary "\$@"
+            $out/bin/duckdb "\$@"
         fi 
       else 
-        $out/bin/duckdb-binary "\$@"
+        $out/bin/duckdb "\$@"
       fi
      
       EOT
-      chmod +x $out/bin/duckdb
+      chmod +x $out/bin/duckdb-init
 
     '';
 }
