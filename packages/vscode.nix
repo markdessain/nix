@@ -21,6 +21,8 @@ unFreePkgs.stdenv.mkDerivation rec {
       { publisher = "sst-dev"; name = "opencode"; version = "0.0.9"; sha256 = "sha256-1ORTcXX9OBPo2l3njXNhE6uUT2B3JbtFtjUe6IPywbE="; }
       { publisher = "bruin"; name = "bruin"; version = "0.69.9"; sha256 = "sha256-dhw6IAojPsHf/oJW0m7t5fg7eYrJHel9gBuVaDs1+YU="; }
       { publisher = "redhat"; name = "vscode-yaml"; version = "1.19.1"; sha256 = "sha256-ZLuGtB7DjIVrcYomcwptwJxGmIjz0Vu1fCFqYb2XLk4="; }
+      { publisher = "mtxr"; name = "sqltools"; version = "0.28.5"; sha256 = "sha256-2JgBRMaNU3einOZ0POfcc887HCScu6myETTLoJMS6o8="; }
+      { publisher = "databricks"; name = "sqltools-databricks-driver"; version = "0.4.2"; sha256 = "sha256-UP+Z+bVry8Aqlytn801t8AYv06R6hulTrwhbtg6HRa4="; }
       ];
 
 
