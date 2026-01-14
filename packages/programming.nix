@@ -42,6 +42,11 @@ pkgs.stdenv.mkDerivation rec {
       ln -s ${pkgs.deno}/bin/deno $out/bin/deno
       ln -s ${unFreePkgs.terraform}/bin/terraform $out/bin/terraform
       ln -s ${pkgs.redis}/bin/redis-cli $out/bin/redis-cli
+      ln -s ${pkgs.cargo}/bin/cargo $out/bin/cargo
+      ln -s ${pkgs.rustc}/bin/rustc $out/bin/rustc
+      ln -s ${pkgs.gccgo15}/bin/cc $out/bin/cc
+      ln -s ${pkgs.gccgo15}/bin/gcc $out/bin/gcc
+      ln -s ${pkgs.perl}/bin/perl $out/bin/perl
       
       if [[ "${system}" == "aarch64-darwin" ]]; then
         # Temp while poetry is incompomatiable with old version of numpy

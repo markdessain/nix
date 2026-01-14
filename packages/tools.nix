@@ -41,6 +41,7 @@ pkgs.stdenv.mkDerivation rec {
       ln -s ${pkgs.lsof}/bin/lsof $out/bin/lsof
       ln -s ${pkgs.zenith}/bin/zenith $out/bin/zenith
       ln -s ${pkgs.docker}/bin/docker $out/bin/docker
+      ln -s ${pkgs.tmux}/bin/tmux $out/bin/tmux
 
       if [[ "${system}" == "aarch64-darwin" ]]; then
         ln -s ${pkgs.docker-credential-helpers}/bin/docker-credential-osxkeychain $out/bin/docker-credential-osxkeychain
