@@ -23,6 +23,8 @@ pkgs.stdenv.mkDerivation rec {
       ln -s ${pkgs.zsh}/bin/zsh $out/bin/zsh
       ln -s ${pkgs.bash}/bin/bash $out/bin/bash
       ln -s ${pkgs.bash}/bin/sh $out/bin/sh
+      ln -s /usr/bin/tmux $out/bin/tmux
+      ln -s /usr/bin/sudo $out/bin/sudo
 
       if [[ "${system}" == "aarch64-darwin" ]]; then
         ln -s /opt/homebrew/bin/atuin $out/bin/atuin

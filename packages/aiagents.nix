@@ -12,8 +12,8 @@ pkgs.stdenv.mkDerivation rec {
     installPhase = ''
       mkdir -p $out/bin
 
-      echo "rm --force \$HOME/.config/opencode && ln -s $out/.config/opencode/ \$HOME/.config/opencode && opencode-binary --continue" > $out/bin/opencode
-      chmod +x $out/bin/opencode
+      echo "rm --force \$HOME/.config/opencode && ln -s $out/.config/opencode/ \$HOME/.config/opencode" > $out/bin/opencode-sync
+      chmod +x $out/bin/opencode-sync
 
       mkdir -p $out/.config/opencode/
 

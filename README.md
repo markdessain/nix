@@ -21,12 +21,12 @@ nix --extra-experimental-features "nix-command flakes" flake update
 
 ```bash
 curl -L https://nixos.org/nix/install | sh
-curl https://releases.nixos.org/nix/nix-2.28.2/install | sh
+curl https://releases.nixos.org/nix/nix-2.33.1/install | sh
 ```
 
 ## Uninstall Nix Linux
 
-Guide here: https://nix.dev/manual/nix/2.28/installation/uninstall
+Guide here: https://nix.dev/manual/nix/2.33.1/installation/uninstall
 
 ```bash
 sudo systemctl stop nix-daemon.service

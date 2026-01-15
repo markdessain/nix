@@ -33,8 +33,8 @@ pkgs.stdenv.mkDerivation rec {
 
         wget  https://github.com/sst/opencode/releases/download/v0.15.16/opencode-darwin-arm64.zip
         unzip opencode-darwin-arm64.zip
-        mv ./opencode $out/bin/opencode-binary
-        chmod +x $out/bin/opencode-binary
+        mv ./opencode $out/bin/opencode
+        chmod +x $out/bin/opencode
 
         ln -s ${pkgs.openai-whisper}/bin/whisper $out/bin/whisper
         ln -s /opt/homebrew/bin/tabby $out/bin/tabby
