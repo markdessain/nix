@@ -27,9 +27,9 @@ pkgs.stdenv.mkDerivation rec {
         export NIX_SSL_CERT_FILE="/nix/var/nix/profiles/default/etc/ssl/certs/ca-bundle.crt"
         export SSL_CERT_FILE="/nix/var/nix/profiles/default/etc/ssl/certs/ca-bundle.crt"
         export HOME=$out
-        ${pkgs.nodejs_20}/bin/npm install --prefix $out @fission-ai/openspec@latest
+        # ${pkgs.nodejs_20}/bin/npm install --prefix $out @fission-ai/openspec@latest
 
-        ln -s $out/node_modules/@fission-ai/openspec/bin/openspec.js $out/bin/openspec
+        # ln -s $out/node_modules/@fission-ai/openspec/bin/openspec.js $out/bin/openspec
 
         wget  https://github.com/sst/opencode/releases/download/v0.15.16/opencode-darwin-arm64.zip
         unzip opencode-darwin-arm64.zip

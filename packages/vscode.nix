@@ -75,7 +75,7 @@ unFreePkgs.stdenv.mkDerivation rec {
 
     # Bug with installing - fix here: https://github.com/nix-community/home-manager/issues/6532 
     vscodium = unFreePkgs.vscodium.overrideAttrs (old: {
-      installPhase = "whoami\n " + old.installPhase;
+      installPhase = "whoami\n" + old.installPhase;
     });
     
     installPhase = ''
