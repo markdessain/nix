@@ -12,7 +12,23 @@ pkgs.stdenv.mkDerivation rec {
     installPhase = ''
       mkdir -p $out/bin
 
-      echo "rm --force \$HOME/.config/opencode && ln -s $out/.config/opencode/ \$HOME/.config/opencode" > $out/bin/opencode-sync
+      cat <<EOT >> $out/bin/opencode-sync
+
+        mkdir -p \$HOME/.config/opencode/agent/
+
+        rm --force \$HOME/.config/opencode/opencode.jsonc
+        cp $out/.config/opencode/opencode.jsonc \$HOME/.config/opencode/opencode.jsonc
+
+        rm --force \$HOME/.config/opencode/AGENTS.md
+        cp $out/.config/opencode/AGENTS.md \$HOME/.config/opencode/AGENTS.md
+
+        rm --force \$HOME/.config/opencode/agent/pipedream.md
+        cp $out/.config/opencode/agent/pipedream.md \$HOME/.config/opencode/agent/pipedream.md
+
+        rm --force \$HOME/.config/opencode/agent/golang-web.md
+        cp $out/.config/opencode/agent/golang-web.md \$HOME/.config/opencode/agent/golang-web.md
+      
+      EOT
       chmod +x $out/bin/opencode-sync
 
       mkdir -p $out/.config/opencode/

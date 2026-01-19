@@ -74,6 +74,11 @@ then
         ai-project
     }
 
+    function agents() {
+        source $HOME/.nixpath
+        aoe
+    }
+
   fi
 fi
 
