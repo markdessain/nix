@@ -69,9 +69,17 @@ then
         nix-shell --pure --command "cd $NIX_REPO_ROOT/$SHELL_NAME && goreman start"
     }
 
+    opencodebin=$(which opencode)
+    agentdeckbin=$(which agent-deck)
+
     function opencode() {
         source $HOME/.nixpath
-        ai-project
+        $opencodebin
+    }
+
+    function agent-deck() {
+        source $HOME/.nixpath
+        $agentdeckbin
     }
 
     function agents() {

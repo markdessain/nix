@@ -1,4 +1,4 @@
-{ pkgs, system, allowBroken, bigModel, smallModel }:	
+{ pkgs, system, allowBroken, bigModel, smallModel, openspec }:	
 
 pkgs.stdenv.mkDerivation rec {
     pname = "ai";
@@ -22,6 +22,8 @@ pkgs.stdenv.mkDerivation rec {
     installPhase = ''
       mkdir -p $out/bin
 
+      ln -s ${openspec.packages."${system}".default}/bin/openspec $out/bin/openspec
+
       if [[ "${system}" == "aarch64-darwin" ]]; then   
 
         export NIX_SSL_CERT_FILE="/nix/var/nix/profiles/default/etc/ssl/certs/ca-bundle.crt"
@@ -30,7 +32,6 @@ pkgs.stdenv.mkDerivation rec {
         # ${pkgs.nodejs_20}/bin/npm install --prefix $out @fission-ai/openspec@latest
 
         # ln -s $out/node_modules/@fission-ai/openspec/bin/openspec.js $out/bin/openspec
-
         #wget  https://github.com/sst/opencode/releases/download/v0.15.16/opencode-darwin-arm64.zip
         #unzip opencode-darwin-arm64.zip
         #mv ./opencode $out/bin/opencode

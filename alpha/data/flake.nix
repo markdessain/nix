@@ -3,10 +3,11 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
     flake-utils.url = "github:numtide/flake-utils";
     flake-compat.url = "github:edolstra/flake-compat";
+    openspec.url = "github:Fission-AI/OpenSpec";
     flake-compat.flake = false;
   };
 
-  outputs = { self, nixpkgs, flake-utils, flake-compat  }:
+  outputs = { self, nixpkgs, flake-utils, flake-compat, openspec  }:
     flake-utils.lib.eachDefaultSystem
       (system:
         let 
@@ -33,7 +34,7 @@
               (import ./packages/codeserver.nix { inherit unFreePkgs system; })
               (import ./packages/vscode.nix { inherit pkgs unFreePkgs system; })
               (import ./packages/backup.nix { inherit pkgs system; })
-              (import ./packages/ai.nix { inherit pkgs system allowBroken smallModel bigModel; })
+              (import ./packages/ai.nix { inherit pkgs system allowBroken smallModel bigModel openspec; })
               (import ./packages/aiagents.nix { inherit pkgs system allowBroken smallModel bigModel; })
               (import ./packages/linux.nix { inherit pkgs unFreePkgs system; })
             ];
