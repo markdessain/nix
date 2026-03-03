@@ -11,6 +11,7 @@ pkgs.stdenv.mkDerivation rec {
       echo 'PATH_ENV=$(for var in "$@"; do echo -n "$var/bin:"; done | sed "s/:$//")' >> $out/bin/startup
       echo 'LOAD_ENV=$(for var in "$@"; do echo -n "if [ -f $var/.env ]; then source $var/.env; fi; "; done | sed "s/:$//")' >> $out/bin/startup
       echo 'FILE=$(mktemp)' >> $out/bin/startup
+      echo 'PATH_ENV=$PATH:$HOME/.opencode/bin' >> $out/bin/startup
       echo 'echo "export PATH=$HOME/bin:$PATH_ENV" >> $FILE' >> $out/bin/startup
       echo 'echo "export SHELL_NAME=alpha" >> $FILE' >> $out/bin/startup
       echo 'echo "$LOAD_ENV" >> $FILE' >> $out/bin/startup
