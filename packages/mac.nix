@@ -8,6 +8,8 @@ pkgs.stdenv.mkDerivation rec {
     installPhase = ''
       mkdir -p $out/bin
       ln -s ${unFreePkgs.vault}/bin/vault $out/bin/vault
+      ln -s /usr/bin/codesign $out/bin/codesign
+      ln -s /usr/bin/ld $out/bin/ld
 
       cat >$out/bin/vault_secrets  <<EOL
       ACCOUNT=\$1 # orbit

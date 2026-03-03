@@ -44,5 +44,8 @@ pkgs.stdenv.mkDerivation rec {
         alias pbcopy='xsel — clipboard — input'
         alias pbpaste='xsel — clipboard — output'
       fi
+
+      echo '. ~/.config/pds/main.env && ${pkgs.atproto-goat}/bin/goat $@' >> $out/bin/goat
+      chmod +x $out/bin/goat 
     '';
 }

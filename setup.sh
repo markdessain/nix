@@ -30,6 +30,14 @@ if type nix-shell >/dev/null 2>&1
 then
   if [[ -z "\${IN_NIX_SHELL}" ]]
   then
+    command -v opencode >/dev/null 2>&1 || { echo "Error: opencode not found, run:" && echo "Run curl -fsSL https://opencode.ai/install | bash";  }
+  fi
+fi
+
+if type nix-shell >/dev/null 2>&1
+then
+  if [[ -z "\${IN_NIX_SHELL}" ]]
+  then
 
     function shell() {
         echo \$PWD > $HOME/.shell_path 
@@ -74,7 +82,7 @@ then
 
     function opencode() {
         source $HOME/.nixpath
-        $opencodebin
+        $opencodebin "$@"
     }
 
     function agent-deck() {
@@ -85,6 +93,12 @@ then
     function agents() {
         source $HOME/.nixpath
         aoe
+    }
+
+    function services() {
+        source $HOME/.nixpath
+        cd $HOME/projects/nix/beta 
+        goreman start
     }
 
   fi

@@ -7,7 +7,7 @@ pkgs.writeShellScriptBin "sync-config" ''
     fi
 
     rbw search / --folder workspace | while read line ; do
-        FILE=''${line:10}
+        FILE=$line
         FIELDS=$(rbw get "$FILE" --raw --folder workspace | jq .fields)
         NOTES=$(rbw get "$FILE" --raw --folder workspace | jq -r .notes)
 

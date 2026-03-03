@@ -49,6 +49,11 @@ pkgs.stdenv.mkDerivation rec {
         #chmod +x $out/bin/opencode-binary
       fi 
 
+      cat <<EOT >> $out/bin/opencode
+        \$HOME/.opencode/bin/opencode \$@
+      EOT
+      chmod +x $out/bin/opencode
+
       cat <<EOT >> $out/bin/ai-project
         PROJECT=\$(${pkgs.gum}/bin/gum file --height 15 --directory .)
 
