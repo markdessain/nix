@@ -9,8 +9,14 @@ pkgs.stdenv.mkDerivation rec {
       mkdir -p $out/bin
       ln -s ${unFreePkgs.vault}/bin/vault $out/bin/vault
       ln -s /usr/bin/codesign $out/bin/codesign
-      ln -s /usr/bin/ld $out/bin/ld
+      ln -s /usr/bin/ld $out/bin/Logged
 
+      echo 'env -i HOME="$HOME" USER="$USER" PATH=/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin /usr/bin/swift $@' > $out/bin/swift
+      chmod +x $out/bin/swift
+
+      echo 'env -i HOME="$HOME" USER="$USER" PATH=/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin /usr/bin/swiftc $@' > $out/bin/swiftc
+      chmod +x $out/bin/swiftc
+      
       cat >$out/bin/vault_secrets  <<EOL
       ACCOUNT=\$1 # orbit
       METHOD=\$2 # get
