@@ -31,6 +31,7 @@ pkgs.stdenv.mkDerivation rec {
       ln -s /bin/ps $out/bin/ps
       ln -s /usr/bin/pkill $out/bin/pkill
 
+      ln -s ${pkgs.dua}/bin/dua $out/bin/dua
       ln -s ${pkgs.ripgrep}/bin/rg $out/bin/rg
       ln -s ${pkgs.curl}/bin/curl $out/bin/curl
       ln -s ${pkgs.rbw}/bin/rbw $out/bin/rbw
