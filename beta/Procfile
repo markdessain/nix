@@ -1,6 +1,6 @@
-opencodea: source $HOME/.nixpath && $HOME/.opencode/bin/opencode web
 agentsview: agentsview
-roborev: roborev daemon run
+roborev: roborev daemon stop roborev daemon run
+#opencode: source $HOME/.nixpath && $HOME/.opencode/bin/opencode web
 # ollama: ollama serve
 # open-webui: WEBUI_SECRET_KEY=~/.webui_secret_key WEBUI_AUTH=false DATA_DIR=~/.openwebui open-webui serve --port 8081
 # tabby: tabby serve --device metal --port 8082

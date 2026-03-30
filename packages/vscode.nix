@@ -73,10 +73,11 @@ unFreePkgs.stdenv.mkDerivation rec {
 
     extensionConfigFileText = unFreePkgs.vscode-utils.toExtensionJson allExtensions;
 
+    vscodium = unFreePkgs.vscodium;
     # Bug with installing - fix here: https://github.com/nix-community/home-manager/issues/6532 
-    vscodium = unFreePkgs.vscodium.overrideAttrs (old: {
-      installPhase = "whoami\n" + old.installPhase;
-    });
+    # vscodium = unFreePkgs.vscodium.overrideAttrs (old: {
+    #   installPhase = "whoami\n" + old.installPhase;
+    # });
     
     installPhase = ''
       mkdir -p $out/bin

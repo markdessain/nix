@@ -12,7 +12,7 @@ pkgs.stdenv.mkDerivation rec {
     installPhase = ''
       mkdir -p $out/bin
 
-      cat <<EOT >> $out/bin/opencode-sync
+      cat <<EOT >> $out/bin/ai-config-sync
 
         mkdir -p \$HOME/.config/opencode/agent/
 
@@ -27,9 +27,39 @@ pkgs.stdenv.mkDerivation rec {
 
         rm --force \$HOME/.config/opencode/agent/golang-web.md
         cp $out/.config/opencode/agent/golang-web.md \$HOME/.config/opencode/agent/golang-web.md
+
+        rm --force \$HOME/.roborev/config.toml
+        cp $out/.config/roborev/config.toml \$HOME/.roborev/config.toml
       
       EOT
-      chmod +x $out/bin/opencode-sync
+      chmod +x $out/bin/ai-config-sync
+
+      mkdir -p $out/.config/roborev/
+      cat <<EOT >> $out/.config/roborev/config.toml
+        server_addr = '127.0.0.1:7373'
+        max_workers = 4
+        review_context_count = 3
+        reuse_review_session_lookback = 0
+        # Default agent when no workflow-specific agent is set.
+        default_agent = 'opencode'
+        default_model = '${smallModel}'
+        job_timeout_minutes = 30
+
+        [sync]
+        enabled = false
+
+        [ci]
+        enabled = false
+
+        [advanced]
+        # Enable the advanced Tasks workflow in the TUI.
+        tasks_enabled = false
+
+        # macOS
+        [[hooks]]
+        event = "review.completed"
+        command = "osascript -e 'display notification \"Review done for {repo_name} ({sha}): {verdict}\" with title \"roborev\"'"
+      EOT
 
       mkdir -p $out/.config/opencode/
 
