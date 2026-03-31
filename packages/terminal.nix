@@ -17,6 +17,11 @@ pkgs.stdenv.mkDerivation rec {
       echo 'echo "$LOAD_ENV" >> $FILE' >> $out/bin/startup
       echo 'export TEMP_NIX_START=$FILE' >> $out/bin/startup
       echo 'cat $FILE > $HOME/.nixpath' >> $out/bin/startup
+
+      if [[ "${system}" == "aarch64-darwin" ]]; then
+        echo 'for var in "$@"; do if [ -d $var/Applications ]; then APP=$(ls $var/Applications | head -n 1); ${pkgs.mkalias}/bin/mkalias "$(readlink -f $var/Applications/$APP)" "$HOME/Applications/$APP";  fi; done' >> $out/bin/startup
+      fi
+      
       chmod +x $out/bin/startup 
 
       ln -s /usr/bin/open $out/bin/open

@@ -143,6 +143,15 @@ unFreePkgs.stdenv.mkDerivation rec {
         echo "" >> $out/bin/code2
       fi
 
+      if [[ "${system}" == "aarch64-darwin" ]]; then
+        mkdir -p $out/Applications/VSCodium.app/Contents/MacOS
+        echo '#!/bin/bash' > $out/Applications/VSCodium.app/Contents/MacOS/Electron
+        echo 'source $HOME/.nixpath' >> $out/Applications/VSCodium.app/Contents/MacOS/Electron
+        echo "'${vscodium}/Applications/VSCodium.app/Contents/MacOS/Electron'" >> $out/Applications/VSCodium.app/Contents/MacOS/Electron
+        chmod +x $out/Applications/VSCodium.app/Contents/MacOS/Electron
+        ${pkgs.rsync}/bin/rsync -a --exclude "MacOS/Electron" "$(readlink -f ${vscodium}/Applications/VSCodium.app)" "$out/Applications"
+      fi
+
       # Choose to use vscodium or vscode
       echo "exec \"${vscodium}/bin/codium\" --extensions-dir \"$out/extensions\" \"\$@\" " >> $out/bin/code2
       
