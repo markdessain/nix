@@ -16,6 +16,12 @@ pkgs.stdenv.mkDerivation rec {
   installPhase = ''
     mkdir -p $out/Applications
     cp -R *.app $out/Applications
+    mv $out/Applications/OpenCode.app/Contents/MacOS/OpenCode $out/Applications/OpenCode.app/Contents/MacOS/OpenCodeBinary
+
+    echo '#!/bin/bash' > $out/Applications/OpenCode.app/Contents/MacOS/OpenCode
+    echo 'source $HOME/.nixpath' >> $out/Applications/OpenCode.app/Contents/MacOS/OpenCode
+    echo "'$out/Applications/OpenCode.app/Contents/MacOS/OpenCodeBinary' '\$@'" >> $out/Applications/OpenCode.app/Contents/MacOS/OpenCode
+    chmod +x $out/Applications/OpenCode.app/Contents/MacOS/OpenCode
   '';
 
   meta = with pkgs.lib; {
