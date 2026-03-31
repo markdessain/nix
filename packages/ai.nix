@@ -66,5 +66,11 @@ pkgs.stdenv.mkDerivation rec {
       chmod +x $out/bin/opencode-tools
       echo 'docker run -it -v "$HOME/.local/share/opencode:/root/.local/share/opencode" -v "$HOME/.config/opencode:/root/.config/opencode" -v "$HOME/.local/state/opencode:/root/.local/state/opencode" -v $(pwd):/project --workdir /project opencode ' > $out/bin/opencode-project 
       chmod +x $out/bin/opencode-project
+
+      if [[ "${system}" == "aarch64-darwin" ]]; then   
+        mkdir -p $out/Applications
+        ln -s ${pkgs.callPackage ./mac_apps/opencode.nix {}}/Applications/OpenCode.app $out/Applications/OpenCode.app
+        ln -s ${pkgs.callPackage ./mac_apps/agentsview.nix {}}/Applications/AgentsView.app $out/Applications/AgentsView.app
+      fi
     '';
 }

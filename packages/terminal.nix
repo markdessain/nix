@@ -19,7 +19,7 @@ pkgs.stdenv.mkDerivation rec {
       echo 'cat $FILE > $HOME/.nixpath' >> $out/bin/startup
 
       if [[ "${system}" == "aarch64-darwin" ]]; then
-        echo 'for var in "$@"; do if [ -d $var/Applications ]; then APP=$(ls $var/Applications | head -n 1); ${pkgs.mkalias}/bin/mkalias "$(readlink -f $var/Applications/$APP)" "$HOME/Applications/$APP";  fi; done' >> $out/bin/startup
+        echo 'for var in "$@"; do if [ -d $var/Applications ]; then for file in $var/Applications/*; do APP=$(basename "$file"); ${pkgs.mkalias}/bin/mkalias "$(readlink -f $file)" "$HOME/Applications/$APP"; done; fi; done' >> $out/bin/startup
       fi
       
       chmod +x $out/bin/startup 

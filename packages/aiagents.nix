@@ -8,15 +8,6 @@ pkgs.stdenv.mkDerivation rec {
     buildInputs = [
     ];
 
-   
-    opencode_app = if system == "aarch64-darwin" 
-    then pkgs.callPackage ./mac_apps/opencode.nix {}
-    else "missing";
- 
-    agentsview_app = if system == "aarch64-darwin" 
-    then pkgs.callPackage ./mac_apps/agentsview.nix {}
-    else "missing";
-
     installPhase = ''
       mkdir -p $out/bin
 
@@ -38,9 +29,6 @@ pkgs.stdenv.mkDerivation rec {
 
         rm --force \$HOME/.roborev/config.toml
         cp $out/.config/roborev/config.toml \$HOME/.roborev/config.toml
-
-        ${pkgs.mkalias}/bin/mkalias "$(readlink -f ${opencode_app}/Applications/OpenCode.app)" "\$HOME/Applications/OpenCode.app"
-        ${pkgs.mkalias}/bin/mkalias "$(readlink -f ${agentsview_app}/Applications/AgentsView.app)" "\$HOME/Applications/AgentsView.app"
       
       EOT
       chmod +x $out/bin/ai-config-sync
