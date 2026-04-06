@@ -14,15 +14,25 @@ pkgs.stdenv.mkDerivation rec {
       pkgs.git
     ];
 
+    opencode_app = if system == "aarch64-darwin" then pkgs.callPackage ./mac_apps/opencode.nix {} else "missing";
+    agentsview_app = if system == "aarch64-darwin" then pkgs.callPackage ./mac_apps/agentsview.nix {} else "missing"; 
+    ollama = if system == "aarch64-linux" then pkgs.callPackage ./ollama.nix {} else "missing";
+
+    # opencode = if system == "aarch64-linux" then pkgs.fetchzip {
+    # url = "https://github.com/sst/opencode/releases/download/v1.3.13/opencode-linux-arm64.zip";
+    # sha256 = "sha256-aLeNzm4mKp/f+diGQWYbZDef9uBAfNpe/huYRAvBLND=";
+    # } else if system == "aarch64-darwin" then pkgs.fetchzip {
+    # url = "https://github.com/sst/opencode/releases/download/v1.3.13/opencode-darwin-arm64.zip";
+    # sha256 = "sha256-vXmNXdxGNgJwYeyiYihw1kxoGohPDK4NbO3dqIYCd8d=";
+    # }  else "missing";
+
     # ln -s ${allowBroken.open-webui}/bin/open-webui $out/bin/open-webui
     # ln -s ${pkgs.ollama}/bin/ollama $out/bin/ollama
-
+    # ln -s ${openspec.packages."${system}".default}/bin/openspec $out/bin/openspec 
     # nix shell nixpkgs#gemini-cli --extra-experimental-features nix-command --extra-experimental-features flakes
     # nix shell nixpkgs#opencode --extra-experimental-features nix-command --extra-experimental-features flakes
     installPhase = ''
-      mkdir -p $out/bin
-
-      ln -s ${openspec.packages."${system}".default}/bin/openspec $out/bin/openspec
+      mkdir -p $out/bin 
 
       if [[ "${system}" == "aarch64-darwin" ]]; then   
 
@@ -42,11 +52,7 @@ pkgs.stdenv.mkDerivation rec {
         ln -s /opt/homebrew/bin/llama-server $out/bin/llama-server
       elif [[ "${system}" == "aarch64-linux" ]]; then   
 
-        echo "SKIP"
-        #wget  https://github.com/sst/opencode/releases/download/v0.15.16/opencode-linux-arm64.zip
-        #unzip opencode-linux-arm64.zip
-        #mv ./opencode $out/bin/opencode-binary
-        #chmod +x $out/bin/opencode-binary
+        ln -s ${ollama}/bin/ollama $out/bin/ollama
       fi 
 
       cat <<EOT >> $out/bin/ai-project
@@ -69,8 +75,8 @@ pkgs.stdenv.mkDerivation rec {
 
       if [[ "${system}" == "aarch64-darwin" ]]; then   
         mkdir -p $out/Applications
-        ln -s ${pkgs.callPackage ./mac_apps/opencode.nix {}}/Applications/OpenCode.app $out/Applications/OpenCode.app
-        ln -s ${pkgs.callPackage ./mac_apps/agentsview.nix {}}/Applications/AgentsView.app $out/Applications/AgentsView.app
+        ln -s ${opencode_app}/Applications/OpenCode.app $out/Applications/OpenCode.app
+        ln -s ${agentsview_app}/Applications/AgentsView.app $out/Applications/AgentsView.app
       fi
     '';
 }

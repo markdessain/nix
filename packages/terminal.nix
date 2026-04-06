@@ -5,6 +5,8 @@ pkgs.stdenv.mkDerivation rec {
     version = "0.1.0";
     phases = [ "installPhase" ];
 
+    mkalias = if system == "aarch64-darwin" then pkgs.mkalias else "missing";
+    
     installPhase = ''
       mkdir -p $out/bin
       echo "echo 'Welcome Mark - it is' $(date '+%Y-%m-%d') | ${pkgs.cowsay}/bin/cowsay && echo 'Useful commands:' && echo ' - sync-config' && echo ' - code-desktop' && echo ' - backup'" > $out/bin/startup 
@@ -19,7 +21,7 @@ pkgs.stdenv.mkDerivation rec {
       echo 'cat $FILE > $HOME/.nixpath' >> $out/bin/startup
 
       if [[ "${system}" == "aarch64-darwin" ]]; then
-        echo 'for var in "$@"; do if [ -d $var/Applications ]; then for file in $var/Applications/*; do APP=$(basename "$file"); ${pkgs.mkalias}/bin/mkalias "$(readlink -f $file)" "$HOME/Applications/$APP"; done; fi; done' >> $out/bin/startup
+        echo 'for var in "$@"; do if [ -d $var/Applications ]; then for file in $var/Applications/*; do APP=$(basename "$file"); ${mkalias}/bin/mkalias "$(readlink -f $file)" "$HOME/Applications/$APP"; done; fi; done' >> $out/bin/startup
       fi
       
       chmod +x $out/bin/startup 
