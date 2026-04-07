@@ -22,6 +22,8 @@ pkgs.stdenv.mkDerivation rec {
 
       if [[ "${system}" == "aarch64-darwin" ]]; then
         echo 'for var in "$@"; do if [ -d $var/Applications ]; then for file in $var/Applications/*; do APP=$(basename "$file"); ${mkalias}/bin/mkalias "$(readlink -f $file)" "$HOME/Applications/$APP"; done; fi; done' >> $out/bin/startup
+      elif [[ "${system}" == "aarch64-linux" ]]; then
+        echo 'for var in "$@"; do if [ -d $var/Applications ]; then for file in $var/Applications/*; do APP=$(basename "$file"); cp "$file" "$HOME/Desktop/$APP"; done; fi; done' >> $out/bin/startup
       fi
       
       chmod +x $out/bin/startup 

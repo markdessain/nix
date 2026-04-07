@@ -146,8 +146,9 @@ unFreePkgs.stdenv.mkDerivation rec {
         echo "" >> $out/bin/code2
       fi
 
+      mkdir -p $out/Applications
+      
       if [[ "${system}" == "aarch64-darwin" ]]; then
-        mkdir -p $out/Applications
 
         mkdir -p $out/Applications/VSCodium.app/Contents/MacOS
         echo '#!/bin/bash' > $out/Applications/VSCodium.app/Contents/MacOS/VSCodium
@@ -164,6 +165,18 @@ unFreePkgs.stdenv.mkDerivation rec {
         echo "open ${vscode_app}/Applications/Visual\ Studio\ Code.app" >> $out/Applications/Visual_Studio_Code.app/Contents/MacOS/Code
         chmod +x $out/Applications/Visual_Studio_Code.app/Contents/MacOS/Code
         ${pkgs.rsync}/bin/rsync -a --exclude "MacOS/Code" "$(readlink -f ${vscode_app}/Applications/Visual\ Studio\ Code.app/*)" "$out/Applications/Visual_Studio_Code.app"
+      #elif [[ "${system}" == "aarch64-linux" ]]; then
+      #
+      #  echo '#!/usr/bin/env xdg-open' > $out/Applications/VSCodium.desktop
+      #  echo '[Desktop Entry]'>> $out/Applications/VSCodium.desktop
+      #  echo 'Version=1.0'>> $out/Applications/VSCodium.desktop
+      #  echo 'Type=Application'>> $out/Applications/VSCodium.desktop
+      #  echo 'Terminal=false'>> $out/Applications/VSCodium.desktop
+      #  echo "Exec=sh -c '. \$HOME/.nixpath && export VSCODE_EXTENSIONS=$out/extensions && $out/bin/code-desktop'">> $out/Applications/VSCodium.desktop
+      #  echo 'Name=VScodium'>> $out/Applications/VSCodium.desktop
+      #  echo 'Comment=VSCodium'>> $out/Applications/VSCodium.desktop
+      #
+      #  echo $out/Applications/VSCodium.desktop
       fi
 
       # Choose to use vscodium or vscode
