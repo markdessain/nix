@@ -11,7 +11,7 @@ unFreePkgs.stdenv.mkDerivation rec {
     ];
 
     vscodium_app = if system == "aarch64-darwin" then pkgs.callPackage ./mac_apps/vscodium.nix {} else "missing";
-
+    vscode_app = if system == "aarch64-darwin" then pkgs.callPackage ./mac_apps/vscode.nix {} else "missing";
 
     allExtensions = unFreePkgs.vscode-utils.extensionsFromVscodeMarketplace [
       { publisher = "pomdtr"; name = "excalidraw-editor";version = "3.7.4"; sha256 = "sha256-hI+Qo8K+gLQuzKkaSq89D8vIxlYq9tMi31DgFiRzx0E="; }
@@ -20,7 +20,7 @@ unFreePkgs.stdenv.mkDerivation rec {
       { publisher = "evilz"; name = "vscode-reveal"; version = "4.3.3"; sha256 = "sha256-KqvQi0DMfHppX96qKHIkO9zIueBdGGV+6dYkpFEzFBo="; }
       { publisher = "streetsidesoftware"; name = "code-spell-checker"; version = "4.0.35"; sha256 = "sha256-MfGlqOvfPK13Paoug3lSsdslqgbypuqvdqm9bagu1NY="; }
       { publisher = "GitHub"; name = "vscode-github-actions"; version = "0.27.1"; sha256 = "sha256-mHKaWXSyDmsdQVzMqJI6ctNUwE/6bs1ZyeAEWKg9CV8="; }
-      { publisher = "GitHub"; name = "copilot-chat"; version = "0.40.0"; sha256 = "sha256-7iFLGF9lVNZDXnrJjoXdYz7gA6YDLciwZf4/lF8sYu4="; }
+      { publisher = "GitHub"; name = "copilot-chat"; version = "0.42.3"; sha256 = "sha256-bkVfwPFQSuTMcIEoEa/M91foSZC+0H4ESFXFwDDDhbc="; }
       { publisher = "sst-dev"; name = "opencode"; version = "0.0.9"; sha256 = "sha256-1ORTcXX9OBPo2l3njXNhE6uUT2B3JbtFtjUe6IPywbE="; }
       { publisher = "bruin"; name = "bruin"; version = "0.69.9"; sha256 = "sha256-dhw6IAojPsHf/oJW0m7t5fg7eYrJHel9gBuVaDs1+YU="; }
       { publisher = "redhat"; name = "vscode-yaml"; version = "1.19.1"; sha256 = "sha256-ZLuGtB7DjIVrcYomcwptwJxGmIjz0Vu1fCFqYb2XLk4="; }
@@ -147,13 +147,23 @@ unFreePkgs.stdenv.mkDerivation rec {
       fi
 
       if [[ "${system}" == "aarch64-darwin" ]]; then
+        mkdir -p $out/Applications
+
         mkdir -p $out/Applications/VSCodium.app/Contents/MacOS
         echo '#!/bin/bash' > $out/Applications/VSCodium.app/Contents/MacOS/VSCodium
         echo 'source $HOME/.nixpath' >> $out/Applications/VSCodium.app/Contents/MacOS/VSCodium
-        echo "export VSCODE_EXTENSIONS='/$out/extensions'" >> $out/Applications/VSCodium.app/Contents/MacOS/VSCodium
+        echo "export VSCODE_EXTENSIONS='$out/extensions'" >> $out/Applications/VSCodium.app/Contents/MacOS/VSCodium
         echo "${vscodium_app}/Applications/VSCodium.app/Contents/MacOS/VSCodium" >> $out/Applications/VSCodium.app/Contents/MacOS/VSCodium
         chmod +x $out/Applications/VSCodium.app/Contents/MacOS/VSCodium
         ${pkgs.rsync}/bin/rsync -a --exclude "MacOS/Electron" --exclude "MacOS/VSCodium" "$(readlink -f ${vscodium_app}/Applications/VSCodium.app)" "$out/Applications"
+
+        mkdir -p $out/Applications/Visual_Studio_Code.app/Contents/MacOS
+        echo '#!/bin/bash' > $out/Applications/Visual_Studio_Code.app/Contents/MacOS/Code
+        echo 'source $HOME/.nixpath' >> $out/Applications/Visual_Studio_Code.app/Contents/MacOS/Code
+        echo "export VSCODE_EXTENSIONS='$out/extensions'" >> $out/Applications/Visual_Studio_Code.app/Contents/MacOS/Code
+        echo "open ${vscode_app}/Applications/Visual\ Studio\ Code.app" >> $out/Applications/Visual_Studio_Code.app/Contents/MacOS/Code
+        chmod +x $out/Applications/Visual_Studio_Code.app/Contents/MacOS/Code
+        ${pkgs.rsync}/bin/rsync -a --exclude "MacOS/Code" "$(readlink -f ${vscode_app}/Applications/Visual\ Studio\ Code.app/*)" "$out/Applications/Visual_Studio_Code.app"
       fi
 
       # Choose to use vscodium or vscode
