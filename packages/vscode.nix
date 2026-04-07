@@ -10,6 +10,9 @@ unFreePkgs.stdenv.mkDerivation rec {
       pkgs.jq
     ];
 
+    vscodium_app = if system == "aarch64-darwin" then pkgs.callPackage ./mac_apps/vscodium.nix {} else "missing";
+
+
     allExtensions = unFreePkgs.vscode-utils.extensionsFromVscodeMarketplace [
       { publisher = "pomdtr"; name = "excalidraw-editor";version = "3.7.4"; sha256 = "sha256-hI+Qo8K+gLQuzKkaSq89D8vIxlYq9tMi31DgFiRzx0E="; }
       { publisher = "golang"; name = "go"; version = "0.45.0"; sha256 = "sha256-w/74OCM1uAJzjlJ91eDoac6knD1+Imwfy6pXX9otHsY="; }
@@ -17,7 +20,7 @@ unFreePkgs.stdenv.mkDerivation rec {
       { publisher = "evilz"; name = "vscode-reveal"; version = "4.3.3"; sha256 = "sha256-KqvQi0DMfHppX96qKHIkO9zIueBdGGV+6dYkpFEzFBo="; }
       { publisher = "streetsidesoftware"; name = "code-spell-checker"; version = "4.0.35"; sha256 = "sha256-MfGlqOvfPK13Paoug3lSsdslqgbypuqvdqm9bagu1NY="; }
       { publisher = "GitHub"; name = "vscode-github-actions"; version = "0.27.1"; sha256 = "sha256-mHKaWXSyDmsdQVzMqJI6ctNUwE/6bs1ZyeAEWKg9CV8="; }
-      { publisher = "GitHub"; name = "copilot"; version = "1.388.0"; sha256 = "sha256-7RjK8+PNI+rIuRQfCwpvswAiz991dacRO2qYhcv1vhk="; }
+      { publisher = "GitHub"; name = "copilot-chat"; version = "0.40.0"; sha256 = "sha256-7iFLGF9lVNZDXnrJjoXdYz7gA6YDLciwZf4/lF8sYu4="; }
       { publisher = "sst-dev"; name = "opencode"; version = "0.0.9"; sha256 = "sha256-1ORTcXX9OBPo2l3njXNhE6uUT2B3JbtFtjUe6IPywbE="; }
       { publisher = "bruin"; name = "bruin"; version = "0.69.9"; sha256 = "sha256-dhw6IAojPsHf/oJW0m7t5fg7eYrJHel9gBuVaDs1+YU="; }
       { publisher = "redhat"; name = "vscode-yaml"; version = "1.19.1"; sha256 = "sha256-ZLuGtB7DjIVrcYomcwptwJxGmIjz0Vu1fCFqYb2XLk4="; }
@@ -126,14 +129,14 @@ unFreePkgs.stdenv.mkDerivation rec {
       marmio=$(echo $PACKAGE_SETTING | sed "s/__NAME__/marimo-team.vscode-marimo/g" | sed "s/__VERSION__/0.8.3/g" | sed "s|__PATH__|/Users/mark.dessain/vscode_extensions|g")
       copilotchat=$(echo $PACKAGE_SETTING | sed "s/__NAME__/GitHub.copilot-chat/g" | sed "s/__VERSION__/0.33.3/g" | sed "s|__PATH__|/Users/mark.dessain/vscode_extensions|g")
       
-      if [[ "${system}" == "aarch64-darwin" ]]; then
-        ln -s /Users/mark.dessain/vscode_extensions/marimo-team.vscode-marimo-0.8.3 $out/extensions/marimo-team.vscode-marimo-0.8.3
-        ln -s /Users/mark.dessain/vscode_extensions/GitHub.copilot-chat-0.33.3 $out/extensions/GitHub.copilot-chat-0.33.3
-        echo "$extensionConfigFileText" | jq -r ". + [$marmio, $copilotchat]" > $out/extensions/extensions.json
-      else
-        ln -s /home/pi/vscode_extensions/marimo-team.vscode-marimo-0.8.3 $out/extensions/marimo-team.vscode-marimo-0.8.3
-        echo "$extensionConfigFileText" | jq -r ". + [$marmio]" > $out/extensions/extensions.json
-      fi
+      #if [[ "${system}" == "aarch64-darwin" ]]; then
+        #ln -s /Users/mark.dessain/vscode_extensions/marimo-team.vscode-marimo-0.8.3 $out/extensions/marimo-team.vscode-marimo-0.8.3
+        #ln -s /Users/mark.dessain/vscode_extensions/GitHub.copilot-chat-0.33.3 $out/extensions/GitHub.copilot-chat-0.33.3
+        #echo "$extensionConfigFileText" | jq -r ". + [$marmio, $copilotchat]" > $out/extensions/extensions.json
+      #else
+        #ln -s /home/pi/vscode_extensions/marimo-team.vscode-marimo-0.8.3 $out/extensions/marimo-team.vscode-marimo-0.8.3
+        #echo "$extensionConfigFileText" | jq -r ". + [$marmio]" > $out/extensions/extensions.json
+      #fi
 
       if [[ "${system}" == "aarch64-darwin" ]]; then
         echo "cp $out/config/settings.json \"\$HOME/Library/Application Support/VSCodium/User/settings.json\" " >> $out/bin/code2
@@ -145,11 +148,12 @@ unFreePkgs.stdenv.mkDerivation rec {
 
       if [[ "${system}" == "aarch64-darwin" ]]; then
         mkdir -p $out/Applications/VSCodium.app/Contents/MacOS
-        echo '#!/bin/bash' > $out/Applications/VSCodium.app/Contents/MacOS/Electron
-        echo 'source $HOME/.nixpath' >> $out/Applications/VSCodium.app/Contents/MacOS/Electron
-        echo "'${vscodium}/Applications/VSCodium.app/Contents/MacOS/Electron'" >> $out/Applications/VSCodium.app/Contents/MacOS/Electron
-        chmod +x $out/Applications/VSCodium.app/Contents/MacOS/Electron
-        ${pkgs.rsync}/bin/rsync -a --exclude "MacOS/Electron" "$(readlink -f ${vscodium}/Applications/VSCodium.app)" "$out/Applications"
+        echo '#!/bin/bash' > $out/Applications/VSCodium.app/Contents/MacOS/VSCodium
+        echo 'source $HOME/.nixpath' >> $out/Applications/VSCodium.app/Contents/MacOS/VSCodium
+        echo "export VSCODE_EXTENSIONS='/$out/extensions'" >> $out/Applications/VSCodium.app/Contents/MacOS/VSCodium
+        echo "${vscodium_app}/Applications/VSCodium.app/Contents/MacOS/VSCodium" >> $out/Applications/VSCodium.app/Contents/MacOS/VSCodium
+        chmod +x $out/Applications/VSCodium.app/Contents/MacOS/VSCodium
+        ${pkgs.rsync}/bin/rsync -a --exclude "MacOS/Electron" --exclude "MacOS/VSCodium" "$(readlink -f ${vscodium_app}/Applications/VSCodium.app)" "$out/Applications"
       fi
 
       # Choose to use vscodium or vscode

@@ -16,6 +16,7 @@ pkgs.stdenv.mkDerivation rec {
 
     opencode_app = if system == "aarch64-darwin" then pkgs.callPackage ./mac_apps/opencode.nix {} else "missing";
     agentsview_app = if system == "aarch64-darwin" then pkgs.callPackage ./mac_apps/agentsview.nix {} else "missing"; 
+    ollama_app = if system == "aarch64-darwin" then pkgs.callPackage ./mac_apps/ollama.nix {} else "missing"; 
     ollama = if system == "aarch64-linux" then pkgs.callPackage ./ollama.nix {} else "missing";
 
     # opencode = if system == "aarch64-linux" then pkgs.fetchzip {
@@ -50,6 +51,8 @@ pkgs.stdenv.mkDerivation rec {
         ln -s ${pkgs.openai-whisper}/bin/whisper $out/bin/whisper
         ln -s /opt/homebrew/bin/tabby $out/bin/tabby
         ln -s /opt/homebrew/bin/llama-server $out/bin/llama-server
+
+        ln -s /usr/local/bin/ollama $out/bin/ollama
       elif [[ "${system}" == "aarch64-linux" ]]; then   
 
         ln -s ${ollama}/bin/ollama $out/bin/ollama
@@ -77,6 +80,7 @@ pkgs.stdenv.mkDerivation rec {
         mkdir -p $out/Applications
         ln -s ${opencode_app}/Applications/OpenCode.app $out/Applications/OpenCode.app
         ln -s ${agentsview_app}/Applications/AgentsView.app $out/Applications/AgentsView.app
+        ln -s ${ollama_app}/Applications/Ollama.app $out/Applications/Ollama.app
       fi
     '';
 }
