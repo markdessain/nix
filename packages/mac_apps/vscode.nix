@@ -6,8 +6,8 @@ pkgs.stdenv.mkDerivation rec {
 
 
   src = pkgs.fetchurl {
-    url = "https://vscode.download.prss.microsoft.com/dbazure/download/stable/e7fb5e96c0730b9deb70b33781f98e2f35975036/VSCode-darwin-universal.dmg";
-    sha256 = "sha256-wPTei3Mzeg1sLngZtmiuMFZD0wQMFw8xO7GC3l9UJq0=";
+    url = "https://vscode.download.prss.microsoft.com/dbazure/download/stable/560a9dba96f961efea7b1612916f89e5d5d4d679/VSCode-darwin-universal.dmg";
+    sha256 = "sha256-ETaNp9JI17XoomMuxXoSHuN9jNTg+5bl+K3QSBKM8SI=";
   };
 
   nativeBuildInputs = [ pkgs.undmg ];

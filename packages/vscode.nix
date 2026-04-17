@@ -26,6 +26,7 @@ unFreePkgs.stdenv.mkDerivation rec {
       { publisher = "redhat"; name = "vscode-yaml"; version = "1.19.1"; sha256 = "sha256-ZLuGtB7DjIVrcYomcwptwJxGmIjz0Vu1fCFqYb2XLk4="; }
       { publisher = "mtxr"; name = "sqltools"; version = "0.28.5"; sha256 = "sha256-2JgBRMaNU3einOZ0POfcc887HCScu6myETTLoJMS6o8="; }
       { publisher = "databricks"; name = "sqltools-databricks-driver"; version = "0.4.2"; sha256 = "sha256-UP+Z+bVry8Aqlytn801t8AYv06R6hulTrwhbtg6HRa4="; }
+      { publisher = "johnny-zhao"; name = "oai-compatible-copilot"; version = "0.3.4"; sha256 = "sha256-R6eF6Mcs26TvlWwgQQT7C8Wp5NKPgqxUSyodF8BScsg="; }
       ];
 
 
@@ -146,9 +147,8 @@ unFreePkgs.stdenv.mkDerivation rec {
         echo "" >> $out/bin/code2
       fi
 
-      mkdir -p $out/Applications
-      
       if [[ "${system}" == "aarch64-darwin" ]]; then
+        mkdir -p $out/Applications
 
         mkdir -p $out/Applications/VSCodium.app/Contents/MacOS
         echo '#!/bin/bash' > $out/Applications/VSCodium.app/Contents/MacOS/VSCodium
@@ -162,21 +162,10 @@ unFreePkgs.stdenv.mkDerivation rec {
         echo '#!/bin/bash' > $out/Applications/Visual_Studio_Code.app/Contents/MacOS/Code
         echo 'source $HOME/.nixpath' >> $out/Applications/Visual_Studio_Code.app/Contents/MacOS/Code
         echo "export VSCODE_EXTENSIONS='$out/extensions'" >> $out/Applications/Visual_Studio_Code.app/Contents/MacOS/Code
-        echo "open ${vscode_app}/Applications/Visual\ Studio\ Code.app" >> $out/Applications/Visual_Studio_Code.app/Contents/MacOS/Code
+        echo "$out/Applications/Visual_Studio_Code.app/Contents/MacOS/CodeReal \$@" >> $out/Applications/Visual_Studio_Code.app/Contents/MacOS/Code
         chmod +x $out/Applications/Visual_Studio_Code.app/Contents/MacOS/Code
+        cp ${vscode_app}/Applications/Visual\ Studio\ Code.app/Contents/MacOS/Code $out/Applications/Visual_Studio_Code.app/Contents/MacOS/CodeReal
         ${pkgs.rsync}/bin/rsync -a --exclude "MacOS/Code" "$(readlink -f ${vscode_app}/Applications/Visual\ Studio\ Code.app/*)" "$out/Applications/Visual_Studio_Code.app"
-      #elif [[ "${system}" == "aarch64-linux" ]]; then
-      #
-      #  echo '#!/usr/bin/env xdg-open' > $out/Applications/VSCodium.desktop
-      #  echo '[Desktop Entry]'>> $out/Applications/VSCodium.desktop
-      #  echo 'Version=1.0'>> $out/Applications/VSCodium.desktop
-      #  echo 'Type=Application'>> $out/Applications/VSCodium.desktop
-      #  echo 'Terminal=false'>> $out/Applications/VSCodium.desktop
-      #  echo "Exec=sh -c '. \$HOME/.nixpath && export VSCODE_EXTENSIONS=$out/extensions && $out/bin/code-desktop'">> $out/Applications/VSCodium.desktop
-      #  echo 'Name=VScodium'>> $out/Applications/VSCodium.desktop
-      #  echo 'Comment=VSCodium'>> $out/Applications/VSCodium.desktop
-      #
-      #  echo $out/Applications/VSCodium.desktop
       fi
 
       # Choose to use vscodium or vscode
