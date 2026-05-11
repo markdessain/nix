@@ -1,54 +1,58 @@
-{ pkgs, system, allowBroken, bigModel, smallModel, openspec }:	
+{ pkgs, system, allowBroken, bigModel, smallModel }:	
 
 pkgs.stdenv.mkDerivation rec {
-    pname = "ai";
+    pname = "aiagents";
     version = "0.1.0";
     phases = [ "installPhase" ];
     
     buildInputs = [
-      pkgs.ncurses
-      pkgs.wget
-      pkgs.curl
-      pkgs.unzip
-      pkgs.python3
-      pkgs.git
     ];
 
-    opencode_app = if system == "aarch64-darwin" then pkgs.callPackage ./mac_apps/opencode.nix {} else "missing";
-    agentsview_app = if system == "aarch64-darwin" then pkgs.callPackage ./mac_apps/agentsview.nix {} else "missing"; 
-    ollama_app = if system == "aarch64-darwin" then pkgs.callPackage ./mac_apps/ollama.nix {} else "missing"; 
-    ollama = if system == "aarch64-linux" then pkgs.callPackage ./ollama.nix {} else "missing";
-
     installPhase = ''
-      mkdir -p $out/bin 
+      mkdir -p $out/bin
 
-      if [[ "${system}" == "aarch64-darwin" ]]; then   
-        ln -s ${pkgs.openai-whisper}/bin/whisper $out/bin/whisper
-        ln -s /usr/local/bin/ollama $out/bin/ollama
-      elif [[ "${system}" == "aarch64-linux" ]]; then   
-        ln -s ${ollama}/bin/ollama $out/bin/ollama
-      fi 
+      cat <<EOT >> $out/bin/ai-config-sync
 
-      cat <<EOT >> $out/bin/ai-project
-        PROJECT=\$(${pkgs.gum}/bin/gum file --height 15 --directory .)
+        mkdir -p \$HOME/.config/opencode/agent/
 
-        retVal=\$?
-        if [ \$retVal -ne 0 ]; then
-          echo "Quit"
-        else
-          cd \$PROJECT
-          opencode
-        fi
+        rm --force \$HOME/.config/opencode/opencode.jsonc
+        cp $out/.config/opencode/opencode.jsonc \$HOME/.config/opencode/opencode.jsonc
+
+        rm --force \$HOME/.config/opencode/AGENTS.md
+        cp $out/.config/opencode/AGENTS.md \$HOME/.config/opencode/AGENTS.md
+
+        rm --force \$HOME/.roborev/config.toml
+        cp $out/.config/roborev/config.toml \$HOME/.roborev/config.toml
+      
       EOT
-      chmod +x $out/bin/ai-project
+      chmod +x $out/bin/ai-config-sync
 
-      if [[ "${system}" == "aarch64-darwin" ]]; then   
-        mkdir -p $out/Applications
-        ln -s ${opencode_app}/Applications/OpenCode.app $out/Applications/OpenCode.app
-        ln -s ${agentsview_app}/Applications/AgentsView.app $out/Applications/AgentsView.app
-        ln -s ${ollama_app}/Applications/Ollama.app $out/Applications/Ollama.app
-      fi
+      mkdir -p $out/.config/roborev/
+      cat <<EOT >> $out/.config/roborev/config.toml
+        server_addr = '127.0.0.1:7373'
+        max_workers = 4
+        review_context_count = 3
+        reuse_review_session_lookback = 0
+        # Default agent when no workflow-specific agent is set.
+        default_agent = 'opencode'
+        default_model = '${smallModel}'
+        job_timeout_minutes = 30
 
+        [sync]
+        enabled = false
+
+        [ci]
+        enabled = false
+
+        [advanced]
+        # Enable the advanced Tasks workflow in the TUI.
+        tasks_enabled = false
+
+        # macOS
+        [[hooks]]
+        event = "review.completed"
+        command = "osascript -e 'display notification \"Review done for {repo_name} ({sha}): {verdict}\" with title \"roborev\"'"
+      EOT
 
       mkdir -p $out/.config/opencode/
 
@@ -124,20 +128,11 @@ pkgs.stdenv.mkDerivation rec {
       IMPORTANT: You are not allowed to run the sudo command. Instead tell the user what command they should run.
       EOT
 
-      cat <<EOT >> $out/bin/ai-config-sync
+      mkdir -p $out/.config/opencode/agent
 
-        mkdir -p \$HOME/.config/opencode/agent/
-
-        rm --force \$HOME/.config/opencode/opencode.jsonc
-        cp $out/.config/opencode/opencode.jsonc \$HOME/.config/opencode/opencode.jsonc
-
-        rm --force \$HOME/.config/opencode/AGENTS.md
-        cp $out/.config/opencode/AGENTS.md \$HOME/.config/opencode/AGENTS.md
-
-        rm --force \$HOME/.roborev/config.toml
-        cp $out/.config/roborev/config.toml \$HOME/.roborev/config.toml
-      
-      EOT
-      chmod +x $out/bin/ai-config-sync
+      echo 'cd ~/projects/tools && cd $(${pkgs.gum}/bin/gum choose $(ls)) && docker run -it -v "$HOME/.local/share/opencode:/root/.local/share/opencode" -v "$HOME/.config/opencode:/root/.config/opencode" -v "$HOME/.local/state/opencode:/root/.local/state/opencode" -v $(pwd):/project --workdir /project opencode ' > $out/bin/opencode-tools 
+      chmod +x $out/bin/opencode-tools
+      echo 'docker run -it -v "$HOME/.local/share/opencode:/root/.local/share/opencode" -v "$HOME/.config/opencode:/root/.config/opencode" -v "$HOME/.local/state/opencode:/root/.local/state/opencode" -v $(pwd):/project --workdir /project opencode ' > $out/bin/opencode-project 
+      chmod +x $out/bin/opencode-project
     '';
 }

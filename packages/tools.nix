@@ -99,7 +99,9 @@ pkgs.stdenv.mkDerivation rec {
       ln -s ${pkgs.mutt}/bin/mutt $out/bin/mutt
       ln -s ${pkgs.lynx}/bin/lynx $out/bin/lynx
       ln -s ${pkgs.gzip}/bin/gzip $out/bin/gzip
-      ln -s ${pkgs.d2}/bin/d2 $out/bin/d2      
+      ln -s ${pkgs.d2}/bin/d2 $out/bin/d2
+      ln -s ${pkgs.tree}/bin/tree $out/bin/tree
+      ln -s ${pkgs.repomix}/bin/repomix $out/bin/repomix
 
       if [[ "${system}" == "aarch64-darwin" ]]; then
         echo 'DOCKER_HOST=$(docker context inspect --format "{{.Endpoints.docker.Host}}") ${pkgs.act}/bin/act --container-architecture linux/amd64 --pull=false $@' >> $out/bin/act
