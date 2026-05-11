@@ -133,9 +133,6 @@ pkgs.stdenv.mkDerivation rec {
 
         rm --force \$HOME/.config/opencode/AGENTS.md
         cp $out/.config/opencode/AGENTS.md \$HOME/.config/opencode/AGENTS.md
-
-        rm --force \$HOME/.roborev/config.toml
-        cp $out/.config/roborev/config.toml \$HOME/.roborev/config.toml
       
       EOT
       chmod +x $out/bin/ai-config-sync
