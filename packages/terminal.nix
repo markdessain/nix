@@ -17,9 +17,9 @@ pkgs.stdenv.mkDerivation rec {
       echo 'echo "export PATH=$HOME/bin:$PATH_ENV" >> $FILE' >> $out/bin/startup
       echo 'echo "export SHELL_NAME=alpha" >> $FILE' >> $out/bin/startup
       echo 'echo "$LOAD_ENV" >> $FILE' >> $out/bin/startup
+      echo 'echo "export LD_LIBRARY_PATH=$LD_LIBRARY_PATH" >> $FILE' >> $out/bin/startup
       echo 'export TEMP_NIX_START=$FILE' >> $out/bin/startup
       echo 'cat $FILE > $HOME/.nixpath' >> $out/bin/startup
-
       if [[ "${system}" == "aarch64-darwin" ]]; then
         echo 'for var in "$@"; do if [ -d $var/Applications ]; then for file in $var/Applications/*; do APP=$(basename "$file"); ${mkalias}/bin/mkalias "$(readlink -f $file)" "$HOME/Applications/$APP"; done; fi; done' >> $out/bin/startup
       elif [[ "${system}" == "aarch64-linux" ]]; then
