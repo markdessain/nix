@@ -25,6 +25,14 @@
               pkgs.coreutils
             ];
 
+            env = {
+              LD_LIBRARY_PATH = with pkgs; lib.makeLibraryPath [
+                stdenv.cc.cc.lib glib nspr nss atk dbus xorg.libX11 xorg.libXcomposite 
+                xorg.libXdamage xorg.libXext xorg.libXfixes xorg.libXrandr xorg.libxcb 
+                mesa expat libxkbcommon udev alsa-lib at-spi2-core
+              ];
+            };
+
             buildInputs = [
               (import ./packages/terminal.nix { inherit pkgs system; })
               (import ./packages/tools.nix { inherit pkgs unFreePkgs system; })
@@ -36,11 +44,16 @@
               (import ./packages/backup.nix { inherit pkgs system; })
               (import ./packages/ai.nix { inherit pkgs system allowBroken smallModel bigModel openspec; })
               (import ./packages/linux.nix { inherit pkgs unFreePkgs system; })
+              pkgs.playwright-driver.browsers
             ];
 
             shellHook = ''
               source startup ${pkgs.coreutils} ${pkgs.nix} $(for input in $buildInputs; do echo -n "$input "; done)
               source $TEMP_NIX_START
+              export PLAYWRIGHT_BROWSERS_PATH=${pkgs.playwright-driver.browsers}
+              export PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS=true
+              export PLAYWRIGHT_CHROME_EXECUTABLE="/nix/store/vxp7ns5w4h5iih335s6jmdia6x7m6ww5-playwright-browsers/chromium-1181/chrome-linux/chrome"
+              export PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS=true
               cd $(cat $HOME/.shell_path)
             '';
           };
