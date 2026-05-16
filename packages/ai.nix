@@ -1,4 +1,4 @@
-{ pkgs, system, allowBroken, bigModel, smallModel, openspec }:	
+{ pkgs, unstablePkgs, system, allowBroken, bigModel, smallModel, openspec }:	
 
 pkgs.stdenv.mkDerivation rec {
     pname = "ai";
@@ -27,7 +27,8 @@ pkgs.stdenv.mkDerivation rec {
         ln -s /usr/local/bin/ollama $out/bin/ollama
       elif [[ "${system}" == "aarch64-linux" ]]; then   
         ln -s ${ollama}/bin/ollama $out/bin/ollama
-      fi 
+        ln -s ${unstablePkgs.openclaw}/bin/openclaw $out/bin/openclaw 
+     fi 
 
       cat <<EOT >> $out/bin/ai-project
         PROJECT=\$(${pkgs.gum}/bin/gum file --height 15 --directory .)
