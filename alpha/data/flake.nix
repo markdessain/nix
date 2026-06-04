@@ -31,7 +31,7 @@
               LD_LIBRARY_PATH = with pkgs; lib.makeLibraryPath [
                 stdenv.cc.cc.lib glib nspr nss atk dbus xorg.libX11 xorg.libXcomposite 
                 xorg.libXdamage xorg.libXext xorg.libXfixes xorg.libXrandr xorg.libxcb 
-                mesa expat libxkbcommon udev alsa-lib at-spi2-core cairo cups pango
+                mesa expat libxkbcommon udev alsa-lib at-spi2-core cairo cups pango zlib
               ];
             };
 
