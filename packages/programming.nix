@@ -17,13 +17,10 @@ pkgs.stdenv.mkDerivation rec {
       ln -s ${pkgs.air}/bin/air $out/bin/air
       ln -s ${pkgs.go-task}/bin/task $out/bin/task
       ln -s ${pkgs.uv}/bin/uv $out/bin/uv
-      ln -s ${pkgs.python311}/bin/python3 $out/bin/python3
-      ln -s ${pkgs.python311}/bin/python3 $out/bin/python
-      ln -s ${pkgs.python312}/bin/python3 $out/bin/python312
-      ln -s ${pkgs.nodejs_20}/bin/node $out/bin/node
-      ln -s ${pkgs.nodejs_20}/bin/npm $out/bin/npm
+      ln -s ${pkgs.python311}/bin/python $out/bin/python11
+      ln -s ${pkgs.python314}/bin/python3 $out/bin/python3
+      ln -s ${pkgs.python314}/bin/python3 $out/bin/python
       ln -s ${pkgs.yarn-berry}/bin/yarn $out/bin/yarn
-      ln -s ${pkgs.nodejs_20}/bin/npx $out/bin/npx
       ln -s ${pkgs.jdk17}/bin/java $out/bin/java
       ln -s ${pkgs.jdk17}/bin/javac $out/bin/javac
       ln -s ${pkgs.jdk17}/bin/jar $out/bin/jar
