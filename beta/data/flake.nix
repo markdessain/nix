@@ -46,11 +46,11 @@
               (import ./packages/config.nix { inherit pkgs system; })
               (import ./packages/backup.nix { inherit pkgs system; })
               (import ./packages/mac.nix { inherit pkgs unFreePkgs system; })
-              #(import ./packages/vscode.nix { inherit pkgs unFreePkgs system; })
+              (import ./packages/vscode.nix { inherit pkgs unFreePkgs system; })
             ];
 
             shellHook = ''
-              source startup ${pkgs.coreutils} ${pkgs.nix} $(for input in $buildInputs; do echo -n "$input "; done)
+              source startup $(for input in $buildInputs; do echo -n "$input "; done)
               source $TEMP_NIX_START
               cd $(cat $HOME/.shell_path)
             '';

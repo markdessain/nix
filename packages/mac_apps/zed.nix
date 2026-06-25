@@ -34,7 +34,7 @@ pkgs.stdenv.mkDerivation rec {
     # 4. Create a wrapper that sources your file first, then launches the app
     # Replace "/path/to/your/file.sh" with the actual path you want to source
     makeWrapper "$TARGET_BIN-wrapped" "$TARGET_BIN" \
-      --run "source \$HOME/.nixpath"
+      --run "export SHELL_RUN='source \$HOME/.nixpath' && source \$HOME/.nixpath"
   '';
 
   meta = with pkgs.lib; {

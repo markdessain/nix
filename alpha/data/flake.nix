@@ -50,7 +50,7 @@
             ];
 
             shellHook = ''
-              source startup ${pkgs.coreutils} ${pkgs.nix} $(for input in $buildInputs; do echo -n "$input "; done)
+              source startup $(for input in $buildInputs; do echo -n "$input "; done)
               source $TEMP_NIX_START
               export PLAYWRIGHT_BROWSERS_PATH=${pkgs.playwright-driver.browsers}
               export PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS=true

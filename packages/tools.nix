@@ -8,6 +8,7 @@ pkgs.stdenv.mkDerivation rec {
     versitygw = if system == "aarch64-linux" then "" else pkgs.versitygw;  
 
     zed_app = if system == "aarch64-darwin" then pkgs.callPackage ./mac_apps/zed.nix {} else "missing"; 
+    rtk = if system == "aarch64-darwin" then pkgs.rtk {} else "missing"; 
 
     installPhase = ''
       mkdir -p $out/bin
@@ -47,13 +48,10 @@ pkgs.stdenv.mkDerivation rec {
       ln -s ${pkgs.miller}/bin/mlr $out/bin/mlr
       ln -s ${pkgs.mermaid-cli}/bin/mmdc $out/bin/mmdc
       ln -s ${pkgs.gnused}/bin/sed $out/bin/sed
-      ln -s ${pkgs.gnugrep}/bin/grep $out/bin/grep
       ln -s ${pkgs.nano}/bin/nano $out/bin/nano
       ln -s ${pkgs.diffutils}/bin/cmp $out/bin/cmp
-      ln -s ${pkgs.diffutils}/bin/diff $out/bin/diff
       ln -s ${pkgs.vim}/bin/vim $out/bin/vim
       ln -s ${pkgs.vim}/bin/vim $out/bin/vi
-      ln -s ${pkgs.git}/bin/git $out/bin/git
       ln -s ${pkgs.gh}/bin/gh $out/bin/gh
       ln -s ${pkgs.openssh}/bin/scp $out/bin/scp
       ln -s ${pkgs.openssh}/bin/sftp $out/bin/sftp
@@ -72,7 +70,6 @@ pkgs.stdenv.mkDerivation rec {
       ln -s ${pkgs.zip}/bin/zip $out/bin/zip
       ln -s ${pkgs.ffmpeg}/bin/ffmpeg $out/bin/ffmpeg
       ln -s ${pkgs.coreutils}/bin/sha256sum $out/bin/sha256sum
-      ln -s ${pkgs.findutils}/bin/find $out/bin/find
       ln -s ${pkgs.findutils}/bin/xargs $out/bin/xargs
       ln -s ${pkgs.binutils}/bin/ar $out/bin/ar
       ln -s ${pkgs.wasmer}/bin/wasmer $out/bin/wasmer
@@ -90,7 +87,78 @@ pkgs.stdenv.mkDerivation rec {
       ln -s ${pkgs.redis}/bin/redis-cli $out/bin/redis-cli
 
       if [[ "${system}" == "aarch64-darwin" ]]; then
+
+      ln -s ${rtk}/bin/rtk $out/bin/rtk
+
+      if [[ "${system}" == "aarch64-darwin" ]]; then
         ln -s ${zed_app}/Applications/Zed.app $out/Applications/Zed.app
+      fi
+
+      cat <<EOT >> $out/bin/git
+        if [[ -n "\$ZED_ENVIRONMENT" ]] && [[ ! "\$DO_NOT_USE_RTK" = "true" ]]; then
+            DO_NOT_USE_RTK=true git ls "\$@"
+        else
+            command ${pkgs.git}/bin/git "\$@";
+        fi
+      EOT
+      chmod +x $out/bin/git
+
+      cat <<EOT >> $out/bin/ls
+        if [[ -n "\$ZED_ENVIRONMENT" ]] && [[ ! "\$DO_NOT_USE_RTK" = "true" ]]; then
+            DO_NOT_USE_RTK=true rtk ls "\$@"
+        else
+            command ${pkgs.coreutils}/bin/ls "\$@";
+        fi
+      EOT
+      chmod +x $out/bin/ls
+    
+      cat <<EOT >> $out/bin/find
+        if [[ -n "\$ZED_ENVIRONMENT" ]] && [[ ! "\$DO_NOT_USE_RTK" = "true" ]]; then
+            DO_NOT_USE_RTK=true rtk find "\$@"
+        else
+            command ${pkgs.findutils}/bin/find "\$@";
+        fi
+      EOT
+      chmod +x $out/bin/find
+
+      cat <<EOT >> $out/bin/grep
+        if [[ -n "\$ZED_ENVIRONMENT" ]] && [[ ! "\$DO_NOT_USE_RTK" = "true" ]]; then
+            DO_NOT_USE_RTK=true rtk grep "\$@"
+        else
+            command ${pkgs.gnugrep}/bin/grep "\$@";
+        fi
+      EOT
+      chmod +x $out/bin/grep
+
+      cat <<EOT >> $out/bin/read
+        if [[ -n "\$ZED_ENVIRONMENT" ]] && [[ ! "\$DO_NOT_USE_RTK" = "true" ]]; then
+            DO_NOT_USE_RTK=true rtk read "\$@"
+        else
+            command read "\$@";
+        fi
+      EOT
+      chmod +x $out/bin/read
+
+      cat <<EOT >> $out/bin/diff
+        if [[ -n "\$ZED_ENVIRONMENT" ]] && [[ ! "\$DO_NOT_USE_RTK" = "true" ]]; then
+            DO_NOT_USE_RTK=true rtk diff "\$@"
+        else
+            command ${pkgs.diffutils}/bin/diff --color "\$@";
+        fi
+      EOT
+      chmod +x $out/bin/diff
+
+      cat <<EOT >> $out/.env
+        alias read=$out/bin/read
+        alias ls=$out/bin/ls
+        alias diff=$out/bin/diff
+      EOT
+
+      else
+        ln -s ${pkgs.diffutils}/bin/diff $out/bin/diff
+        ln -s ${pkgs.gnugrep}/bin/grep $out/bin/grep
+        ln -s ${pkgs.git}/bin/git $out/bin/git
+        ln -s ${pkgs.findutils}/bin/find $out/bin/find
       fi
 
       if [[ "${system}" == "aarch64-darwin" ]]; then
