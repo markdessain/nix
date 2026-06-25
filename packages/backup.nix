@@ -114,10 +114,12 @@ pkgs.stdenv.mkDerivation rec {
       if [[ "${system}" == "aarch64-darwin" ]]; then
         echo "restic backup \"\$USER_HOME/Library/Application Support\"  --exclude-file $out/config/exclude --tag application_support \$DRY_RUN" >> $out/bin/backup
         echo "restic backup \"\$USER_HOME/projects\" --exclude-file $out/config/exclude --tag \"projects\" \$DRY_RUN" >> $out/bin/backup
+        echo "restic backup \"\$USER_HOME/.config\" --exclude-file $out/config/exclude --tag \"config\" \$DRY_RUN" >> $out/bin/backup
+        echo "restic backup \"\$USER_HOME/.local\" --exclude-file $out/config/exclude --tag \"local\" \$DRY_RUN" >> $out/bin/backup
       elif [[ "${system}" == "aarch64-linux" ]]; then
         echo "restic backup \"\$USER_HOME/projects\" --exclude-file $out/config/exclude --tag \"projects\" \$DRY_RUN" >> $out/bin/backup
         echo "restic backup \"\$USER_HOME/.config\" --exclude-file $out/config/exclude --tag \"config\" \$DRY_RUN" >> $out/bin/backup
-        echo "restic backup \"\$USER_HOME/.local/share\" --exclude-file $out/config/exclude --tag \"share\" \$DRY_RUN" >> $out/bin/backup
+        echo "restic backup \"\$USER_HOME/.local\" --exclude-file $out/config/exclude --tag \"local\" \$DRY_RUN" >> $out/bin/backup
       else
         echo "" >> $out/bin/backup
       fi

@@ -41,14 +41,12 @@
               (import ./packages/terminal.nix { inherit pkgs system; })
               (import ./packages/tools.nix { inherit pkgs unFreePkgs system; })
               (import ./packages/programming.nix { inherit pkgs unFreePkgs system; })
-              (import ./packages/kubernetes.nix { inherit pkgs system; })
+              (import ./packages/containers.nix { inherit pkgs system; })
               (import ./packages/data.nix { inherit pkgs system; })
               (import ./packages/config.nix { inherit pkgs system; })
-              (import ./packages/vscode.nix { inherit pkgs unFreePkgs system; })
               (import ./packages/backup.nix { inherit pkgs system; })
-#              (import ./packages/ai.nix { inherit pkgs unstablePkgs system allowBroken smallModel bigModel openspec; })
               (import ./packages/mac.nix { inherit pkgs unFreePkgs system; })
-#              # (import ./packages/ollamatools.nix { inherit pkgs; })
+              #(import ./packages/vscode.nix { inherit pkgs unFreePkgs system; })
             ];
 
             shellHook = ''

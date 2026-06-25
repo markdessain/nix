@@ -5,20 +5,16 @@ pkgs.stdenv.mkDerivation rec {
     version = "0.1.0";
     phases = [ "installPhase" ];
 
-    k3s = if system == "aarch64-linux" then pkgs.k3s else "";
-    slirp4netns = if system == "aarch64-linux" then pkgs.slirp4netns else "";
     versitygw = if system == "aarch64-linux" then "" else pkgs.versitygw;  
+
+    zed_app = if system == "aarch64-darwin" then pkgs.callPackage ./mac_apps/zed.nix {} else "missing"; 
 
     installPhase = ''
       mkdir -p $out/bin
+      mkdir -p $out/Applications
 
-      if [[ "${k3s}" != "" ]]; then
-        ln -s ${k3s}/bin/k3s $out/bin/k3s
-        ln -s ${k3s}/bin/kubectl $out/bin/kubectl
-        ln -s ${slirp4netns}/bin/slirp4netns $out/bin/slirp4netns
-        ln -s /usr/bin/newgidmap $out/bin/newgidmap
-        ln -s /usr/bin/newuidmap $out/bin/newuidmap
-      fi
+      ln -s /usr/bin/newgidmap $out/bin/newgidmap
+      ln -s /usr/bin/newuidmap $out/bin/newuidmap
 
       if [[ "${versitygw}" != "" ]]; then
         ln -s ${versitygw}/bin/versitygw $out/bin/versitygw
@@ -43,15 +39,8 @@ pkgs.stdenv.mkDerivation rec {
       ln -s ${pkgs.jnv}/bin/jnv $out/bin/jnv
       ln -s ${pkgs.lsof}/bin/lsof $out/bin/lsof
       ln -s ${pkgs.zenith}/bin/zenith $out/bin/zenith
-      ln -s ${pkgs.docker}/bin/docker $out/bin/docker
       ln -s ${pkgs.tmux}/bin/tmux $out/bin/tmux
-      ln -s ${pkgs.chisel}/bin/chisel $out/bin/chisel
-
-      if [[ "${system}" == "aarch64-darwin" ]]; then
-        ln -s ${pkgs.docker-credential-helpers}/bin/docker-credential-osxkeychain $out/bin/docker-credential-osxkeychain
-        ln -s ${pkgs.docker-credential-helpers}/bin/docker-credential-pass $out/bin/docker-credential-pass
-      fi
-      
+      ln -s ${pkgs.chisel}/bin/chisel $out/bin/chisel      
       ln -s ${pkgs.speedtest-cli}/bin/speedtest $out/bin/speedtest
       ln -s ${pkgs.pinentry-tty}/bin/pinentry $out/bin/pinentry
       ln -s ${pkgs.jq}/bin/jq $out/bin/jq
@@ -66,10 +55,6 @@ pkgs.stdenv.mkDerivation rec {
       ln -s ${pkgs.vim}/bin/vim $out/bin/vi
       ln -s ${pkgs.git}/bin/git $out/bin/git
       ln -s ${pkgs.gh}/bin/gh $out/bin/gh
-      ln -s ${pkgs.flyctl}/bin/flyctl $out/bin/flyctl
-      ln -s ${pkgs.flyctl}/bin/flyctl $out/bin/fly
-      ln -s ${pkgs.doctl}/bin/doctl $out/bin/doctl
-      ln -s /usr/bin/sudo $out/bin/sudo
       ln -s ${pkgs.openssh}/bin/scp $out/bin/scp
       ln -s ${pkgs.openssh}/bin/sftp $out/bin/sftp
       ln -s ${pkgs.openssh}/bin/ssh $out/bin/ssh
@@ -83,7 +68,6 @@ pkgs.stdenv.mkDerivation rec {
       ln -s ${pkgs.less}/bin/less $out/bin/less
       ln -s ${pkgs.gawk}/bin/awk $out/bin/awk
       ln -s ${pkgs.gawk}/bin/which $out/bin/which
-      ln -s ${pkgs.awscli2}/bin/aws $out/bin/aws
       ln -s ${pkgs.unzip}/bin/unzip $out/bin/unzip
       ln -s ${pkgs.zip}/bin/zip $out/bin/zip
       ln -s ${pkgs.ffmpeg}/bin/ffmpeg $out/bin/ffmpeg
@@ -102,6 +86,12 @@ pkgs.stdenv.mkDerivation rec {
       ln -s ${pkgs.d2}/bin/d2 $out/bin/d2
       ln -s ${pkgs.tree}/bin/tree $out/bin/tree
       ln -s ${pkgs.repomix}/bin/repomix $out/bin/repomix
+      ln -s ${unFreePkgs.terraform}/bin/terraform $out/bin/terraform
+      ln -s ${pkgs.redis}/bin/redis-cli $out/bin/redis-cli
+
+      if [[ "${system}" == "aarch64-darwin" ]]; then
+        ln -s ${zed_app}/Applications/Zed.app $out/Applications/Zed.app
+      fi
 
       if [[ "${system}" == "aarch64-darwin" ]]; then
         echo 'DOCKER_HOST=$(docker context inspect --format "{{.Endpoints.docker.Host}}") ${pkgs.act}/bin/act --container-architecture linux/amd64 --pull=false $@' >> $out/bin/act
@@ -110,12 +100,5 @@ pkgs.stdenv.mkDerivation rec {
       fi
       chmod +x $out/bin/act 
 
-      if [[ "${system}" == "aarch64-linux" ]]; then
-        echo 'sudo ${k3s}/bin/k3s server --write-kubeconfig-mode 644 --disable=traefik' > $out/bin/k3s-server 
-        chmod +x $out/bin/k3s-server
-
-        echo 'docker save $1 | sudo ${k3s}/bin/k3s ctr images import -' > $out/bin/k3s-image 
-        chmod +x $out/bin/k3s-image
-      fi
     '';
 }

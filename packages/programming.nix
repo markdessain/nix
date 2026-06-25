@@ -9,14 +9,13 @@ pkgs.stdenv.mkDerivation rec {
       mkdir -p $out/bin
       ln -s ${pkgs.go}/bin/go $out/bin/go
       ln -s ${pkgs.gopls}/bin/gopls $out/bin/gopls
-      ln -s ${pkgs.azure-cli}/bin/az $out/bin/az
-      ln -s ${pkgs.azure-storage-azcopy}/bin/azcopy $out/bin/azcopy
       ln -s ${pkgs.go}/bin/gofmt $out/bin/gofmt
       ln -s ${pkgs.sqlc}/bin/sqlc $out/bin/sqlc
       ln -s ${pkgs.dbmate}/bin/dbmate $out/bin/dbmate
       ln -s ${pkgs.air}/bin/air $out/bin/air
       ln -s ${pkgs.go-task}/bin/task $out/bin/task
       ln -s ${pkgs.uv}/bin/uv $out/bin/uv
+      ln -s ${pkgs.uv}/bin/uvx $out/bin/uvx
       ln -s ${pkgs.python311}/bin/python $out/bin/python11
       ln -s ${pkgs.python314}/bin/python3 $out/bin/python3
       ln -s ${pkgs.python314}/bin/python3 $out/bin/python
@@ -37,8 +36,6 @@ pkgs.stdenv.mkDerivation rec {
       ln -s ${pkgs.binutils_nogold}/bin/ld $out/bin/ld
       ln -s ${pkgs.pnpm}/bin/pnpm $out/bin/pnpm
       ln -s ${pkgs.deno}/bin/deno $out/bin/deno
-      ln -s ${unFreePkgs.terraform}/bin/terraform $out/bin/terraform
-      ln -s ${pkgs.redis}/bin/redis-cli $out/bin/redis-cli
       
       if [[ "${system}" == "aarch64-darwin" ]]; then
         # Temp while poetry is incompomatiable with old version of numpy

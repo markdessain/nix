@@ -5,6 +5,9 @@ pkgs.stdenv.mkDerivation rec {
     version = "0.1.0";
     phases = [ "installPhase" ];
 
+    k3s = if system == "aarch64-linux" then pkgs.k3s else "";
+    slirp4netns = if system == "aarch64-linux" then pkgs.slirp4netns else "";
+
     installPhase = ''
       mkdir -p $out/bin
       ln -s ${pkgs.kubectl}/bin/kubectl $out/bin/kubectl
@@ -15,11 +18,27 @@ pkgs.stdenv.mkDerivation rec {
       ln -s ${pkgs.minikube}/bin/minikube $out/bin/minikube
       ln -s ${pkgs.kubelogin}/bin/kubelogin $out/bin/kubelogin
 
-      # if [[ "${system}" == "aarch64-darwin" ]]; then
-      #  ${pkgs.wget}/bin/wget --no-check-certificate https://github.com/kubetail-org/kubetail/releases/latest/download/kubetail-darwin-arm64 -O $out/bin/kubetail
-      #  chmod +x $out/bin/kubetail
-      # fi
-      
+      ln -s ${pkgs.docker}/bin/docker $out/bin/docker
+
+      if [[ "${system}" == "aarch64-darwin" ]]; then
+        ln -s ${pkgs.docker-credential-helpers}/bin/docker-credential-osxkeychain $out/bin/docker-credential-osxkeychain
+        ln -s ${pkgs.docker-credential-helpers}/bin/docker-credential-pass $out/bin/docker-credential-pass
+      fi
+
+      if [[ "${k3s}" != "" ]]; then
+        ln -s ${k3s}/bin/k3s $out/bin/k3s
+        ln -s ${k3s}/bin/kubectl $out/bin/kubectl
+        ln -s ${slirp4netns}/bin/slirp4netns $out/bin/slirp4netns
+      fi
+
+      if [[ "${system}" == "aarch64-linux" ]]; then
+        echo 'sudo ${k3s}/bin/k3s server --write-kubeconfig-mode 644 --disable=traefik' > $out/bin/k3s-server 
+        chmod +x $out/bin/k3s-server
+
+        echo 'docker save $1 | sudo ${k3s}/bin/k3s ctr images import -' > $out/bin/k3s-image 
+        chmod +x $out/bin/k3s-image
+      fi
+
       echo 'mkdir -p ~/.config/kube' > $out/.env
       echo 'if [ -z "$( ls -A ~/.config/kube )" ]; then echo "No kubernetes configs found"; else export KUBECONFIG=$(for filename in ~/.config/kube/*; do echo -n "$filename:"; done | sed "s/:$//"); fi' >> $out/.env 
       chmod +x $out/.env 
