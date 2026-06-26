@@ -30,14 +30,6 @@ if type nix-shell >/dev/null 2>&1
 then
   if [[ -z "\${IN_NIX_SHELL}" ]]
   then
-    command -v opencode >/dev/null 2>&1 || { echo "Error: opencode not found, run:" && echo "Run curl -fsSL https://opencode.ai/install | bash";  }
-  fi
-fi
-
-if type nix-shell >/dev/null 2>&1
-then
-  if [[ -z "\${IN_NIX_SHELL}" ]]
-  then
 
     function shell() {
         echo \$PWD > $HOME/.shell_path 
@@ -61,44 +53,9 @@ then
         rbw sync
     }
 
-    function shell_run() {
-        echo \$PWD > $HOME/.shell_path 
-        rm -f $NIX_REPO_ROOT/$SHELL_NAME/packages 
-        cp -r $NIX_REPO_ROOT/packages $NIX_REPO_ROOT/$SHELL_NAME/data 
-        cd $NIX_REPO_ROOT/$SHELL_NAME 
-        nix-shell --pure --command "\$@"
-    }
-
-    function shell_services() {
-        echo \$PWD > $HOME/.shell_path 
-        rm -f $NIX_REPO_ROOT/$SHELL_NAME/packages 
-        cp -r $NIX_REPO_ROOT/packages $NIX_REPO_ROOT/$SHELL_NAME/data 
-        cd $NIX_REPO_ROOT/$SHELL_NAME 
-        nix-shell --pure --command "cd $NIX_REPO_ROOT/$SHELL_NAME && goreman start"
-    }
-
-    opencodebin=$(which opencode)
-    agentdeckbin=$(which agent-deck)
-
-    function opencode() {
-        source $HOME/.nixpath
-        $opencodebin "$@"
-    }
-
-    function agent-deck() {
-        source $HOME/.nixpath
-        $agentdeckbin
-    }
-
     function agents() {
         source $HOME/.nixpath
         aoe
-    }
-
-    function services() {
-        source $HOME/.nixpath
-        cd $HOME/projects/nix/beta 
-        goreman start
     }
 
   fi

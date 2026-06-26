@@ -8,7 +8,7 @@ pkgs.stdenv.mkDerivation rec {
     versitygw = if system == "aarch64-linux" then "" else pkgs.versitygw;  
 
     zed_app = if system == "aarch64-darwin" then pkgs.callPackage ./mac_apps/zed.nix {} else "missing"; 
-    rtk = if system == "aarch64-darwin" then pkgs.rtk {} else "missing"; 
+    rtk = if system == "aarch64-darwin" then pkgs.rtk else "missing"; 
 
     installPhase = ''
       mkdir -p $out/bin
@@ -96,7 +96,7 @@ pkgs.stdenv.mkDerivation rec {
 
       cat <<EOT >> $out/bin/git
         if [[ -n "\$ZED_ENVIRONMENT" ]] && [[ ! "\$DO_NOT_USE_RTK" = "true" ]]; then
-            DO_NOT_USE_RTK=true git ls "\$@"
+            DO_NOT_USE_RTK=true rtk git "\$@"
         else
             command ${pkgs.git}/bin/git "\$@";
         fi
