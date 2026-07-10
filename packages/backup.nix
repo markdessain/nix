@@ -205,6 +205,7 @@ pkgs.stdenv.mkDerivation rec {
       Library/Application Support/com.apple.avfoundation/Frecents/
       Library/Application Support/com.apple.sharedfilelist/
       Library/Application Support/AddressBook/
+      Library/Application Support/DifferentialPrivacy
       EOT
     '';
 }

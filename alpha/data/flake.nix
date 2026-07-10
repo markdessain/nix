@@ -46,6 +46,7 @@
               (import ./packages/backup.nix { inherit pkgs system; })
               (import ./packages/ai.nix { inherit pkgs unstablePkgs system allowBroken smallModel bigModel openspec; })
               (import ./packages/linux.nix { inherit pkgs unFreePkgs system; })
+              (import ./packages/cloud.nix { inherit pkgs unFreePkgs system; })
               pkgs.playwright-driver.browsers
             ];
 

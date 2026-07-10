@@ -86,6 +86,8 @@ pkgs.stdenv.mkDerivation rec {
       ln -s ${unFreePkgs.terraform}/bin/terraform $out/bin/terraform
       ln -s ${pkgs.redis}/bin/redis-cli $out/bin/redis-cli
 
+      ln -s ${pkgs.azure-cli}/bin/az $out/bin/az
+
       if [[ "${system}" == "aarch64-darwin" ]]; then
 
       ln -s ${rtk}/bin/rtk $out/bin/rtk
@@ -95,56 +97,62 @@ pkgs.stdenv.mkDerivation rec {
       fi
 
       cat <<EOT >> $out/bin/git
-        if [[ -n "\$ZED_ENVIRONMENT" ]] && [[ ! "\$DO_NOT_USE_RTK" = "true" ]]; then
-            DO_NOT_USE_RTK=true rtk git "\$@"
-        else
-            command ${pkgs.git}/bin/git "\$@";
-        fi
+      #!/bin/bash
+      if [[ -n "\$ZED_ENVIRONMENT" ]] && [[ ! "\$DO_NOT_USE_RTK" = "true" ]]; then
+          DO_NOT_USE_RTK=true rtk git "\$@"
+      else
+          command ${pkgs.git}/bin/git "\$@";
+      fi
       EOT
       chmod +x $out/bin/git
 
       cat <<EOT >> $out/bin/ls
-        if [[ -n "\$ZED_ENVIRONMENT" ]] && [[ ! "\$DO_NOT_USE_RTK" = "true" ]]; then
-            DO_NOT_USE_RTK=true rtk ls "\$@"
-        else
-            command ${pkgs.coreutils}/bin/ls "\$@";
-        fi
+      #!/bin/bash
+      if [[ -n "\$ZED_ENVIRONMENT" ]] && [[ ! "\$DO_NOT_USE_RTK" = "true" ]]; then
+          DO_NOT_USE_RTK=true rtk ls "\$@"
+      else
+          command ${pkgs.coreutils}/bin/ls "\$@";
+      fi
       EOT
       chmod +x $out/bin/ls
     
       cat <<EOT >> $out/bin/find
-        if [[ -n "\$ZED_ENVIRONMENT" ]] && [[ ! "\$DO_NOT_USE_RTK" = "true" ]]; then
-            DO_NOT_USE_RTK=true rtk find "\$@"
-        else
-            command ${pkgs.findutils}/bin/find "\$@";
-        fi
+      #!/bin/bash
+      if [[ -n "\$ZED_ENVIRONMENT" ]] && [[ ! "\$DO_NOT_USE_RTK" = "true" ]]; then
+          DO_NOT_USE_RTK=true rtk find "\$@"
+      else
+          command ${pkgs.findutils}/bin/find "\$@";
+      fi
       EOT
       chmod +x $out/bin/find
 
       cat <<EOT >> $out/bin/grep
-        if [[ -n "\$ZED_ENVIRONMENT" ]] && [[ ! "\$DO_NOT_USE_RTK" = "true" ]]; then
-            DO_NOT_USE_RTK=true rtk grep "\$@"
-        else
-            command ${pkgs.gnugrep}/bin/grep "\$@";
-        fi
+      #!/bin/bash
+      if [[ -n "\$ZED_ENVIRONMENT" ]] && [[ ! "\$DO_NOT_USE_RTK" = "true" ]]; then
+          DO_NOT_USE_RTK=true rtk grep "\$@"
+      else
+          command ${pkgs.gnugrep}/bin/grep "\$@";
+      fi
       EOT
       chmod +x $out/bin/grep
 
       cat <<EOT >> $out/bin/read
-        if [[ -n "\$ZED_ENVIRONMENT" ]] && [[ ! "\$DO_NOT_USE_RTK" = "true" ]]; then
-            DO_NOT_USE_RTK=true rtk read "\$@"
-        else
-            command read "\$@";
-        fi
+      #!/bin/bash
+      if [[ -n "\$ZED_ENVIRONMENT" ]] && [[ ! "\$DO_NOT_USE_RTK" = "true" ]]; then
+          DO_NOT_USE_RTK=true rtk read "\$@"
+      else
+          command read "\$@";
+      fi
       EOT
       chmod +x $out/bin/read
 
       cat <<EOT >> $out/bin/diff
-        if [[ -n "\$ZED_ENVIRONMENT" ]] && [[ ! "\$DO_NOT_USE_RTK" = "true" ]]; then
-            DO_NOT_USE_RTK=true rtk diff "\$@"
-        else
-            command ${pkgs.diffutils}/bin/diff --color "\$@";
-        fi
+      #!/bin/bash
+      if [[ -n "\$ZED_ENVIRONMENT" ]] && [[ ! "\$DO_NOT_USE_RTK" = "true" ]]; then
+          DO_NOT_USE_RTK=true rtk diff "\$@"
+      else
+          command ${pkgs.diffutils}/bin/diff --color "\$@";
+      fi
       EOT
       chmod +x $out/bin/diff
 
@@ -160,6 +168,13 @@ pkgs.stdenv.mkDerivation rec {
         ln -s ${pkgs.git}/bin/git $out/bin/git
         ln -s ${pkgs.findutils}/bin/find $out/bin/find
       fi
+
+
+      cat <<EOT >> $out/bin/precommit-changes
+      #!/bin/bash
+      pre-commit run --files \$(git ls-files -m -o --exclude-standard  ':(top)')
+      EOT
+      chmod +x $out/bin/precommit-changes
 
       if [[ "${system}" == "aarch64-darwin" ]]; then
         echo 'DOCKER_HOST=$(docker context inspect --format "{{.Endpoints.docker.Host}}") ${pkgs.act}/bin/act --container-architecture linux/amd64 --pull=false $@' >> $out/bin/act

@@ -16,7 +16,10 @@ pkgs.stdenv.mkDerivation rec {
       ln -s ${pkgs.go-task}/bin/task $out/bin/task
       ln -s ${pkgs.uv}/bin/uv $out/bin/uv
       ln -s ${pkgs.uv}/bin/uvx $out/bin/uvx
-      ln -s ${pkgs.python311}/bin/python $out/bin/python11
+      ln -s ${pkgs.nodejs_26}/bin/node $out/bin/node
+      ln -s ${pkgs.nodejs_26}/bin/npx $out/bin/npx
+      ln -s ${pkgs.python311}/bin/python $out/bin/python3.11
+      ln -s ${pkgs.python312}/bin/python $out/bin/python3.12
       ln -s ${pkgs.python314}/bin/python3 $out/bin/python3
       ln -s ${pkgs.python314}/bin/python3 $out/bin/python
       ln -s ${pkgs.yarn-berry}/bin/yarn $out/bin/yarn

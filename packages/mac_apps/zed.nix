@@ -2,12 +2,12 @@
 
 pkgs.stdenv.mkDerivation rec {
   pname = "app-zed";
-  version = "1.114";
+  version = "1.10.0";
 
 
   src = pkgs.fetchurl {
-    url = "https://github.com/zed-industries/zed/releases/download/v1.7.2/Zed-aarch64.dmg";
-    sha256 = "sha256-45hgyZ7OXuJrhxOqx2jf3vlCd937MBqwae71EZO1GPA=";
+    url = "https://github.com/zed-industries/zed/releases/download/v1.10.0/Zed-aarch64.dmg";
+    sha256 = "sha256-7UFOwydvQsYnKViCPhtmnOmmP5KdBnoN07EvC/i9CH4=";
   };
 
   nativeBuildInputs = [ pkgs._7zz pkgs.makeWrapper  ];
