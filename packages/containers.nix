@@ -48,5 +48,9 @@ pkgs.stdenv.mkDerivation rec {
 
       echo 'kubectl config use-context $1-''${2:-dev}' > $out/bin/pod_environment 
       chmod +x $out/bin/pod_environment 
+
+      echo 'kubectl run debug -i --rm --tty --restart=Never --image=$1 --overrides="{\"spec\":{\"containers\":[{\"name\":\"debug\",\"image\":\"$1\",\"args\":[\"bash\"],\"resources\":{\"requests\":{\"cpu\":\"2\",\"memory\":\"4Gi\"},\"limits\":{\"cpu\":\"2\",\"memory\":\"4Gi\"}},\"stdin\":true,\"tty\":true}]}}" ' > $out/bin/pod_debug 
+      chmod +x $out/bin/pod_debug 
+
     '';
 }

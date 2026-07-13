@@ -86,6 +86,7 @@ pkgs.stdenv.mkDerivation rec {
       ln -s ${unFreePkgs.terraform}/bin/terraform $out/bin/terraform
       ln -s ${pkgs.redis}/bin/redis-cli $out/bin/redis-cli
 
+      ln -s ${pkgs.azure-storage-azcopy}/bin/azcopy $out/bin/azcopy
       ln -s ${pkgs.azure-cli}/bin/az $out/bin/az
 
       if [[ "${system}" == "aarch64-darwin" ]]; then
