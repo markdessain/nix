@@ -14,6 +14,7 @@ pkgs.stdenv.mkDerivation rec {
       ln -s /usr/bin/sips $out/bin/sips
       ln -s /usr/bin/iconutil $out/bin/iconutil
       ln -s /usr/bin/defaults $out/bin/defaults
+      ln -s /usr/bin/ld $out/bin/ld
 
       echo 'env -i HOME="$HOME" USER="$USER" PATH=/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin /usr/bin/swift $@' > $out/bin/swift
       chmod +x $out/bin/swift

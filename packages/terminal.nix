@@ -17,6 +17,7 @@ pkgs.stdenv.mkDerivation rec {
       echo 'echo "export SHELL_NAME=alpha" >> $FILE' >> $out/bin/startup
       echo 'echo "$LOAD_ENV" >> $FILE' >> $out/bin/startup
       echo 'echo "export LD_LIBRARY_PATH=$LD_LIBRARY_PATH" >> $FILE' >> $out/bin/startup
+      echo 'echo "export LIBRARY_PATH=$LIBRARY_PATH" >> $FILE' >> $out/bin/startup
       echo 'export TEMP_NIX_START=$FILE' >> $out/bin/startup
       echo 'cat $FILE > $HOME/.nixpath' >> $out/bin/startup
       if [[ "${system}" == "aarch64-darwin" ]]; then

@@ -34,8 +34,9 @@
 
             ];
 
-            # env = {
-            # };
+            env = {
+              LIBRARY_PATH = "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/lib";
+            };
 
             buildInputs = [
               (import ./packages/terminal.nix { inherit pkgs system; })
