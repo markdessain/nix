@@ -31,7 +31,7 @@ pkgs.stdenv.mkDerivation rec {
       ln -s ${pkgs.proxychains-ng}/bin/proxychains4 $out/bin/proxychains4
       ln -s ${pkgs.mitmproxy}/bin/mitmproxy $out/bin/mitmproxy
       ln -s ${pkgs.dua}/bin/dua $out/bin/dua
-      ln -s /usr/bin/bin/rg $out/bin/rg
+      ln -s /usr/bin/rg $out/bin/rg
       ln -s ${pkgs.curl}/bin/curl $out/bin/curl
       ln -s ${pkgs.rbw}/bin/rbw $out/bin/rbw
       ln -s ${pkgs.rbw}/bin/rbw-agent $out/bin/rbw-agent
