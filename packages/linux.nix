@@ -19,7 +19,7 @@ pkgs.stdenv.mkDerivation rec {
       ln -s ${pkgs.gccgo15}/bin/cc $out/bin/cc
       ln -s ${pkgs.gccgo15}/bin/gcc $out/bin/gcc
       ln -s ${pkgs.perl}/bin/perl $out/bin/perl
-      ln -s ${pkgs.bubblewrap}/bin/bwrap $out/bin/bwrap
+      ln -s /usr/bin/bwrap $out/bin/bwrap
 
       # WAYLAND_DISPLAY="" ${zed}/bin/zed "$@"
       cat << 'EOF' > $out/bin/zed

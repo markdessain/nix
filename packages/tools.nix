@@ -31,7 +31,7 @@ pkgs.stdenv.mkDerivation rec {
       ln -s ${pkgs.proxychains-ng}/bin/proxychains4 $out/bin/proxychains4
       ln -s ${pkgs.mitmproxy}/bin/mitmproxy $out/bin/mitmproxy
       ln -s ${pkgs.dua}/bin/dua $out/bin/dua
-      ln -s ${pkgs.ripgrep}/bin/rg $out/bin/rg
+      ln -s /usr/bin/bin/rg $out/bin/rg
       ln -s ${pkgs.curl}/bin/curl $out/bin/curl
       ln -s ${pkgs.rbw}/bin/rbw $out/bin/rbw
       ln -s ${pkgs.rbw}/bin/rbw-agent $out/bin/rbw-agent
@@ -86,7 +86,7 @@ pkgs.stdenv.mkDerivation rec {
       ln -s ${unFreePkgs.terraform}/bin/terraform $out/bin/terraform
       ln -s ${pkgs.redis}/bin/redis-cli $out/bin/redis-cli
       ln -s ${pkgs.redis}/bin/redis-server $out/bin/redis-server
-      ln -s ${pkgs.socat}/bin/socat $out/bin/socat
+      ln -s /usr/bin/socat $out/bin/socat
 
       ln -s ${pkgs.azure-storage-azcopy}/bin/azcopy $out/bin/azcopy
       ln -s ${pkgs.azure-cli}/bin/az $out/bin/az
