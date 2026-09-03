@@ -86,7 +86,6 @@ pkgs.stdenv.mkDerivation rec {
       ln -s ${unFreePkgs.terraform}/bin/terraform $out/bin/terraform
       ln -s ${pkgs.redis}/bin/redis-cli $out/bin/redis-cli
       ln -s ${pkgs.redis}/bin/redis-server $out/bin/redis-server
-      ln -s ${pkgs.ripgrep}/bin/rg $out/bin/rg
       ln -s ${pkgs.socat}/bin/socat $out/bin/socat
 
       ln -s ${pkgs.azure-storage-azcopy}/bin/azcopy $out/bin/azcopy
