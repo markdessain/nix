@@ -3,12 +3,11 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
     flake-utils.url = "github:numtide/flake-utils";
     flake-compat.url = "github:edolstra/flake-compat";
-    openspec.url = "github:Fission-AI/OpenSpec";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     flake-compat.flake = false;
   };
 
-  outputs = { self, nixpkgs, nixpkgs-unstable, flake-utils, flake-compat, openspec  }:
+  outputs = { self, nixpkgs, nixpkgs-unstable, flake-utils, flake-compat  }:
     flake-utils.lib.eachDefaultSystem
       (system:
         let 
@@ -38,25 +37,25 @@
             buildInputs = [
               (import ./packages/terminal.nix { inherit pkgs system; })
               (import ./packages/tools.nix { inherit pkgs unFreePkgs system; })
-              (import ./packages/programming.nix { inherit pkgs unFreePkgs system; })
-              (import ./packages/data.nix { inherit pkgs system; })
-              (import ./packages/config.nix { inherit pkgs system; })
+              # (import ./packages/programming.nix { inherit pkgs unFreePkgs system; })
+              # (import ./packages/data.nix { inherit pkgs system; })
+              # (import ./packages/config.nix { inherit pkgs system; })
               (import ./packages/codeserver.nix { inherit unFreePkgs system; })
               (import ./packages/vscode.nix { inherit pkgs unFreePkgs system; })
               (import ./packages/backup.nix { inherit pkgs system; })
-              (import ./packages/ai.nix { inherit pkgs unstablePkgs system allowBroken smallModel bigModel openspec; })
-              (import ./packages/linux.nix { inherit pkgs unFreePkgs system; })
-              (import ./packages/cloud.nix { inherit pkgs unFreePkgs system; })
-              pkgs.playwright-driver.browsers
+              # (import ./packages/ai.nix { inherit pkgs unstablePkgs system allowBroken smallModel bigModel openspec; })
+              # (import ./packages/linux.nix { inherit pkgs unFreePkgs system; })
+              # (import ./packages/cloud.nix { inherit pkgs unFreePkgs system; })
+              # pkgs.playwright-driver.browsers
             ];
 
             shellHook = ''
               source startup $(for input in $buildInputs; do echo -n "$input "; done)
               source $TEMP_NIX_START
-              export PLAYWRIGHT_BROWSERS_PATH=${pkgs.playwright-driver.browsers}
-              export PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS=true
-              export PLAYWRIGHT_CHROME_EXECUTABLE="/nix/store/vxp7ns5w4h5iih335s6jmdia6x7m6ww5-playwright-browsers/chromium-1181/chrome-linux/chrome"
-              export PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS=true
+              # export PLAYWRIGHT_BROWSERS_PATH=${pkgs.playwright-driver.browsers}
+              # export PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS=true
+              # export PLAYWRIGHT_CHROME_EXECUTABLE="/nix/store/vxp7ns5w4h5iih335s6jmdia6x7m6ww5-playwright-browsers/chromium-1181/chrome-linux/chrome"
+              # export PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS=true
               cd $(cat $HOME/.shell_path)
             '';
           };
