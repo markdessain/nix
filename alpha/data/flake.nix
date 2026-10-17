@@ -4,10 +4,11 @@
     flake-utils.url = "github:numtide/flake-utils";
     flake-compat.url = "github:edolstra/flake-compat";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
+    openspec.url = "github:Fission-AI/OpenSpec";
     flake-compat.flake = false;
   };
 
-  outputs = { self, nixpkgs, nixpkgs-unstable, flake-utils, flake-compat  }:
+  outputs = { self, nixpkgs, nixpkgs-unstable, flake-utils, flake-compat, openspec  }:
     flake-utils.lib.eachDefaultSystem
       (system:
         let 
