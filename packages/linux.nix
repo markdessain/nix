@@ -5,10 +5,11 @@ pkgs.stdenv.mkDerivation rec {
     version = "0.1.0";
     phases = [ "installPhase" ];
 
-    zed = pkgs.fetchzip {
-      url = "https://cloud.zed.dev/releases/stable/latest/download?asset=zed&arch=aarch64&os=linux&source=docs.tar.gz";
-      sha256 = "sha256-xUNHx124Yuk1Iai0OYFS88ds7KXbgihcoP4GjfpURiQ=";
-    };
+    # zed = pkgs.fetchzip {
+    #   url = "https://cloud.zed.dev/releases/stable/latest/download?asset=zed&arch=aarch64&os=linux&source=docs.tar.gz";
+    #   sha256 = "sha256-xUNHx124Yuk1Iai0OYFS88ds7KXbgihcoP4GjfpURiQ=";
+    # };
+    zed = "missing";
 
     installPhase = ''
       mkdir -p $out/bin

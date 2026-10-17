@@ -38,16 +38,16 @@
             buildInputs = [
               (import ./packages/terminal.nix { inherit pkgs system; })
               (import ./packages/tools.nix { inherit pkgs unFreePkgs system; })
-              # (import ./packages/programming.nix { inherit pkgs unFreePkgs system; })
-              # (import ./packages/data.nix { inherit pkgs system; })
-              # (import ./packages/config.nix { inherit pkgs system; })
+              (import ./packages/programming.nix { inherit pkgs unFreePkgs system; })
+              (import ./packages/data.nix { inherit pkgs system; })
+              (import ./packages/config.nix { inherit pkgs system; })
               (import ./packages/codeserver.nix { inherit unFreePkgs system; })
               (import ./packages/vscode.nix { inherit pkgs unFreePkgs system; })
               (import ./packages/backup.nix { inherit pkgs system; })
               # (import ./packages/ai.nix { inherit pkgs unstablePkgs system allowBroken smallModel bigModel openspec; })
-              # (import ./packages/linux.nix { inherit pkgs unFreePkgs system; })
-              # (import ./packages/cloud.nix { inherit pkgs unFreePkgs system; })
-              # pkgs.playwright-driver.browsers
+              (import ./packages/linux.nix { inherit pkgs unFreePkgs system; })
+              (import ./packages/cloud.nix { inherit pkgs unFreePkgs system; })
+              pkgs.playwright-driver.browsers
             ];
 
             shellHook = ''
