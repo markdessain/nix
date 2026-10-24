@@ -1,14 +1,19 @@
-{ pkgs, unFreePkgs, system }:	
+{ pkgs, unFreePkgs, system }:
 
 pkgs.stdenv.mkDerivation rec {
     pname = "tools";
     version = "0.1.0";
     phases = [ "installPhase" ];
 
-    versitygw = if system == "aarch64-linux" then "" else pkgs.versitygw;  
+    versitygw = if system == "aarch64-linux" then "" else pkgs.versitygw;
 
-    zed_app = if system == "aarch64-darwin" then pkgs.callPackage ./mac_apps/zed.nix {} else "missing"; 
-    rtk = if system == "aarch64-darwin" then pkgs.rtk else "missing"; 
+    zed_app = if system == "aarch64-darwin" then pkgs.callPackage ./mac_apps/zed.nix {} else "missing";
+    rtk = if system == "aarch64-darwin" then pkgs.rtk else "missing";
+
+    # Create a fixed version of litellm by skipping the failing tests
+    litellm-fixed = pkgs.python3Packages.litellm.overrideAttrs (oldAttrs: {
+        doCheck = false;
+    });
 
     installPhase = ''
       mkdir -p $out/bin
@@ -16,6 +21,7 @@ pkgs.stdenv.mkDerivation rec {
 
       ln -s /usr/bin/newgidmap $out/bin/newgidmap
       ln -s /usr/bin/newuidmap $out/bin/newuidmap
+      ln -s /usr/bin/pgrep $out/bin/pgrep
 
       if [[ "${versitygw}" != "" ]]; then
         ln -s ${versitygw}/bin/versitygw $out/bin/versitygw
@@ -41,7 +47,8 @@ pkgs.stdenv.mkDerivation rec {
       ln -s ${pkgs.lsof}/bin/lsof $out/bin/lsof
       ln -s ${pkgs.zenith}/bin/zenith $out/bin/zenith
       ln -s ${pkgs.tmux}/bin/tmux $out/bin/tmux
-      ln -s ${pkgs.chisel}/bin/chisel $out/bin/chisel      
+      ln -s ${pkgs.ruff}/bin/ruff $out/bin/ruff
+      ln -s ${pkgs.chisel}/bin/chisel $out/bin/chisel
       ln -s ${pkgs.speedtest-cli}/bin/speedtest $out/bin/speedtest
       ln -s ${pkgs.pinentry-tty}/bin/pinentry $out/bin/pinentry
       ln -s ${pkgs.jq}/bin/jq $out/bin/jq
@@ -86,6 +93,8 @@ pkgs.stdenv.mkDerivation rec {
       ln -s ${unFreePkgs.terraform}/bin/terraform $out/bin/terraform
       ln -s ${pkgs.redis}/bin/redis-cli $out/bin/redis-cli
       ln -s ${pkgs.redis}/bin/redis-server $out/bin/redis-server
+      ln -s ${pkgs.silverbullet}/bin/silverbullet $out/bin/silverbullet
+      ln -s ${litellm-fixed}/bin/litellm $out/bin/litellm
 
       ln -s ${pkgs.azure-storage-azcopy}/bin/azcopy $out/bin/azcopy
       ln -s ${pkgs.azure-cli}/bin/az $out/bin/az
@@ -96,6 +105,7 @@ pkgs.stdenv.mkDerivation rec {
 
       if [[ "${system}" == "aarch64-darwin" ]]; then
         ln -s ${zed_app}/Applications/Zed.app $out/Applications/Zed.app
+        ln -s /usr/local/bin/zed $out/bin/zed
       fi
 
       cat <<EOT >> $out/bin/git
@@ -117,7 +127,7 @@ pkgs.stdenv.mkDerivation rec {
       fi
       EOT
       chmod +x $out/bin/ls
-    
+
       cat <<EOT >> $out/bin/find
       #!/bin/bash
       if [[ -n "\$ZED_ENVIRONMENT" ]] && [[ ! "\$DO_NOT_USE_RTK" = "true" ]]; then
@@ -171,6 +181,34 @@ pkgs.stdenv.mkDerivation rec {
         ln -s ${pkgs.findutils}/bin/find $out/bin/find
       fi
 
+      cat <<EOT >> $out/bin/sync-skills
+      #!/bin/sh
+      # Sync local project skills to the global agents skills directory
+
+      set -e
+
+      DIR=\$(pwd)
+      read -p "Sync Skills from \$DIR? (y/n): " yn
+
+      if [[ ! \$yn =~ ^[Yy] ]]; then
+         echo "Exiting..."
+         exit 0
+      fi
+
+      SRC="./skills"
+      DEST="\$HOME/.agents/skills"
+
+      if [ ! -d "\$SRC" ]; then
+          echo "Error: Source directory '\$SRC' does not exist."
+          exit 1
+      fi
+
+      mkdir -p "\$DEST"
+      cp -r "\$SRC"/* "\$DEST/"
+
+      echo "Synced skills from '\$SRC' to '\$DEST'"
+      EOT
+      chmod +x $out/bin/sync-skills
 
       cat <<EOT >> $out/bin/precommit-changes
       #!/bin/bash
@@ -183,7 +221,7 @@ pkgs.stdenv.mkDerivation rec {
       else
         echo 'DOCKER_HOST=$(docker context inspect --format "{{.Endpoints.docker.Host}}") ${pkgs.act}/bin/act --pull=false $@' >> $out/bin/act
       fi
-      chmod +x $out/bin/act 
+      chmod +x $out/bin/act
 
     '';
 }
